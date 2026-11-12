@@ -1,0 +1,85 @@
+name: Bug report
+description: Something in @hussmartinez/learn-sdk doesn't work or look as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. **Security vulnerabilities**, including any content that runs script, freezes or crashes the page, earns marks it shouldn't, or leaks learners' answers or progress, go through [private reporting](https://github.com/ie-huss-martinez/learn-sdk/security/advisories/new) instead. Accessibility problems are bugs, and belong here.
+
+        **Please don't attach real learners' data or course material.** Anything you attach here is public. Never share real learners' answers, names or progress, a school's or publisher's course content, or recordings of people. Make up the smallest content that shows the problem instead.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Loading or validating content
+        - An exercise (multiple choice, gap fill, word order, matching, flashcards, dialogue, listening)
+        - Grading or results
+        - The teacher editor
+        - Spaced repetition or progress
+        - Audio
+        - Accessibility (keyboard, screen readers, focus, contrast)
+        - Styling or themes
+        - The React editor, the element or the standalone script
+        - Server rendering or hydration
+        - Types or packaging
+        - Something else
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The package version, or the commit if you're working from source.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Include any error code (such as `INVALID_CONTENT`) and console warnings. For display or layout problems, a screenshot helps a lot, if it shows nothing confidential.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: The smallest set of steps or code that shows the problem. A link to a minimal repository is ideal.
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: content
+    attributes:
+      label: The content
+      description: The exercise type, and the smallest made-up content that shows the problem, as JSON if you can. Say which language and script it uses, and whether answers involve typing, tapping or the keyboard. Never paste real learners' answers or course material.
+      render: json
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and version, operating system, React version if you use it, framework and bundler, and where grading runs (browser, Node or a Workers runtime). For accessibility problems, the assistive technology and its version.
+      placeholder: Safari 19 on iOS 19 with VoiceOver, React 19, Next.js 16 with Turbopack
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues, and this hasn't been reported yet.
+          required: true
+        - label: This isn't a security vulnerability.
+          required: true
+        - label: Nothing I attached contains personal or confidential data.
+          required: true
