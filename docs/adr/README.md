@@ -10,3 +10,5 @@ Use [`template.md`](template.md) for new records. Name files `NNNN-short-title.m
 |---|---|---|
 | [0001](0001-package-shape-props-and-ports.md) | Package shape: a server-safe core, a player and an editor, and three ports | Accepted |
 | [0002](0002-content-as-hostile-input.md) | Content is hostile input: size first, parse on the page, validate by shape, render as text | Accepted |
+| [0003](0003-learners-data-events-and-audio.md) | Learners' data stays with the host; audio arrives as bytes; no speech synthesis | Accepted |
+| [0004](0004-dependencies-validators-and-fsrs.md) | Dependencies: hand-written validators, FSRS-7 through ts-fsrs, and nothing from ICU | Accepted |
