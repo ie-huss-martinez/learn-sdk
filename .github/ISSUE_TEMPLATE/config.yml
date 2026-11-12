@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/ie-huss-martinez/learn-sdk/security/advisories/new
+    about: Report vulnerabilities privately, including any content that runs script, crashes or freezes the page, games the grading or leaks learners' answers or progress. Please don't open a public issue.
