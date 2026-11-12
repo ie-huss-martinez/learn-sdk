@@ -49,6 +49,7 @@
   },
   "scripts": {
     "prepare": "husky",
+    "changeset": "changeset",
     "lint": "biome check .",
     "lint:css": "stylelint \"**/*.css\" --allow-empty-input",
     "lint:deps": "hm-lint-deps src",
@@ -79,6 +80,8 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",
     "@biomejs/biome": "catalog:",
+    "@changesets/changelog-github": "catalog:",
+    "@changesets/cli": "catalog:",
     "@commitlint/cli": "catalog:",
     "@hussmartinez/sdk-config": "catalog:",
     "@microsoft/api-extractor": "catalog:",
