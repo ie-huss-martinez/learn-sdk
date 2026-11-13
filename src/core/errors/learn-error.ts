@@ -17,6 +17,9 @@ import { isSdkError, type SdkCoreErrorCode, SdkError } from "@hussmartinez/sdk-c
  *   `INVALID_CONTENT`.
  * - `AUDIO_UNAVAILABLE`: the host's audio source returned nothing for a
  *   clip, or failed. `details` names no reference or URL.
+ * - `UNSUPPORTED_SCHEDULING_STATE`: a scheduler was given a state from another
+ *   scheduler, model or format version (ADR 0004). `details` names the
+ *   `scheduler`, `model` and `version` it was given, when they're readable.
  * - `CONTENT_TOO_LARGE`: a content string exceeds the `maxContentSize`
  *   limit, before it's parsed.
  * - `TOO_MANY_EXERCISES`: content exceeds the `maxExercises` limit.
@@ -40,6 +43,7 @@ export type LearnErrorCode =
   | "UNSUPPORTED_CONTENT_VERSION"
   | "INVALID_ANSWER"
   | "AUDIO_UNAVAILABLE"
+  | "UNSUPPORTED_SCHEDULING_STATE"
   | "CONTENT_TOO_LARGE"
   | "TOO_MANY_EXERCISES"
   | "TOO_MANY_ITEMS"
