@@ -45,6 +45,8 @@ export type { GradeAnswerOptions } from "./core/operations/grade-answer.js";
 export { gradeAnswer } from "./core/operations/grade-answer.js";
 export type { ParseContentOptions } from "./core/operations/parse-content.js";
 export { parseContent } from "./core/operations/parse-content.js";
+export type { GapFillAnswer, GapFillItem, GapFillPayload } from "./features/gap-fill/gap-fill.js";
+export { gapFill, splitAtGap } from "./features/gap-fill/gap-fill.js";
 export type {
   MultipleChoiceAnswer,
   MultipleChoicePayload,

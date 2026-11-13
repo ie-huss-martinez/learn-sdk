@@ -97,6 +97,9 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "validation.unknown-type": "This exercise type isn't available here.",
   "validation.duplicate-choice":
     "Another choice already says the same. Make each choice different.",
+  "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___",
+  "validation.answer-not-in-options":
+    "None of the choices is an accepted answer. Add the answer to the choices.",
 }) satisfies Record<`errors.${LearnErrorCode}`, MessageValue> &
   Record<`warnings.${LearnLimitName}`, MessageValue> &
   Record<`validation.${LearnIssueCode}`, MessageValue>;

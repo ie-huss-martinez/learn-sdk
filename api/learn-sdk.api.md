@@ -84,6 +84,30 @@ export interface ExerciseType<Payload = unknown, Answer = unknown> {
 export type ExerciseTypes = ReadonlyMap<string, ExerciseType>;
 
 // @public
+export const gapFill: ExerciseType<GapFillPayload, GapFillAnswer>;
+
+// @public
+export interface GapFillAnswer {
+    // (undocumented)
+    readonly filled: readonly (string | null)[];
+}
+
+// @public
+export interface GapFillItem {
+    readonly answers: readonly string[];
+    readonly options?: readonly string[];
+    readonly sentence: string;
+    // (undocumented)
+    readonly translation?: string;
+}
+
+// @public
+export interface GapFillPayload {
+    // (undocumented)
+    readonly items: readonly GapFillItem[];
+}
+
+// @public
 export interface Grade {
     // (undocumented)
     readonly items: readonly boolean[];
@@ -143,7 +167,7 @@ export interface LearnIssue {
 }
 
 // @public
-export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice";
+export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice" | "gap-count" | "answer-not-in-options";
 
 // @public
 export type LearnLimitDefinitions = typeof learnLimitDefinitions;
@@ -309,6 +333,8 @@ export const learnMessages: {
     readonly "validation.duplicate-id": "Another exercise already uses this id.";
     readonly "validation.unknown-type": "This exercise type isn't available here.";
     readonly "validation.duplicate-choice": "Another choice already says the same. Make each choice different.";
+    readonly "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___";
+    readonly "validation.answer-not-in-options": "None of the choices is an accepted answer. Add the answer to the choices.";
     readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
     readonly "errors.ABORTED": "The operation was cancelled.";
     readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
@@ -414,6 +440,9 @@ export interface ParseContentOptions {
     readonly limits?: LearnLimitOverrides;
     readonly types: ExerciseTypes;
 }
+
+// @public
+export function splitAtGap(sentence: string): readonly [before: string, after: string] | undefined;
 
 // @public
 export type TextDirection = "ltr" | "rtl";
