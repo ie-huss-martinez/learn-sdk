@@ -108,3 +108,83 @@ describe("importing on a server", () => {
     },
   );
 });
+
+describe("grading on a server", () => {
+  // Browser globals the core must never need. Some Node versions define a few
+  // of them (Node 25 and later have localStorage), so instead of assuming
+  // they're absent, the test replaces each with a getter that records the
+  // access and throws, for as long as the core is imported and used.
+  const BROWSER_GLOBALS = [
+    "window",
+    "document",
+    "navigator",
+    "localStorage",
+    "sessionStorage",
+    "customElements",
+    "HTMLElement",
+    "speechSynthesis",
+  ];
+
+  it("parses content and grades an answer with the built core, touching no browser global (ADR 0001)", async () => {
+    const touched: string[] = [];
+    const saved = new Map<string, PropertyDescriptor | undefined>();
+    for (const name of BROWSER_GLOBALS) {
+      saved.set(name, Object.getOwnPropertyDescriptor(globalThis, name));
+      Object.defineProperty(globalThis, name, {
+        configurable: true,
+        get() {
+          touched.push(name);
+          throw new Error(`The core touched ${name}`);
+        },
+      });
+    }
+    try {
+      // A fresh copy, so evaluating the module counts as well as calling it.
+      const url = `${pathToFileURL(join(await temporaryBuild, "index.js")).href}?server-grading`;
+      const core = (await import(url)) as typeof import("./src/index.js");
+      const yesNo = core.defineExerciseType<{ answer: boolean }, boolean>({
+        type: "yes-no",
+        validate(payload, context) {
+          const fields = context.fields(payload, ["answer"]);
+          const answer = fields && context.at("answer").yesNo(fields.answer);
+          return answer === undefined || answer === null ? undefined : { answer };
+        },
+        validateAnswer: (answer, _payload, context) => context.yesNo(answer),
+        grade: (payload, answer) => ({
+          score: payload.answer === answer ? 1 : 0,
+          max: 1,
+          items: [payload.answer === answer],
+        }),
+      });
+      const types = core.createExerciseTypes([yesNo]);
+      const content = core.parseContent(
+        JSON.stringify({
+          version: 1,
+          exercises: [{ id: "q", type: "yes-no", payload: { answer: true } }],
+        }),
+        { types },
+      );
+      const [exercise] = content.exercises;
+      if (!exercise) {
+        throw new Error("the content has one exercise");
+      }
+      expect(core.gradeAnswer(exercise, true, { types })).toEqual({
+        score: 1,
+        max: 1,
+        items: [true],
+      });
+      expect(() => core.gradeAnswer(exercise, "yes", { types })).toThrow(
+        expect.objectContaining({ name: "LearnError", code: "INVALID_ANSWER" }),
+      );
+    } finally {
+      for (const [name, descriptor] of saved) {
+        if (descriptor) {
+          Object.defineProperty(globalThis, name, descriptor);
+        } else {
+          delete (globalThis as Record<string, unknown>)[name];
+        }
+      }
+    }
+    expect(touched).toEqual([]);
+  });
+});
