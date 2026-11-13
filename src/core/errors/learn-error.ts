@@ -17,6 +17,9 @@ import { isSdkError, type SdkCoreErrorCode, SdkError } from "@hussmartinez/sdk-c
  *   `INVALID_CONTENT`.
  * - `AUDIO_UNAVAILABLE`: the host's audio source returned nothing for a
  *   clip, or failed. `details` names no reference or URL.
+ * - `STORAGE_UNAVAILABLE`: the device's storage refused to read or write, such
+ *   as when it's full or disabled in private browsing. The browser's error is
+ *   the `cause`.
  * - `UNSUPPORTED_SCHEDULING_STATE`: a scheduler was given a state from another
  *   scheduler, model or format version (ADR 0004). `details` names the
  *   `scheduler`, `model` and `version` it was given, when they're readable.
@@ -44,6 +47,7 @@ export type LearnErrorCode =
   | "INVALID_ANSWER"
   | "AUDIO_UNAVAILABLE"
   | "UNSUPPORTED_SCHEDULING_STATE"
+  | "STORAGE_UNAVAILABLE"
   | "CONTENT_TOO_LARGE"
   | "TOO_MANY_EXERCISES"
   | "TOO_MANY_ITEMS"

@@ -14,6 +14,12 @@ export { createFakeAudioSource } from "./adapters/fakes/fake-audio-source.js";
 export { createFakeScheduler } from "./adapters/fakes/fake-scheduler.js";
 export type { FsrsSchedulerOptions } from "./adapters/fsrs/fsrs-scheduler.js";
 export { createFsrsScheduler } from "./adapters/fsrs/fsrs-scheduler.js";
+export type {
+  LocalProgressStoreOptions,
+  ProgressDiscardReason,
+  ProgressStorage,
+} from "./adapters/local-progress/local-progress.js";
+export { createLocalProgressStore } from "./adapters/local-progress/local-progress.js";
 export { createMemoryProgressStore } from "./adapters/memory-progress/memory-progress.js";
 export type { LearnErrorCode } from "./core/errors/learn-error.js";
 export { isLearnError, LearnError } from "./core/errors/learn-error.js";
