@@ -22,3 +22,4 @@ First release of `@hussmartinez/learn-sdk`, a learning SDK: exercise types with 
   - **`ProgressStore`:** keeps attempts and spaced-repetition cards per scope of your choosing. `createMemoryProgressStore()` is the default, storing nothing on the device. `applyProgressChanges` applies changes to a snapshot.
   - **`Scheduler`:** decides when to show an item again, deterministically, with versioned states it refuses from other schedulers (`UNSUPPORTED_SCHEDULING_STATE`).
   - **For tests and demos:** `createFakeAudioSource(clips)` and `createFakeScheduler()`.
+- **Spaced repetition:** `createFsrsScheduler({ desiredRetention, weights })` runs FSRS-7 through ts-fsrs, without random fuzzing, so a review gives the same next date on your server and in every browser. States are plain JSON with times in milliseconds. Apps that don't import it don't bundle ts-fsrs.

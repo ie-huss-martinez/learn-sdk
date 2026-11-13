@@ -75,6 +75,9 @@ export function createFakeAudioSource(clips: Readonly<Record<string, Uint8Array 
 export function createFakeScheduler(): Scheduler_2;
 
 // @public
+export function createFsrsScheduler(options?: FsrsSchedulerOptions): Scheduler_2;
+
+// @public
 export function createMemoryProgressStore(): ProgressStore;
 
 // @public
@@ -123,6 +126,12 @@ export interface ExerciseType<Payload = unknown, Answer = unknown> {
 
 // @public
 export type ExerciseTypes = ReadonlyMap<string, ExerciseType>;
+
+// @public
+export interface FsrsSchedulerOptions {
+    readonly desiredRetention?: number;
+    readonly weights?: readonly number[];
+}
 
 // @public
 export const gapFill: ExerciseType<GapFillPayload, GapFillAnswer>;
