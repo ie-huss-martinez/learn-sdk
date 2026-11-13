@@ -22,6 +22,8 @@ export type {
 } from "./core/errors/learn-limits.js";
 export { learnLimitDefinitions, learnLimits } from "./core/errors/learn-limits.js";
 export { accessibleCourses, canAccessCourse } from "./core/model/access.js";
+export type { Content, Exercise, Grade } from "./core/model/content.js";
+export { CONTENT_VERSION } from "./core/model/content.js";
 export type {
   Course,
   Enrolment,
@@ -30,7 +32,18 @@ export type {
   LearnRole,
   Level,
 } from "./core/model/course.js";
+export type { ExerciseType, ExerciseTypes } from "./core/model/exercise-type.js";
+export { createExerciseTypes, defineExerciseType } from "./core/model/exercise-type.js";
 export type { LanguageProfile, TextDirection } from "./core/model/language-profile.js";
 export { defaultLanguageProfile, normalizeForGrading } from "./core/model/language-profile.js";
+export type {
+  ListLimit,
+  OptionalOption,
+  ValidationContext,
+} from "./core/model/validation-context.js";
+export type { GradeAnswerOptions } from "./core/operations/grade-answer.js";
+export { gradeAnswer } from "./core/operations/grade-answer.js";
+export type { ParseContentOptions } from "./core/operations/parse-content.js";
+export { parseContent } from "./core/operations/parse-content.js";
 export type { LearnMessageCatalogue } from "./messages/en.js";
 export { learnMessages } from "./messages/en.js";

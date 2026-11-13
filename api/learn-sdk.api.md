@@ -17,6 +17,17 @@ export function accessibleCourses<C extends Pick<Course, "code" | "position">>(l
 export function canAccessCourse(learner: Learner, course: string): boolean;
 
 // @public
+export interface Content {
+    // (undocumented)
+    readonly exercises: readonly Exercise[];
+    // (undocumented)
+    readonly version: typeof CONTENT_VERSION;
+}
+
+// @public
+export const CONTENT_VERSION = 1;
+
+// @public
 export interface Course {
     readonly code: string;
     readonly level: string;
@@ -26,7 +37,13 @@ export interface Course {
 }
 
 // @public
+export function createExerciseTypes(types: readonly ExerciseType<unknown, unknown>[]): ExerciseTypes;
+
+// @public
 export const defaultLanguageProfile: LanguageProfile;
+
+// @public
+export function defineExerciseType<Payload, Answer>(definition: ExerciseType<Payload, Answer>): ExerciseType<Payload, Answer>;
 
 // @public
 export interface Enrolment {
@@ -37,6 +54,54 @@ export interface Enrolment {
 
 // @public
 export type EnrolmentStatus = "active" | "completed";
+
+// @public
+export interface Exercise<Payload = unknown> {
+    // (undocumented)
+    readonly id: string;
+    // (undocumented)
+    readonly instructions?: string;
+    // (undocumented)
+    readonly payload: Payload;
+    // (undocumented)
+    readonly title?: string;
+    // (undocumented)
+    readonly type: string;
+}
+
+// @public
+export interface ExerciseType<Payload = unknown, Answer = unknown> {
+    // (undocumented)
+    grade(payload: Payload, answer: Answer, profile: LanguageProfile): Grade;
+    readonly type: string;
+    // (undocumented)
+    validate(payload: unknown, context: ValidationContext): Payload | undefined;
+    // (undocumented)
+    validateAnswer(answer: unknown, payload: Payload, context: ValidationContext): Answer | undefined;
+}
+
+// @public
+export type ExerciseTypes = ReadonlyMap<string, ExerciseType>;
+
+// @public
+export interface Grade {
+    // (undocumented)
+    readonly items: readonly boolean[];
+    // (undocumented)
+    readonly max: number;
+    // (undocumented)
+    readonly score: number;
+}
+
+// @public
+export function gradeAnswer(exercise: Exercise, answer: unknown, options: GradeAnswerOptions): Grade;
+
+// @public
+export interface GradeAnswerOptions {
+    readonly limits?: LearnLimitOverrides;
+    readonly profile?: LanguageProfile;
+    readonly types: ExerciseTypes;
+}
 
 // @public
 export function isLearnError<Code extends LearnErrorCode = LearnErrorCode>(value: unknown, code?: Code): value is LearnError & {
@@ -302,12 +367,48 @@ export interface Level {
 }
 
 // @public
+export type ListLimit = "maxExercises" | "maxItems" | "maxChoices" | "maxTiles";
+
+// @public
 export const MAX_ISSUE_KEY_LENGTH = 64;
 
 // @public
 export function normalizeForGrading(text: string, profile: LanguageProfile): string;
 
 // @public
+export interface OptionalOption {
+    readonly optional?: boolean;
+}
+
+// @public
+export function parseContent(input: unknown, options: ParseContentOptions): Content;
+
+// @public
+export interface ParseContentOptions {
+    readonly limits?: LearnLimitOverrides;
+    readonly types: ExerciseTypes;
+}
+
+// @public
 export type TextDirection = "ltr" | "rtl";
+
+// @public
+export interface ValidationContext {
+    at(...segments: (string | number)[]): ValidationContext;
+    fields<Name extends string>(value: unknown, names: readonly Name[], options?: OptionalOption): Partial<Record<Name, unknown>> | undefined;
+    issue(code: LearnIssueCode, details?: {
+        readonly [key: string]: number;
+    }): void;
+    list(value: unknown, options: {
+        readonly limit: ListLimit;
+        readonly minimum?: number;
+    } & OptionalOption): readonly unknown[] | undefined;
+    readonly path: readonly (string | number)[];
+    text(value: unknown, options?: {
+        readonly allowEmpty?: boolean;
+    } & OptionalOption): string | undefined;
+    wholeNumber(value: unknown, options?: OptionalOption): number | undefined;
+    yesNo(value: unknown, options?: OptionalOption): boolean | undefined;
+}
 
 ```

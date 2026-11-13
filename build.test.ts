@@ -108,3 +108,46 @@ describe("importing on a server", () => {
     },
   );
 });
+
+describe("grading on a server", () => {
+  it("parses content and grades an answer with the built core, without browser globals (ADR 0001)", async () => {
+    for (const name of ["window", "document", "customElements", "localStorage", "HTMLElement"]) {
+      expect(globalThis, name).not.toHaveProperty(name);
+    }
+    const core = (await import(
+      pathToFileURL(join(await temporaryBuild, "index.js")).href
+    )) as typeof import("./src/index.js");
+    const yesNo = core.defineExerciseType<{ answer: boolean }, boolean>({
+      type: "yes-no",
+      validate(payload, context) {
+        const fields = context.fields(payload, ["answer"]);
+        const answer = fields && context.at("answer").yesNo(fields.answer);
+        return answer === undefined || answer === null ? undefined : { answer };
+      },
+      validateAnswer: (answer, _payload, context) => context.yesNo(answer),
+      grade: (payload, answer) => ({
+        score: payload.answer === answer ? 1 : 0,
+        max: 1,
+        items: [payload.answer === answer],
+      }),
+    });
+    const types = core.createExerciseTypes([yesNo]);
+    const content = core.parseContent(
+      JSON.stringify({
+        version: 1,
+        exercises: [{ id: "q", type: "yes-no", payload: { answer: true } }],
+      }),
+      { types },
+    );
+    const exercise = content.exercises[0];
+    expect(exercise).toBeDefined();
+    expect(core.gradeAnswer(exercise as never, true, { types })).toEqual({
+      score: 1,
+      max: 1,
+      items: [true],
+    });
+    expect(() => core.gradeAnswer(exercise as never, "yes", { types })).toThrow(
+      expect.objectContaining({ name: "LearnError", code: "INVALID_ANSWER" }),
+    );
+  });
+});
