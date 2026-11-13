@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { build, type Rolldown } from "vite";
@@ -186,5 +186,52 @@ describe("grading on a server", () => {
       }
     }
     expect(touched).toEqual([]);
+  });
+});
+
+describe("ts-fsrs, only for hosts that schedule", () => {
+  /** Bundles a consumer of the built package, as a host's bundler would. */
+  async function bundle(source: string): Promise<string> {
+    const directory = await temporaryBuild;
+    const entry = join(
+      directory,
+      `consumer-${source.length}-${Math.random().toString(36).slice(2)}.js`,
+    );
+    await writeFile(entry, source);
+    const result = await build({
+      configFile: false,
+      logLevel: "silent",
+      build: {
+        write: false,
+        minify: true,
+        lib: { entry, formats: ["es"], fileName: () => "consumer.js" },
+        rollupOptions: { external: [] },
+      },
+    });
+    const outputs = Array.isArray(result) ? result : [result];
+    return outputs
+      .flatMap((output) => ("output" in output ? output.output : []))
+      .flatMap((file) => (file.type === "chunk" ? [file.code] : []))
+      .join("\n");
+  }
+
+  it("keeps ts-fsrs an import, never bundled into the package", () => {
+    expect(externalPackages).toContain("ts-fsrs");
+    for (const file of files) {
+      if (file.type === "chunk") {
+        expect(file.code, file.fileName).not.toContain("FSRS7Algorithm");
+      }
+    }
+  });
+
+  it("drops ts-fsrs from a host that doesn't use the FSRS adapter, and keeps it for one that does", async () => {
+    const coreOnly = await bundle(
+      'import { parseContent, createExerciseTypes, multipleChoice } from "./index.js";\nexport const run = (input) => parseContent(input, { types: createExerciseTypes([multipleChoice]) });\n',
+    );
+    const scheduling = await bundle(
+      'import { createFsrsScheduler } from "./index.js";\nexport const scheduler = createFsrsScheduler();\n',
+    );
+    expect(coreOnly).not.toContain("stabilityFast");
+    expect(scheduling).toContain("stabilityFast");
   });
 });

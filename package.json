@@ -66,7 +66,8 @@
     "verify:fast": "pnpm typecheck && pnpm test && pnpm lint:deps && pnpm check:api"
   },
   "dependencies": {
-    "@hussmartinez/sdk-core": "catalog:"
+    "@hussmartinez/sdk-core": "catalog:",
+    "ts-fsrs": "catalog:"
   },
   "peerDependencies": {
     "react": ">=18.3",
