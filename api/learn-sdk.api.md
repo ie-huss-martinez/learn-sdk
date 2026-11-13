@@ -11,9 +11,54 @@ import { SdkCoreErrorCode } from '@hussmartinez/sdk-core';
 import { SdkError } from '@hussmartinez/sdk-core';
 
 // @public
+export function accessibleCourses<C extends Pick<Course, "code" | "position">>(learner: Learner, courses: readonly C[]): C[];
+
+// @public
+export function canAccessCourse(learner: Learner, course: string): boolean;
+
+// @public
+export interface Course {
+    readonly code: string;
+    readonly level: string;
+    readonly position: number;
+    // (undocumented)
+    readonly title: string;
+}
+
+// @public
+export const defaultLanguageProfile: LanguageProfile;
+
+// @public
+export interface Enrolment {
+    readonly course: string;
+    // (undocumented)
+    readonly status: EnrolmentStatus;
+}
+
+// @public
+export type EnrolmentStatus = "active" | "completed";
+
+// @public
 export function isLearnError<Code extends LearnErrorCode = LearnErrorCode>(value: unknown, code?: Code): value is LearnError & {
     readonly code: Code;
 };
+
+// @public
+export interface LanguageProfile {
+    readonly code: string;
+    // (undocumented)
+    readonly direction: TextDirection;
+    readonly normalizeAnswer?: (text: string) => string;
+    readonly segment?: (text: string) => readonly string[];
+}
+
+// @public
+export interface Learner {
+    // (undocumented)
+    readonly enrolments: readonly Enrolment[];
+    // (undocumented)
+    readonly role: LearnRole;
+}
 
 // @public
 export class LearnError extends SdkError<LearnErrorCode> {
@@ -244,6 +289,25 @@ export const learnMessages: {
 };
 
 // @public
+export type LearnRole = "learner" | "teacher";
+
+// @public
+export interface Level {
+    readonly cefr?: string;
+    readonly code: string;
+    readonly position: number;
+    // (undocumented)
+    readonly title: string;
+    readonly topics: readonly string[];
+}
+
+// @public
 export const MAX_ISSUE_KEY_LENGTH = 64;
+
+// @public
+export function normalizeForGrading(text: string, profile: LanguageProfile): string;
+
+// @public
+export type TextDirection = "ltr" | "rtl";
 
 ```

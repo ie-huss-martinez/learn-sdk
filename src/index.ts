@@ -21,5 +21,16 @@ export type {
   LearnLimitPolicy,
 } from "./core/errors/learn-limits.js";
 export { learnLimitDefinitions, learnLimits } from "./core/errors/learn-limits.js";
+export { accessibleCourses, canAccessCourse } from "./core/model/access.js";
+export type {
+  Course,
+  Enrolment,
+  EnrolmentStatus,
+  Learner,
+  LearnRole,
+  Level,
+} from "./core/model/course.js";
+export type { LanguageProfile, TextDirection } from "./core/model/language-profile.js";
+export { defaultLanguageProfile, normalizeForGrading } from "./core/model/language-profile.js";
 export type { LearnMessageCatalogue } from "./messages/en.js";
 export { learnMessages } from "./messages/en.js";
