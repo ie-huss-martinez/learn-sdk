@@ -78,6 +78,9 @@ export function createFakeScheduler(): Scheduler_2;
 export function createFsrsScheduler(options?: FsrsSchedulerOptions): Scheduler_2;
 
 // @public
+export function createLocalProgressStore(options: LocalProgressStoreOptions): ProgressStore;
+
+// @public
 export function createMemoryProgressStore(): ProgressStore;
 
 // @public
@@ -210,7 +213,7 @@ export class LearnError extends SdkError<LearnErrorCode> {
 }
 
 // @public
-export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
+export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "STORAGE_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
 
 // @public
 export interface LearnIssue {
@@ -310,6 +313,7 @@ export const learnMessages: {
     readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
     readonly "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
     readonly "errors.UNSUPPORTED_SCHEDULING_STATE": "Your review schedule was saved by another version of the app. It will start again from today.";
+    readonly "errors.STORAGE_UNAVAILABLE": "Your progress couldn't be saved on this device. Its storage may be full or turned off.";
     readonly "errors.CONTENT_TOO_LARGE": "This content is {actual, fileSize}, which is over the {maximum, fileSize} limit. Split it into smaller sets.";
     readonly "errors.TOO_MANY_EXERCISES": {
         readonly $plural: "maximum";
@@ -462,6 +466,14 @@ export interface LoadClipOptions extends LearnCallOptions {
 }
 
 // @public
+export interface LocalProgressStoreOptions {
+    readonly limits?: LearnLimitOverrides;
+    readonly namespace: string;
+    readonly onDiscard?: (reason: ProgressDiscardReason) => void;
+    readonly storage?: ProgressStorage;
+}
+
+// @public
 export const MAX_ISSUE_KEY_LENGTH = 64;
 
 // @public
@@ -517,12 +529,18 @@ export type ProgressChange = ({
 });
 
 // @public
+export type ProgressDiscardReason = "too-large" | "invalid";
+
+// @public
 export interface ProgressSnapshot {
     // (undocumented)
     readonly attempts: readonly AttemptRecord[];
     // (undocumented)
     readonly cards: readonly CardRecord[];
 }
+
+// @public
+export type ProgressStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 // @public
 export interface ProgressStore {

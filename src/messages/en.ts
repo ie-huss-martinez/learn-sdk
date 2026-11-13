@@ -36,6 +36,8 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.",
   "errors.UNSUPPORTED_SCHEDULING_STATE":
     "Your review schedule was saved by another version of the app. It will start again from today.",
+  "errors.STORAGE_UNAVAILABLE":
+    "Your progress couldn't be saved on this device. Its storage may be full or turned off.",
   "errors.CONTENT_TOO_LARGE":
     "This content is {actual, fileSize}, which is over the {maximum, fileSize} limit. Split it into smaller sets.",
   "errors.TOO_MANY_EXERCISES": /* @__PURE__ */ plural("maximum", {

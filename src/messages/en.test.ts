@@ -28,6 +28,7 @@ const ALL_ERROR_CODES: Record<LearnErrorCode, true> = {
   INVALID_ANSWER: true,
   AUDIO_UNAVAILABLE: true,
   UNSUPPORTED_SCHEDULING_STATE: true,
+  STORAGE_UNAVAILABLE: true,
   CONTENT_TOO_LARGE: true,
   TOO_MANY_EXERCISES: true,
   TOO_MANY_ITEMS: true,
