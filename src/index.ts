@@ -6,9 +6,20 @@
  * This entry is server-safe: it has no React and touches no DOM on import, so
  * Server Components, Node and Workers runtimes can import it, and a host can
  * grade on its server with the same code the browser uses (ADR 0004, ADR 0007).
- * The core arrives in the next releases.
  *
  * @packageDocumentation
  */
 
-export {};
+export type { LearnErrorCode } from "./core/errors/learn-error.js";
+export { isLearnError, LearnError } from "./core/errors/learn-error.js";
+export type { LearnIssue, LearnIssueCode } from "./core/errors/learn-issues.js";
+export { MAX_ISSUE_KEY_LENGTH } from "./core/errors/learn-issues.js";
+export type {
+  LearnLimitDefinitions,
+  LearnLimitName,
+  LearnLimitOverrides,
+  LearnLimitPolicy,
+} from "./core/errors/learn-limits.js";
+export { learnLimitDefinitions, learnLimits } from "./core/errors/learn-limits.js";
+export type { LearnMessageCatalogue } from "./messages/en.js";
+export { learnMessages } from "./messages/en.js";

@@ -4,4 +4,246 @@
 
 ```ts
 
+import { FilePolicy } from '@hussmartinez/sdk-core';
+import { FilePolicyOverrides } from '@hussmartinez/sdk-core';
+import { Limits } from '@hussmartinez/sdk-core';
+import { SdkCoreErrorCode } from '@hussmartinez/sdk-core';
+import { SdkError } from '@hussmartinez/sdk-core';
+
+// @public
+export function isLearnError<Code extends LearnErrorCode = LearnErrorCode>(value: unknown, code?: Code): value is LearnError & {
+    readonly code: Code;
+};
+
+// @public
+export class LearnError extends SdkError<LearnErrorCode> {
+    readonly name = "LearnError";
+}
+
+// @public
+export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
+
+// @public
+export interface LearnIssue {
+    readonly code: LearnIssueCode;
+    readonly details?: {
+        readonly [key: string]: number;
+    };
+    readonly path: readonly (string | number)[];
+}
+
+// @public
+export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type";
+
+// @public
+export type LearnLimitDefinitions = typeof learnLimitDefinitions;
+
+// @public
+export const learnLimitDefinitions: {
+    readonly maxFileSize: {
+        readonly default: 5000000;
+        readonly warning: 1000000;
+        readonly code: "FILE_TOO_LARGE";
+        readonly unit: "bytes";
+    };
+    readonly maxContentSize: {
+        readonly code: "CONTENT_TOO_LARGE";
+        readonly unit: "bytes";
+        readonly default: 2000000;
+        readonly warning: 512000;
+    };
+    readonly maxExercises: {
+        readonly code: "TOO_MANY_EXERCISES";
+        readonly unit: "count";
+        readonly default: 500;
+    };
+    readonly maxItems: {
+        readonly code: "TOO_MANY_ITEMS";
+        readonly unit: "count";
+        readonly default: 100;
+    };
+    readonly maxChoices: {
+        readonly code: "TOO_MANY_CHOICES";
+        readonly unit: "count";
+        readonly default: 8;
+    };
+    readonly maxTiles: {
+        readonly code: "TOO_MANY_TILES";
+        readonly unit: "count";
+        readonly default: 30;
+    };
+    readonly maxTextLength: {
+        readonly code: "TEXT_TOO_LONG";
+        readonly unit: "count";
+        readonly default: 2000;
+    };
+    readonly maxFiles: {
+        readonly code: "TOO_MANY_FILES";
+        readonly unit: "count";
+        readonly default: 20;
+    };
+    readonly maxDecodedSize: {
+        readonly code: "DECODED_SIZE_TOO_LARGE";
+        readonly unit: "bytes";
+        readonly default: 500000000;
+    };
+    readonly maxProcessingTime: {
+        readonly code: "PROCESSING_TIME_EXCEEDED";
+        readonly unit: "milliseconds";
+        readonly default: 120000;
+    };
+};
+
+// @public
+export type LearnLimitName = keyof LearnLimitDefinitions;
+
+// @public
+export type LearnLimitOverrides = FilePolicyOverrides<LearnLimitDefinitions>;
+
+// @public
+export type LearnLimitPolicy = FilePolicy<LearnLimitDefinitions>;
+
+// @public
+export const learnLimits: Limits<LearnLimitDefinitions>;
+
+// @public
+export type LearnMessageCatalogue = typeof learnMessages;
+
+// @public
+export const learnMessages: {
+    readonly "errors.INVALID_CONTENT": {
+        readonly $plural: "count";
+    } & {
+        readonly one: "This content has a problem. Fix it, then try again.";
+        readonly other: "This content has {count, number} problems. Fix them, then try again.";
+    };
+    readonly "errors.UNSUPPORTED_CONTENT_VERSION": "This content was made for a newer version of the app. Update the app, then open it again.";
+    readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
+    readonly "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
+    readonly "errors.CONTENT_TOO_LARGE": "This content is {actual, fileSize}, which is over the {maximum, fileSize} limit. Split it into smaller sets.";
+    readonly "errors.TOO_MANY_EXERCISES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A set can have {maximum} exercise. Split the content into smaller sets.";
+        readonly other: "A set can have up to {maximum, number} exercises. Split the content into smaller sets.";
+    };
+    readonly "errors.TOO_MANY_ITEMS": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "An exercise can have {maximum} item. Split it into smaller exercises.";
+        readonly other: "An exercise can have up to {maximum, number} items. Split it into smaller exercises.";
+    };
+    readonly "errors.TOO_MANY_CHOICES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A question can have {maximum} choice.";
+        readonly other: "A question can have up to {maximum, number} choices.";
+    };
+    readonly "errors.TOO_MANY_TILES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A sentence can have {maximum} word to put in order.";
+        readonly other: "A sentence can have up to {maximum, number} words to put in order.";
+    };
+    readonly "errors.TEXT_TOO_LONG": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A text can be {maximum} character long. Shorten it, then try again.";
+        readonly other: "A text can be up to {maximum, number} characters long. Shorten it, then try again.";
+    };
+    readonly "errors.FILE_TOO_LARGE": "This recording is {actual, fileSize}, which is over the {maximum, fileSize} limit.";
+    readonly "warnings.maxFileSize": "This recording is {actual, fileSize}, and may be slow to load.";
+    readonly "warnings.maxContentSize": "This content is {actual, fileSize}, and may be slow to open.";
+    readonly "warnings.maxExercises": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This set has {actual} exercise.";
+        readonly other: "This set has {actual, number} exercises, and may be slow to open.";
+    };
+    readonly "warnings.maxItems": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This exercise has {actual} item.";
+        readonly other: "This exercise has {actual, number} items, and may be long to answer.";
+    };
+    readonly "warnings.maxChoices": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This question has {actual} choice.";
+        readonly other: "This question has {actual, number} choices, and may be hard to read on a phone.";
+    };
+    readonly "warnings.maxTiles": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This sentence has {actual} word to put in order.";
+        readonly other: "This sentence has {actual, number} words to put in order, and may be hard on a phone.";
+    };
+    readonly "warnings.maxTextLength": "This text is long, and may be hard to read on a phone.";
+    readonly "validation.not-json": "This isn't valid content: it couldn't be read as JSON.";
+    readonly "validation.required": "This is required.";
+    readonly "validation.unknown-field": "This field isn't part of the content format. Remove it, or check its spelling.";
+    readonly "validation.not-data": "This field must hold a plain value, not one that's computed.";
+    readonly "validation.expected-object": "This should be a group of fields.";
+    readonly "validation.expected-list": "This should be a list.";
+    readonly "validation.expected-text": "This should be text.";
+    readonly "validation.expected-whole-number": "This should be a whole number, 0 or more.";
+    readonly "validation.expected-yes-no": "This should be yes or no.";
+    readonly "validation.empty-text": "This can't be empty.";
+    readonly "validation.too-few": {
+        readonly $plural: "minimum";
+    } & {
+        readonly one: "Add at least {minimum} entry.";
+        readonly other: "Add at least {minimum, number} entries.";
+    };
+    readonly "validation.out-of-range": "This points to an entry that doesn't exist.";
+    readonly "validation.duplicate-id": "Another exercise already uses this id.";
+    readonly "validation.unknown-type": "This exercise type isn't available here.";
+    readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
+    readonly "errors.ABORTED": "The operation was cancelled.";
+    readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
+    readonly "errors.WORKER_START_FAILED": "The file processor couldn't start. Reload the page and try again.";
+    readonly "errors.WORKER_PROTOCOL_MISMATCH": "The file processor is out of date. Reload the page to update it.";
+    readonly "errors.WORKER_CRASHED": "The file processor stopped unexpectedly. Please try again.";
+    readonly "errors.WORKER_TERMINATED": "The operation was stopped before it finished. Please try again.";
+    readonly "errors.WORKER_METHOD_NOT_FOUND": "This operation isn't available. Reload the page and try again.";
+    readonly "errors.WORKER_DATA_NOT_CLONEABLE": "Something went wrong while processing the file. Please try again.";
+    readonly "errors.UNSUPPORTED_ENVIRONMENT": "This browser doesn't support a feature this tool needs. Update your browser, or try another one.";
+    readonly "errors.TOO_MANY_FILES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "You can add {maximum} file at a time.";
+        readonly other: "You can add up to {maximum} files at a time.";
+    };
+    readonly "errors.DECODED_SIZE_TOO_LARGE": "This file expands to more than {maximum, fileSize} when opened, which is over the limit.";
+    readonly "errors.PROCESSING_TIME_EXCEEDED": "Processing this file took too long and was stopped.";
+    readonly "warnings.maxFiles": "Adding {actual} files at once may be slow.";
+    readonly "warnings.maxDecodedSize": "This file is very large once opened and may be slow to process.";
+    readonly "warnings.maxProcessingTime": "This is taking longer than usual.";
+    readonly "keys.control": "Ctrl";
+    readonly "keys.alt": "Alt";
+    readonly "keys.shift": "Shift";
+    readonly "keys.meta": "Meta";
+    readonly "keys.apple.control": "\u2303";
+    readonly "keys.apple.alt": "\u2325";
+    readonly "keys.apple.shift": "\u21E7";
+    readonly "keys.apple.meta": "\u2318";
+    readonly "keys.space": "Space";
+    readonly "keys.enter": "Enter";
+    readonly "keys.escape": "Esc";
+    readonly "keys.tab": "Tab";
+    readonly "keys.delete": "Delete";
+    readonly "keys.backspace": "Backspace";
+    readonly "keys.arrowUp": "\u2191";
+    readonly "keys.arrowDown": "\u2193";
+    readonly "keys.arrowLeft": "\u2190";
+    readonly "keys.arrowRight": "\u2192";
+    readonly "keys.home": "Home";
+    readonly "keys.end": "End";
+    readonly "keys.pageUp": "Page Up";
+    readonly "keys.pageDown": "Page Down";
+};
+
+// @public
+export const MAX_ISSUE_KEY_LENGTH = 64;
+
 ```
