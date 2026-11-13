@@ -100,6 +100,7 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___",
   "validation.answer-not-in-options":
     "None of the choices is an accepted answer. Add the answer to the choices.",
+  "validation.not-a-permutation": "Use every word exactly once, in any order.",
 }) satisfies Record<`errors.${LearnErrorCode}`, MessageValue> &
   Record<`warnings.${LearnLimitName}`, MessageValue> &
   Record<`validation.${LearnIssueCode}`, MessageValue>;

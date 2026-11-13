@@ -167,7 +167,7 @@ export interface LearnIssue {
 }
 
 // @public
-export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice" | "gap-count" | "answer-not-in-options";
+export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice" | "gap-count" | "answer-not-in-options" | "not-a-permutation";
 
 // @public
 export type LearnLimitDefinitions = typeof learnLimitDefinitions;
@@ -335,6 +335,7 @@ export const learnMessages: {
     readonly "validation.duplicate-choice": "Another choice already says the same. Make each choice different.";
     readonly "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___";
     readonly "validation.answer-not-in-options": "None of the choices is an accepted answer. Add the answer to the choices.";
+    readonly "validation.not-a-permutation": "Use every word exactly once, in any order.";
     readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
     readonly "errors.ABORTED": "The operation was cancelled.";
     readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
@@ -464,6 +465,29 @@ export interface ValidationContext {
     } & OptionalOption): string | undefined;
     wholeNumber(value: unknown, options?: OptionalOption): number | undefined;
     yesNo(value: unknown, options?: OptionalOption): boolean | undefined;
+}
+
+// @public
+export const wordOrder: ExerciseType<WordOrderPayload, WordOrderAnswer>;
+
+// @public
+export interface WordOrderAnswer {
+    // (undocumented)
+    readonly orders: readonly (readonly number[] | null)[];
+}
+
+// @public
+export interface WordOrderItem {
+    readonly alternatives?: readonly (readonly string[])[];
+    readonly tiles: readonly string[];
+    // (undocumented)
+    readonly translation?: string;
+}
+
+// @public
+export interface WordOrderPayload {
+    // (undocumented)
+    readonly items: readonly WordOrderItem[];
 }
 
 ```
