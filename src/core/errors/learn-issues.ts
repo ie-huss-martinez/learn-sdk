@@ -21,6 +21,8 @@
  *   correct choice that doesn't exist.
  * - `duplicate-id`: two exercises share an id.
  * - `unknown-type`: an exercise's type isn't among the available types.
+ * - `duplicate-choice`: two choices of a question read the same, ignoring
+ *   surrounding spaces, so the question can't be answered fairly.
  *
  * @public
  */
@@ -38,7 +40,8 @@ export type LearnIssueCode =
   | "too-few"
   | "out-of-range"
   | "duplicate-id"
-  | "unknown-type";
+  | "unknown-type"
+  | "duplicate-choice";
 
 /**
  * One problem found while validating content or an answer: where it is,

@@ -95,6 +95,8 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "validation.out-of-range": "This points to an entry that doesn't exist.",
   "validation.duplicate-id": "Another exercise already uses this id.",
   "validation.unknown-type": "This exercise type isn't available here.",
+  "validation.duplicate-choice":
+    "Another choice already says the same. Make each choice different.",
 }) satisfies Record<`errors.${LearnErrorCode}`, MessageValue> &
   Record<`warnings.${LearnLimitName}`, MessageValue> &
   Record<`validation.${LearnIssueCode}`, MessageValue>;
