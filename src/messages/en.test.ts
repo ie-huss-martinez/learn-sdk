@@ -50,6 +50,7 @@ const ALL_ISSUE_CODES: Record<LearnIssueCode, true> = {
   "out-of-range": true,
   "duplicate-id": true,
   "unknown-type": true,
+  "duplicate-choice": true,
 };
 
 function violation(run: () => unknown): unknown {

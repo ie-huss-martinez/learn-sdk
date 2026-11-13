@@ -143,7 +143,7 @@ export interface LearnIssue {
 }
 
 // @public
-export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type";
+export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice";
 
 // @public
 export type LearnLimitDefinitions = typeof learnLimitDefinitions;
@@ -308,6 +308,7 @@ export const learnMessages: {
     readonly "validation.out-of-range": "This points to an entry that doesn't exist.";
     readonly "validation.duplicate-id": "Another exercise already uses this id.";
     readonly "validation.unknown-type": "This exercise type isn't available here.";
+    readonly "validation.duplicate-choice": "Another choice already says the same. Make each choice different.";
     readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
     readonly "errors.ABORTED": "The operation was cancelled.";
     readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
@@ -371,6 +372,31 @@ export type ListLimit = "maxExercises" | "maxItems" | "maxChoices" | "maxTiles";
 
 // @public
 export const MAX_ISSUE_KEY_LENGTH = 64;
+
+// @public
+export const multipleChoice: ExerciseType<MultipleChoicePayload, MultipleChoiceAnswer>;
+
+// @public
+export interface MultipleChoiceAnswer {
+    // (undocumented)
+    readonly selected: readonly (number | null)[];
+}
+
+// @public
+export interface MultipleChoicePayload {
+    // (undocumented)
+    readonly questions: readonly MultipleChoiceQuestion[];
+}
+
+// @public
+export interface MultipleChoiceQuestion {
+    readonly choices: readonly string[];
+    readonly correct: number;
+    // (undocumented)
+    readonly explanation?: string;
+    // (undocumented)
+    readonly prompt: string;
+}
 
 // @public
 export function normalizeForGrading(text: string, profile: LanguageProfile): string;

@@ -45,5 +45,11 @@ export type { GradeAnswerOptions } from "./core/operations/grade-answer.js";
 export { gradeAnswer } from "./core/operations/grade-answer.js";
 export type { ParseContentOptions } from "./core/operations/parse-content.js";
 export { parseContent } from "./core/operations/parse-content.js";
+export type {
+  MultipleChoiceAnswer,
+  MultipleChoicePayload,
+  MultipleChoiceQuestion,
+} from "./features/multiple-choice/multiple-choice.js";
+export { multipleChoice } from "./features/multiple-choice/multiple-choice.js";
 export type { LearnMessageCatalogue } from "./messages/en.js";
 export { learnMessages } from "./messages/en.js";
