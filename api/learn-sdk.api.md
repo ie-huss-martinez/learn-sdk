@@ -14,7 +14,36 @@ import { SdkError } from '@hussmartinez/sdk-core';
 export function accessibleCourses<C extends Pick<Course, "code" | "position">>(learner: Learner, courses: readonly C[]): C[];
 
 // @public
+export function applyProgressChanges(snapshot: ProgressSnapshot, changes: readonly ProgressChange[]): ProgressSnapshot;
+
+// @public
+export interface AttemptRecord {
+    // (undocumented)
+    readonly answer: unknown;
+    readonly at: number;
+    // (undocumented)
+    readonly exerciseId: string;
+    // (undocumented)
+    readonly grade: Grade;
+}
+
+// @public
+export interface AudioSource {
+    // (undocumented)
+    load(ref: string, options?: LearnCallOptions): Promise<Blob | ArrayBuffer | null>;
+}
+
+// @public
 export function canAccessCourse(learner: Learner, course: string): boolean;
+
+// @public
+export interface CardRecord {
+    readonly due: number;
+    // (undocumented)
+    readonly itemId: string;
+    // (undocumented)
+    readonly scheduling: SchedulingState;
+}
 
 // @public
 export interface Content {
@@ -40,10 +69,22 @@ export interface Course {
 export function createExerciseTypes(types: readonly ExerciseType<unknown, unknown>[]): ExerciseTypes;
 
 // @public
+export function createFakeAudioSource(clips: Readonly<Record<string, Uint8Array | Blob>>): AudioSource;
+
+// @public
+export function createFakeScheduler(): Scheduler_2;
+
+// @public
+export function createMemoryProgressStore(): ProgressStore;
+
+// @public
 export const defaultLanguageProfile: LanguageProfile;
 
 // @public
 export function defineExerciseType<Payload, Answer>(definition: ExerciseType<Payload, Answer>): ExerciseType<Payload, Answer>;
+
+// @public
+export const emptyProgress: ProgressSnapshot;
 
 // @public
 export interface Enrolment {
@@ -142,6 +183,11 @@ export interface LanguageProfile {
 }
 
 // @public
+export interface LearnCallOptions {
+    readonly signal?: AbortSignal;
+}
+
+// @public
 export interface Learner {
     // (undocumented)
     readonly enrolments: readonly Enrolment[];
@@ -155,7 +201,7 @@ export class LearnError extends SdkError<LearnErrorCode> {
 }
 
 // @public
-export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
+export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
 
 // @public
 export interface LearnIssue {
@@ -254,6 +300,7 @@ export const learnMessages: {
     readonly "errors.UNSUPPORTED_CONTENT_VERSION": "This content was made for a newer version of the app. Update the app, then open it again.";
     readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
     readonly "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
+    readonly "errors.UNSUPPORTED_SCHEDULING_STATE": "Your review schedule was saved by another version of the app. It will start again from today.";
     readonly "errors.CONTENT_TOO_LARGE": "This content is {actual, fileSize}, which is over the {maximum, fileSize} limit. Split it into smaller sets.";
     readonly "errors.TOO_MANY_EXERCISES": {
         readonly $plural: "maximum";
@@ -398,6 +445,14 @@ export interface Level {
 export type ListLimit = "maxExercises" | "maxItems" | "maxChoices" | "maxTiles";
 
 // @public
+export function loadClip(source: AudioSource, ref: string, options?: LoadClipOptions): Promise<Blob>;
+
+// @public
+export interface LoadClipOptions extends LearnCallOptions {
+    readonly limits?: LearnLimitOverrides;
+}
+
+// @public
 export const MAX_ISSUE_KEY_LENGTH = 64;
 
 // @public
@@ -440,6 +495,61 @@ export function parseContent(input: unknown, options: ParseContentOptions): Cont
 export interface ParseContentOptions {
     readonly limits?: LearnLimitOverrides;
     readonly types: ExerciseTypes;
+}
+
+// @public
+export type ProgressChange = ({
+    readonly kind: "attempt";
+} & AttemptRecord) | ({
+    readonly kind: "review";
+    readonly rating: Rating;
+} & CardRecord & {
+    readonly at: number;
+});
+
+// @public
+export interface ProgressSnapshot {
+    // (undocumented)
+    readonly attempts: readonly AttemptRecord[];
+    // (undocumented)
+    readonly cards: readonly CardRecord[];
+}
+
+// @public
+export interface ProgressStore {
+    // (undocumented)
+    clear(scope: string, options?: LearnCallOptions): Promise<void>;
+    // (undocumented)
+    load(scope: string, options?: LearnCallOptions): Promise<ProgressSnapshot>;
+    // (undocumented)
+    save(scope: string, changes: readonly ProgressChange[], options?: LearnCallOptions): Promise<void>;
+}
+
+// @public
+export type Rating = "again" | "hard" | "good" | "easy";
+
+// @public
+export interface Scheduled {
+    // (undocumented)
+    readonly due: number;
+    // (undocumented)
+    readonly state: SchedulingState;
+}
+
+// @public
+interface Scheduler_2 {
+    readonly id: string;
+    initial(now: number): Scheduled;
+    review(state: SchedulingState, rating: Rating, now: number): Scheduled;
+}
+export { Scheduler_2 as Scheduler }
+
+// @public
+export interface SchedulingState {
+    readonly card: unknown;
+    readonly model: string;
+    readonly scheduler: string;
+    readonly version: number;
 }
 
 // @public

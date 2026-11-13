@@ -10,6 +10,9 @@
  * @packageDocumentation
  */
 
+export { createFakeAudioSource } from "./adapters/fakes/fake-audio-source.js";
+export { createFakeScheduler } from "./adapters/fakes/fake-scheduler.js";
+export { createMemoryProgressStore } from "./adapters/memory-progress/memory-progress.js";
 export type { LearnErrorCode } from "./core/errors/learn-error.js";
 export { isLearnError, LearnError } from "./core/errors/learn-error.js";
 export type { LearnIssue, LearnIssueCode } from "./core/errors/learn-issues.js";
@@ -37,6 +40,14 @@ export { createExerciseTypes, defineExerciseType } from "./core/model/exercise-t
 export type { LanguageProfile, TextDirection } from "./core/model/language-profile.js";
 export { defaultLanguageProfile, normalizeForGrading } from "./core/model/language-profile.js";
 export type {
+  AttemptRecord,
+  CardRecord,
+  ProgressChange,
+  ProgressSnapshot,
+} from "./core/model/progress.js";
+export { applyProgressChanges, emptyProgress } from "./core/model/progress.js";
+export type { Rating, Scheduled, SchedulingState } from "./core/model/scheduling.js";
+export type {
   ListLimit,
   OptionalOption,
   ValidationContext,
@@ -45,6 +56,12 @@ export type { GradeAnswerOptions } from "./core/operations/grade-answer.js";
 export { gradeAnswer } from "./core/operations/grade-answer.js";
 export type { ParseContentOptions } from "./core/operations/parse-content.js";
 export { parseContent } from "./core/operations/parse-content.js";
+export type { AudioSource } from "./core/ports/audio-source.js";
+export type { LearnCallOptions } from "./core/ports/options.js";
+export type { ProgressStore } from "./core/ports/progress-store.js";
+export type { Scheduler } from "./core/ports/scheduler.js";
+export type { LoadClipOptions } from "./core/session/load-clip.js";
+export { loadClip } from "./core/session/load-clip.js";
 export type { GapFillAnswer, GapFillItem, GapFillPayload } from "./features/gap-fill/gap-fill.js";
 export { gapFill, splitAtGap } from "./features/gap-fill/gap-fill.js";
 export type {
