@@ -26,6 +26,8 @@
  * - `gap-count`: a gap-fill sentence doesn't have exactly one gap.
  * - `answer-not-in-options`: a gap-fill item's choices include none of its
  *   accepted answers, so it can't be answered.
+ * - `not-a-permutation`: a word-order alternative or answer doesn't use
+ *   every tile exactly once.
  *
  * @public
  */
@@ -46,7 +48,8 @@ export type LearnIssueCode =
   | "unknown-type"
   | "duplicate-choice"
   | "gap-count"
-  | "answer-not-in-options";
+  | "answer-not-in-options"
+  | "not-a-permutation";
 
 /**
  * One problem found while validating content or an answer: where it is,

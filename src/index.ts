@@ -53,5 +53,11 @@ export type {
   MultipleChoiceQuestion,
 } from "./features/multiple-choice/multiple-choice.js";
 export { multipleChoice } from "./features/multiple-choice/multiple-choice.js";
+export type {
+  WordOrderAnswer,
+  WordOrderItem,
+  WordOrderPayload,
+} from "./features/word-order/word-order.js";
+export { wordOrder } from "./features/word-order/word-order.js";
 export type { LearnMessageCatalogue } from "./messages/en.js";
 export { learnMessages } from "./messages/en.js";
