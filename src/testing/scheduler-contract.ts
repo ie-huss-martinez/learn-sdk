@@ -71,16 +71,21 @@ export function defineSchedulerContract(
     test.it("refuses a state from another scheduler, model or version", async () => {
       const scheduler = make();
       const { state } = scheduler.initial(NOW);
-      for (const [what, foreign] of [
-        ["another scheduler", { ...state, scheduler: `${state.scheduler}-other` }],
-        ["another model", { ...state, model: `${state.model}-other` }],
-        ["another version", { ...state, version: state.version + 1 }],
-        ["no card", { ...state, card: null }],
+      for (const [what, foreign, reason] of [
+        [
+          "another scheduler",
+          { ...state, scheduler: `${state.scheduler}-other` },
+          "unknown-scheduler",
+        ],
+        ["another model", { ...state, model: `${state.model}-other` }, "unknown-scheduler"],
+        ["another version", { ...state, version: state.version + 1 }, "unknown-scheduler"],
+        ["no card", { ...state, card: null }, "malformed-state"],
       ] as const) {
         throwsWith(
           () => scheduler.review(foreign, "good", NOW),
           "UNSUPPORTED_SCHEDULING_STATE",
           `a state with ${what}`,
+          reason,
         );
       }
     });

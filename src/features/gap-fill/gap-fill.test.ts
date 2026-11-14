@@ -18,6 +18,7 @@ const item = (overrides: Record<string, unknown> = {}) => ({
   ...overrides,
 });
 const content = (items: unknown[]) => ({
+  format: "hm-learn-content",
   version: 1,
   exercises: [{ id: "g", type: "gap-fill", payload: { items } }],
 });

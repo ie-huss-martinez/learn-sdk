@@ -71,7 +71,7 @@ export async function rejectsWith(
 }
 
 /** Calls a function that must throw a LearnError of this code. */
-export function throwsWith(call: () => unknown, code: string, what: string): void {
+export function throwsWith(call: () => unknown, code: string, what: string, reason?: string): void {
   let error: unknown;
   try {
     call();
@@ -83,6 +83,10 @@ export function throwsWith(call: () => unknown, code: string, what: string): voi
     isLearnError(error) && error.code === code,
     `${what} threw ${describeError(error)}; it must throw a LearnError "${code}".`,
   );
+  if (reason !== undefined) {
+    const found = isLearnError(error) ? error.details?.["reason"] : undefined;
+    check(found === reason, `${what} gave the reason "${String(found)}"; it must be "${reason}".`);
+  }
 }
 
 const describeError = (error: unknown) =>

@@ -7,6 +7,7 @@ import { wordOrder } from "./word-order.js";
 
 const types = createExerciseTypes([wordOrder]);
 const content = (items: unknown[]) => ({
+  format: "hm-learn-content",
   version: 1,
   exercises: [{ id: "w", type: "word-order", payload: { items } }],
 });

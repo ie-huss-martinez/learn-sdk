@@ -23,8 +23,8 @@ const ALL_ERROR_CODES: Record<LearnErrorCode, true> = {
   TOO_MANY_FILES: true,
   DECODED_SIZE_TOO_LARGE: true,
   PROCESSING_TIME_EXCEEDED: true,
-  INVALID_CONTENT: true,
-  UNSUPPORTED_CONTENT_VERSION: true,
+  UNSUPPORTED_FORMAT: true,
+  INVALID_DOCUMENT: true,
   INVALID_ANSWER: true,
   AUDIO_UNAVAILABLE: true,
   UNSUPPORTED_SCHEDULING_STATE: true,
@@ -38,7 +38,6 @@ const ALL_ERROR_CODES: Record<LearnErrorCode, true> = {
 };
 
 const ALL_ISSUE_CODES: Record<LearnIssueCode, true> = {
-  "not-json": true,
   required: true,
   "unknown-field": true,
   "not-data": true,
@@ -106,10 +105,10 @@ describe("learnMessages", () => {
     expect(messages.error(violation(() => policy.check("maxFileSize", 8_000_000)))).toBe(
       "This recording is 8 MB, which is over the 5 MB limit.",
     );
-    const invalid = new LearnError("INVALID_CONTENT", "<script>from the content</script>", {
-      details: { count: 3, issues: [] },
+    const invalid = new LearnError("INVALID_DOCUMENT", "<script>from the content</script>", {
+      details: { reason: "malformed-document", count: 3, issues: [] },
     });
-    expect(messages.error(invalid)).toBe("This content has 3 problems. Fix them, then try again.");
+    expect(messages.error(invalid)).toBe("This content has problems. Fix them, then try again.");
   });
 
   it("describes issues for a teacher, with their numbers and plurals", () => {

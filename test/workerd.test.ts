@@ -36,7 +36,7 @@ export default {
   async fetch() {
     const types = createExerciseTypes([yesNo]);
     const content = parseContent(
-      JSON.stringify({ version: 1, exercises: [{ id: "q", type: "yes-no", payload: { answer: true } }] }),
+      JSON.stringify({ format: "hm-learn-content", version: 1, exercises: [{ id: "q", type: "yes-no", payload: { answer: true } }] }),
       { types },
     );
     const exercise = content.exercises[0];

@@ -3,7 +3,7 @@ import { type LearnLimitOverrides, learnLimits } from "../errors/learn-limits.js
 import type { Exercise, Grade } from "../model/content.js";
 import type { ExerciseTypes } from "../model/exercise-type.js";
 import { defaultLanguageProfile, type LanguageProfile } from "../model/language-profile.js";
-import { createIssueSink, createValidationContext, issueDetails } from "./validation.js";
+import { createIssueSink, createValidationContext, issueDetails } from "../model/validation.js";
 
 /**
  * Options for {@link gradeAnswer}.
@@ -49,9 +49,10 @@ function isValidGrade(grade: unknown): grade is Grade {
  * @param answer - The learner's answer, untrusted.
  * @param options - The exercise types, language profile and limits.
  * @returns The grade, as plain data.
- * @throws `LearnError`: `INVALID_ANSWER`, with `details.issues`, for an
- *   answer that doesn't fit the exercise; `INVALID_CONTENT` with an
- *   `unknown-type` issue when the exercise's type isn't in `types`; and the
+ * @throws `LearnError`: `INVALID_ANSWER` (`malformed-answer`), with
+ *   `details.issues`, for an answer that doesn't fit the exercise;
+ *   `INVALID_DOCUMENT` with an `unknown-type` issue when the exercise's type
+ *   isn't in `types`; and the
  *   limits' codes. `TypeError` if the exercise type returns an invalid grade.
  * @public
  */
@@ -62,8 +63,12 @@ export function gradeAnswer(
 ): Grade {
   const type = options.types.get(exercise.type);
   if (!type) {
-    throw new LearnError("INVALID_CONTENT", "The exercise's type isn't available.", {
-      details: { count: 1, issues: [{ path: ["type"], code: "unknown-type" }] },
+    throw new LearnError("INVALID_DOCUMENT", "The exercise's type isn't available.", {
+      details: {
+        reason: "malformed-document",
+        count: 1,
+        issues: [{ path: ["type"], code: "unknown-type" }],
+      },
     });
   }
   const sink = createIssueSink();
@@ -71,7 +76,7 @@ export function gradeAnswer(
   const validAnswer = type.validateAnswer(answer, exercise.payload, context);
   if (sink.count > 0 || validAnswer === undefined) {
     throw new LearnError("INVALID_ANSWER", "The answer doesn't fit its exercise.", {
-      details: issueDetails(sink),
+      details: { reason: "malformed-answer", ...issueDetails(sink) },
     });
   }
   const grade = type.grade(

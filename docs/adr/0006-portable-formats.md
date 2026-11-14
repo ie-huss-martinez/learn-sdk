@@ -59,7 +59,12 @@ Every rejection a conformance vector can reach carries a stable `details.reason`
 
 ### Hostile keys
 
-learn-sdk's ids live in lists, never as object keys, so no reader uses ids as keys. Field names such as `__proto__`, `constructor` and `toString` are refused as unknown fields, and the conformance vectors include each of them, so every port is checked the same way.
+learn-sdk's ids live in lists, never as object keys, so no reader uses ids as keys. Keys such as `__proto__`, `constructor` and `toString` are then handled by where they appear:
+
+- **In an object of fixed shape,** such as an exercise, a built-in payload, an attempt or a scheduling envelope, they're unknown fields and refused, like any other.
+- **In a free-form object,** a host type's payload, an attempt's `answer` or a scheduler's `card`, they're ordinary data keys. Readers read them as own properties only, never through the prototype, and copy them unchanged, so a document that `JSON.parse` reads with an own `__proto__` key keeps it and writes back the same text.
+
+The conformance vectors include both cases, and a unit test parses them from JSON text, so every port is checked the same way.
 
 ### What this supersedes
 

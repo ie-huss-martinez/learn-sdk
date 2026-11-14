@@ -39,7 +39,7 @@ body:
     id: what-happened
     attributes:
       label: What happened
-      description: Include any error code (such as `INVALID_CONTENT`) and console warnings. For display or layout problems, a screenshot helps a lot, if it shows nothing confidential.
+      description: Include any error code (such as `INVALID_DOCUMENT`) and its `details.reason` and console warnings. For display or layout problems, a screenshot helps a lot, if it shows nothing confidential.
     validations:
       required: true
   - type: textarea

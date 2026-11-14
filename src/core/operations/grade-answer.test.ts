@@ -8,6 +8,7 @@ import { parseContent } from "./parse-content.js";
 const types = createExerciseTypes([shortAnswer]);
 const content = parseContent(
   {
+    format: "hm-learn-content",
     version: 1,
     exercises: [
       {
@@ -57,12 +58,20 @@ describe("gradeAnswer", () => {
         error = thrown;
       }
       expect(isLearnError(error, "INVALID_ANSWER"), JSON.stringify(answer)).toBe(true);
+      expect((error as { details?: { reason?: string } }).details?.reason).toBe("malformed-answer");
     }
   });
 
   it("refuses an exercise whose type isn't available", () => {
     expect(() => gradeAnswer({ ...exercise, type: "essay" }, [], { types })).toThrow(
-      expect.objectContaining({ code: "INVALID_CONTENT" }),
+      expect.objectContaining({
+        code: "INVALID_DOCUMENT",
+        details: {
+          reason: "malformed-document",
+          count: 1,
+          issues: [{ path: ["type"], code: "unknown-type" }],
+        },
+      }),
     );
   });
 

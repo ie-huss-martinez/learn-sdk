@@ -27,8 +27,9 @@ import { LearnError } from "./learn-error.js";
  * Sizes are decimal: 1 MB is 1,000,000 bytes. `maxContentSize` is a content
  * string's UTF-8 size, checked before parsing. `maxItems` counts an
  * exercise's questions, gaps, sentences, pairs, cards or dialogue lines.
- * `maxTextLength` is in UTF-16 code units, for every string in content and
- * answers, ids and audio references included. `maxFileSize` applies to each
+ * `maxTextLength` counts Unicode code points, as JSON Schema's `maxLength`
+ * does, for every string in content, answers and stored progress, ids and
+ * audio references included. `maxFileSize` applies to each
  * audio clip the host's `AudioSource` returns. The SDK opens no files and
  * decodes nothing itself, so it doesn't check `maxFiles`, `maxDecodedSize`
  * or `maxProcessingTime`; they keep sdk-core's defaults.

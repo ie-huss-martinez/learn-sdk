@@ -171,6 +171,7 @@ describe("grading on a server", () => {
       const types = core.createExerciseTypes([yesNo]);
       const content = core.parseContent(
         JSON.stringify({
+          format: "hm-learn-content",
           version: 1,
           exercises: [{ id: "q", type: "yes-no", payload: { answer: true } }],
         }),

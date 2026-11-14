@@ -9,6 +9,7 @@ import { multipleChoice } from "./multiple-choice.js";
 
 const types = createExerciseTypes([multipleChoice]);
 const asContent = (payload: unknown) => ({
+  format: "hm-learn-content",
   version: 1,
   exercises: [{ id: "q", type: "multiple-choice", payload }],
 });

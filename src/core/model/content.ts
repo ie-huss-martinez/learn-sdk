@@ -4,8 +4,15 @@
  */
 
 /**
- * The content format's current version. Content with another version is
- * refused with `UNSUPPORTED_CONTENT_VERSION` until a migration reads it.
+ * The name of learn-sdk's content format (ADR 0006).
+ *
+ * @public
+ */
+export const CONTENT_FORMAT = "hm-learn-content";
+
+/**
+ * The content format's current version. Content of another version is
+ * refused with `UNSUPPORTED_FORMAT` until a migration reads it.
  *
  * @public
  */
@@ -27,11 +34,13 @@ export interface Exercise<Payload = unknown> {
 }
 
 /**
- * Validated content, as {@link parseContent} returns it.
+ * Validated content, as {@link parseContent} returns it: an
+ * `hm-learn-content` document, ready to store or send as it is.
  *
  * @public
  */
 export interface Content {
+  readonly format: typeof CONTENT_FORMAT;
   readonly version: typeof CONTENT_VERSION;
   readonly exercises: readonly Exercise[];
 }
