@@ -6,7 +6,15 @@ import {
 } from "@hussmartinez/sdk-config/testing/conformance";
 import { describe, expect, it } from "vitest";
 import { conformanceFiles } from "./generate.js";
-import { access, applyChanges, grade, readContent, readProgress, schedule } from "./run.js";
+import {
+  access,
+  applyChanges,
+  editCommands,
+  grade,
+  readContent,
+  readProgress,
+  schedule,
+} from "./run.js";
 
 /**
  * The conformance vectors (sdk-core ADR 0045): the same files a port in
@@ -29,6 +37,7 @@ describeConformance(at("hm-learn-grading.json"), grade);
 describeConformance(at("hm-learn-access.json"), access);
 describeConformance(at("hm-learn-progress-changes.json"), applyChanges);
 describeConformance(at("hm-learn-scheduling.json"), schedule);
+describeConformance(at("hm-learn-commands.json"), editCommands);
 
 describe("the format schemas accept every document the vectors read", () => {
   const isRead = ({ input, expected }: ConformanceCase) =>
@@ -59,6 +68,17 @@ describe("the format schemas accept every document the vectors read", () => {
     )) {
       expect(errors((testCase.input as { progress: unknown }).progress), testCase.name).toEqual([]);
       expect(errors(testCase.expected), testCase.name).toEqual([]);
+    }
+  });
+
+  it("hm-learn-commands, every command applied", () => {
+    const errors = schemaValidator(
+      new URL("../../formats/hm-learn-commands/v1.schema.json", import.meta.url),
+    );
+    for (const testCase of readConformance(at("hm-learn-commands.json")).cases.filter(isRead)) {
+      for (const command of (testCase.input as { commands: unknown[] }).commands) {
+        expect(errors(command), testCase.name).toEqual([]);
+      }
     }
   });
 });

@@ -8,8 +8,7 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  * for every {@link LearnErrorCode}, every limit's warning and every
  * {@link LearnIssueCode}. Pass it to `createMessages` from
  * `@hussmartinez/sdk-core`, with the host's locale and overrides. It also
- * labels the player's tools (`tools.<action>`); the editor's text joins it
- * as it arrives.
+ * labels the player's and editor's tools (`tools.<action>`).
  *
  * Error text is looked up by code, with the error's `details` as
  * parameters, and never taken from `error.message` (ADR 0019). Issue text
@@ -31,6 +30,7 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
     "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.",
   "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.",
   "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.",
+  "errors.INVALID_COMMAND": "This change couldn't be made. Please try again.",
   "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.",
   "errors.UNSUPPORTED_SCHEDULING_STATE":
     "Your review schedule was saved by another version of the app. It will start again from today.",
@@ -107,6 +107,9 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "tools.previous": "Previous",
   "tools.retry": "Try again",
   "tools.skip": "Skip",
+  "tools.undo": "Undo",
+  "tools.redo": "Redo",
+  "tools.remove-exercise": "Remove exercise",
 }) satisfies Record<`errors.${LearnErrorCode}`, MessageValue> &
   Record<`warnings.${LearnLimitName}`, MessageValue> &
   Record<`validation.${LearnIssueCode}`, MessageValue>;

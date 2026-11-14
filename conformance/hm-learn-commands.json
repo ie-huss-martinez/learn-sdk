@@ -1,0 +1,5425 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-commands",
+  "description": "Applying hm-learn-commands commands (docs/formats/hm-learn-commands.md). input.document is hm-learn-content, read with parseContent; input.commands are applied to it in order; input.limits, when given, overrides learn-sdk's default limits. expected is the draft after every command, which may be invalid content, or the rejection of the first command refused. The inverses of the commands applied, in reverse order, must restore the content exactly. The host registers the built-in types and \"free-form\", whose payload is any object.",
+  "cases": [
+    {
+      "name": "adds an exercise first",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "new",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "adds an exercise between two",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 1
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "new",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "adds an exercise last",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 3
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "new",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "adds an exercise with a title and instructions, in the format's field order",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "payload": {},
+              "instructions": "Read.",
+              "title": "อาหาร",
+              "type": "free-form",
+              "id": "new"
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "new",
+            "type": "free-form",
+            "title": "อาหาร",
+            "instructions": "Read.",
+            "payload": {}
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "adds an empty multiple-choice exercise, an invalid draft, then fills it in",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "q",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": []
+              }
+            },
+            "at": 3
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "q",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "",
+                  "choices": [
+                    "",
+                    ""
+                  ],
+                  "correct": 0
+                }
+              ]
+            }
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "q",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "ดื่ม",
+                  "choices": [
+                    "eat",
+                    "drink"
+                  ],
+                  "correct": 1
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "q",
+            "type": "multiple-choice",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "ดื่ม",
+                  "choices": [
+                    "eat",
+                    "drink"
+                  ],
+                  "correct": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "removes an exercise",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "gf"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "removes every exercise",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc"
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "gf"
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "wo"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "moves the first exercise last",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "mc",
+            "to": 2
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "moves the last exercise first",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "wo",
+            "to": 0
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "moves an exercise to where it is",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "gf",
+            "to": 1
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "sets a title",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "title",
+            "value": "ข้าว"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "title": "ข้าว",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "replaces a title",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "Food"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "Food",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "removes a title",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "removes instructions an exercise doesn't have",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "instructions",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "replaces a payload",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "wo",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "ฉัน",
+                    "กิน"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "ฉัน",
+                    "กิน"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "sets a payload a draft may hold: blank texts and missing fields",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "gf",
+            "payload": {
+              "items": [
+                {
+                  "sentence": " ",
+                  "answers": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                {
+                  "sentence": " ",
+                  "answers": []
+                }
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "adds, then removes, leaving the content as it was",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 1
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "new"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "edits exercises with ids __proto__, constructor and toString as ordinary ids",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "constructor",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 1
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "toString",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 2
+          },
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "__proto__",
+            "to": 5
+          },
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "constructor",
+            "field": "title",
+            "value": "c"
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "toString"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "constructor",
+            "type": "free-form",
+            "title": "c",
+            "payload": {}
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "__proto__",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "keeps __proto__, constructor and toString in a payload as data",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": {
+              "__proto__": {
+                "x": 1
+              },
+              "constructor": "a",
+              "toString": 5
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "__proto__": {
+                "x": 1
+              },
+              "constructor": "a",
+              "toString": 5
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "takes a title of 2,000 emoji: the limit counts code points",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "takes a payload text of 10 emoji under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": {
+              "note": "😀😀😀😀😀😀😀😀😀😀"
+            }
+          }
+        ],
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "note": "😀😀😀😀😀😀😀😀😀😀"
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "takes a title of 10 emoji, 20 UTF-16 units, under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "😀😀😀😀😀😀😀😀😀😀"
+          }
+        ],
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "😀😀😀😀😀😀😀😀😀😀",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "refuses a command without a type",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a type that isn't text",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": 1
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a command that isn't an object",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          [
+            "learn.removeExercise",
+            "mc"
+          ]
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses an unknown command",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.renameExercise",
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-command"
+        }
+      }
+    },
+    {
+      "name": "refuses another SDK's command",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "audio.setGain",
+            "key": "a",
+            "gainDb": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a command type named __proto__",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "__proto__"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-command"
+        }
+      }
+    },
+    {
+      "name": "refuses an unknown field",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc",
+            "force": true
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a __proto__ field in a command",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc",
+            "__proto__": {}
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a constructor field in an added exercise",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {},
+              "constructor": 1
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a missing field",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a blank id",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": " "
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a position that isn't whole",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "mc",
+            "to": 0.5
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a negative position",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": -1
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses setting an id as text",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "id",
+            "value": "x"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a blank title: removing one takes null",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "  "
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a payload that isn't an object",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": [
+              "x"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a null payload",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": null
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses an added exercise without a payload",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form"
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "refuses a command for an exercise that doesn't exist",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "nope"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-exercise"
+        }
+      }
+    },
+    {
+      "name": "refuses an id only Object.prototype has",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "hasOwnProperty",
+            "field": "title",
+            "value": "x"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-exercise"
+        }
+      }
+    },
+    {
+      "name": "refuses an id that's taken",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "duplicate-id"
+        }
+      }
+    },
+    {
+      "name": "refuses a second exercise with the id __proto__",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "duplicate-id"
+        }
+      }
+    },
+    {
+      "name": "refuses a type the host didn't register",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "essay",
+              "payload": {}
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-type"
+        }
+      }
+    },
+    {
+      "name": "refuses an addition past the end",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 4
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "position-out-of-range"
+        }
+      }
+    },
+    {
+      "name": "refuses a move past the end",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "mc",
+            "to": 3
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "position-out-of-range"
+        }
+      }
+    },
+    {
+      "name": "refuses a command after a removal that makes it point nowhere",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "wo"
+          },
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "mc",
+            "to": 2
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "position-out-of-range"
+        }
+      }
+    },
+    {
+      "name": "refuses a title of 2,001 emoji",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "text-too-long"
+        }
+      }
+    },
+    {
+      "name": "refuses a payload text of 11 emoji under a limit of 10, however deep",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": {
+              "a": [
+                {
+                  "b": "😀😀😀😀😀😀😀😀😀😀😀"
+                }
+              ]
+            }
+          }
+        ],
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "text-too-long"
+        }
+      }
+    },
+    {
+      "name": "refuses a payload key of 11 emoji under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "mc",
+            "payload": {
+              "😀😀😀😀😀😀😀😀😀😀😀": 1
+            }
+          }
+        ],
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "text-too-long"
+        }
+      }
+    },
+    {
+      "name": "refuses a title of 11 emoji under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "mc",
+            "field": "title",
+            "value": "😀😀😀😀😀😀😀😀😀😀😀"
+          }
+        ],
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "text-too-long"
+        }
+      }
+    },
+    {
+      "name": "refuses an addition past maxExercises",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "new",
+              "type": "free-form",
+              "payload": {}
+            },
+            "at": 0
+          }
+        ],
+        "limits": {
+          "maxExercises": 3
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "too-many-exercises"
+        }
+      }
+    },
+    {
+      "name": "generated commands applied 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "gf"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "wo"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "title",
+            "value": "ก\n  ﻿"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "title": "ก\n  ﻿",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "gf",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "",
+                  "answers": [
+                    " ",
+                    " a"
+                  ],
+                  "options": [
+                    "　\na\n\n"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "",
+                  "answers": [
+                    " ",
+                    " a"
+                  ],
+                  "options": [
+                    "　\na\n\n"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "gf",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "﻿　﻿"
+                  ],
+                  "alternatives": [
+                    [
+                      "_\na 😀",
+                      "ก_　_"
+                    ],
+                    [
+                      "a  \n﻿",
+                      "a _　 ",
+                      "﻿a"
+                    ]
+                  ],
+                  "translation": "_\n﻿"
+                },
+                {
+                  "tiles": [
+                    "_ก"
+                  ],
+                  "translation": "\n"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "﻿　﻿"
+                  ],
+                  "alternatives": [
+                    [
+                      "_\na 😀",
+                      "ก_　_"
+                    ],
+                    [
+                      "a  \n﻿",
+                      "a _　 ",
+                      "﻿a"
+                    ]
+                  ],
+                  "translation": "_\n﻿"
+                },
+                {
+                  "tiles": [
+                    "_ก"
+                  ],
+                  "translation": "\n"
+                }
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "title": " 😀",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": {
+                  "(>X(q#Jf>n": ")D;",
+                  "": null,
+                  "<CE[4%": null,
+                  "bih": -2.088684253563736e+35,
+                  "c>qlnnW{L": 3.755896239323209e-35,
+                  "i8\"* 4\"S": true,
+                  "vvr": "I7*CpjT"
+                }
+              }
+            },
+            "at": 2
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "__proto__",
+            "type": "multiple-choice",
+            "title": " 😀",
+            "payload": {
+              "questions": {
+                "(>X(q#Jf>n": ")D;",
+                "": null,
+                "<CE[4%": null,
+                "bih": -2.088684253563736e+35,
+                "c>qlnnW{L": 3.755896239323209e-35,
+                "i8\"* 4\"S": true,
+                "vvr": "I7*CpjT"
+              }
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "gf",
+            "to": 0
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "instructions",
+            "value": "\n  \na"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "instructions": "\n  \na",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "instructions",
+            "value": "_😀"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "instructions": "_😀",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "gf"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "wo",
+            "payload": {
+              "M": true,
+              ";": true,
+              "Nu|to": "uc",
+              "}lEH$R": -9.783058469813792e+184,
+              "4mJgii": null,
+              "<weL4noZ": "yOV'c/",
+              "mE#0%I;": true,
+              "D;UnLq": [
+                2.6874174675663293e+107,
+                "U}Fb'b",
+                true,
+                7.17171687225266e-280,
+                -67119642720522170
+              ],
+              "y": false
+            }
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {
+              "M": true,
+              ";": true,
+              "Nu|to": "uc",
+              "}lEH$R": -9.783058469813792e+184,
+              "4mJgii": null,
+              "<weL4noZ": "yOV'c/",
+              "mE#0%I;": true,
+              "D;UnLq": [
+                2.6874174675663293e+107,
+                "U}Fb'b",
+                true,
+                7.17171687225266e-280,
+                -67119642720522170
+              ],
+              "y": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands applied 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "instructions",
+            "value": " \n__"
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "free-form",
+            "title": "อาหาร",
+            "payload": {
+              "level": 1
+            }
+          },
+          {
+            "id": "gf",
+            "type": "free-form",
+            "instructions": " \n__",
+            "payload": {
+              "items": [
+                "ข้าว"
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated commands refused 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "__proto__",
+            "payload": {
+              "items": []
+            },
+            "__proto__": {
+              "": {},
+              ".b7]": {
+                "#": true
+              },
+              "b11s|vb!": [
+                true,
+                "/F4[:\"`~]+",
+                null,
+                "2]fV[Ix"
+              ]
+            }
+          },
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": " ",
+            "field": "id",
+            "value": null
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": [],
+            "value": "😀_　😀😀"
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "😀ก_",
+                    "answers": [
+                      "\n　ก ﻿",
+                      " ﻿"
+                    ],
+                    "options": [
+                      "\n\n",
+                      "　"
+                    ],
+                    "translation": "😀a"
+                  }
+                ]
+              }
+            },
+            "at": 2
+          },
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "id",
+            "value": " \n"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": " ",
+            "to": 2
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "title": "﻿a　 ",
+              "type": "gap-fill",
+              "payload": {
+                "items": []
+              }
+            },
+            "at": 2
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "wo",
+              "title": "😀😀_",
+              "type": "free-form",
+              "payload": [
+                true,
+                4.7883499010047596e+241,
+                false,
+                null,
+                -5.849130184443055e+162
+              ]
+            },
+            "at": 4
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "__proto__"
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "toString"
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "__proto__",
+              "title": "😀_",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  {
+                    "2": "k`",
+                    "dm#7k": false,
+                    "v$}l\\": false,
+                    "p": null,
+                    "|u)=~B+M\\(": "%+;'",
+                    "": true,
+                    "(oKN;L.d)~": null,
+                    "Z<d]B$b": 1.5902548040730756e-171,
+                    "$}#YZ3D": true
+                  },
+                  {
+                    "prompt": "  ﻿\n﻿",
+                    "choices": [
+                      "ก😀",
+                      " 　 "
+                    ],
+                    "correct": 3,
+                    "explanation": "﻿a 😀"
+                  }
+                ]
+              }
+            },
+            "at": 4
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-exercise"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": [
+              {
+                "(NUFwvM=g": true,
+                "x:1^": true,
+                "@e3Z<<": "os",
+                "T I;_rF9n": null,
+                "ot4Y": " ?pv",
+                "Y]": ">",
+                "": "yrO\"\\DRir",
+                "vt": 1.4624881367643771e-74
+              },
+              {
+                "uN@S4L.H": -3.692198733384721e-49,
+                "K^N-fi": null,
+                "5k`2#_h(": ":",
+                "W5rA~Jz.x": false,
+                "Z": ".Wr"
+              }
+            ],
+            "exerciseId": "new"
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "gf"
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "gf",
+            "payload": [
+              3.9184489691259e-99,
+              null,
+              "?@Q:Z}]_dQ",
+              false,
+              3.209777602141542e-82,
+              "t2M?e{,",
+              false,
+              "R<o]+h",
+              ".R$R/"
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "toString",
+            "to": 0
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "__proto__",
+            "toString": [
+              "%X3dR",
+              null,
+              -1.6653720702516506e-55,
+              false,
+              "`JFA",
+              null
+            ]
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": " ",
+              "title": "　a\n",
+              "type": "free-form",
+              "payload": {
+                "I^*}5pE": true,
+                "G": 2.486830527625732e-245,
+                "5fo": false,
+                "2#R(W": -1.1544764162793745e-66,
+                "e(": true,
+                "AH`kMy&j": -6.463305043625806e-243,
+                ";O.le": null,
+                "10[Y": 2.2040212197203344e+145,
+                "du{0ek^kr$": 1.2736683682521355e+292
+              }
+            },
+            "at": 0
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-exercise"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": true,
+            "exerciseId": "new"
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "__proto__",
+            "payload": [
+              {
+                ">w(,mX~Dx": {
+                  "": "",
+                  "b`.6CJ(<": null,
+                  "sMF\\Ljsf71": false,
+                  "A&": -8.146652948787886e-107,
+                  "HCq|": "2I?:sg>qj[",
+                  "FH&#n/x:q": "~3",
+                  "<>": 4.654807082723462e+303,
+                  "E": 8.148233349970486e+219,
+                  "|": null
+                },
+                "[;}M/": "gR+XS\\yK",
+                "e}": {
+                  ";?V5T.@": false,
+                  "aau)J:W": false,
+                  "FR8f]c&[r": false
+                }
+              },
+              true,
+              5.1232907001820765e-303,
+              null,
+              "@Qhxi6",
+              -2.269535421746608e-179
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setExerciseText",
+            "exerciseId": "gf",
+            "field": "title",
+            "value": "😀　😀ก"
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": " ",
+              "title": "\n_\n ﻿",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "_กaa　",
+                    "choices": [
+                      " กa",
+                      "a",
+                      "   😀"
+                    ],
+                    "correct": 3
+                  }
+                ]
+              }
+            },
+            "at": 1,
+            "extra": {
+              "xaeHhw": -1.811918558185736e-280,
+              "iTe#(": 5.603558861507447e+206,
+              "ZA": false,
+              "R": "x)uIJ",
+              ":=": 3.3716361676759342e-180,
+              "(hj4OU-9T0": "MN&1<.Czm"
+            }
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "toString",
+            "payload": {
+              "rju.(WZ": false,
+              "A;Q?D?;": 1.5951666677436558e-283,
+              "dw<#5": true,
+              "P>6_": "%w",
+              "": "g2=~i{@i",
+              "3tKZn[+t": null,
+              "j?HunS`": "Xi0",
+              "e<:iS(5w$": null,
+              "'P[66ShH?": true
+            }
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.addExercise",
+            "exercise": [
+              null,
+              8.724533064160936e+107,
+              null,
+              "d6+|a%^q",
+              -13889013253809522
+            ],
+            "at": 1.5
+          },
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "mc"
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": " ",
+            "payload": {
+              "S3PK#Q4gD": 7.89809495417798e+38,
+              "MS": null,
+              "4g^S": false,
+              "": null,
+              "Ti*4E'`": "lme~-",
+              "/": null
+            }
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": [
+              [
+                "x\\gy",
+                1.156249307521379e-204,
+                null,
+                false,
+                true,
+                12116132052834.49,
+                true,
+                null
+              ]
+            ],
+            "exerciseId": "mc"
+          },
+          {
+            "type": {
+              "YuDtT": -5.77068064452749e+298,
+              "|b!\"": "|N:x!2Sq",
+              "B2j|": "jsvFN_BIlC",
+              "'qH": 5.435418464958997e+261,
+              "A:|jYd/": -3.962683812436762e+255,
+              "@N{q?kQ": "",
+              ":ah<>": 2.046447734981011e-247,
+              "uM/Eu": null,
+              "Qw": true
+            },
+            "exerciseId": "gf"
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "mc",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "  ___",
+                    "answers": [],
+                    "translation": " "
+                  },
+                  {
+                    "sentence": "😀_😀　",
+                    "answers": [
+                      ""
+                    ],
+                    "options": [
+                      "😀  ",
+                      "a😀ก",
+                      " 　 😀"
+                    ],
+                    "translation": "\nก😀"
+                  }
+                ]
+              }
+            },
+            "at": 1.5,
+            "toString": [
+              {
+                "}22)/": "",
+                "H?Vh`>": null,
+                "af+aDFAy+": "sK$6'D3h52",
+                "Kf#wJ)mT": false,
+                "T? \\7o": "lO\\2",
+                "a`@XWh": 4.876320632702576e+89,
+                "r'%j/st=^=": null
+              },
+              [
+                null
+              ],
+              null
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.removeExercise",
+            "exerciseId": "toString"
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "wo",
+            "payload": {
+              "Pq'=4>z1": -2.6369507323567986e+213,
+              "MoLZ&R]": {
+                "Cwi3^.4": null,
+                "cC0.a": "|8",
+                "e": 1421261168084498,
+                "AhQlF\\x": "\"i&#PYE\">8",
+                "r@z<": null
+              },
+              "HS-YvJ": []
+            }
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": " ",
+              "title": "_\n_ 😀",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": []
+              },
+              "toString": {
+                "$": "+&GaBJ3",
+                "%!<E<>A": -6.199481575380155e-53,
+                "6^<kC": {
+                  "O:M<pJ": true,
+                  "XruY5wEQ|=": "Sap}2iEG\\;",
+                  "\\VzMba": -6.275056075789498e+251,
+                  "r": true,
+                  "tFT=>(*": 3.147773468645326e+220,
+                  "8|nTfAAf>": "",
+                  "O1": false
+                }
+              }
+            },
+            "at": -1
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "unknown-exercise"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": [
+              false,
+              true,
+              false,
+              true,
+              "*yKlk-Nk",
+              9.042957253268056e-241,
+              null,
+              null
+            ],
+            "exerciseId": "toString",
+            "to": 4
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "gf",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "　_　_﻿",
+                  "answers": [
+                    "\n"
+                  ]
+                },
+                {
+                  "sentence": "   \n",
+                  "answers": [
+                    " _ก﻿"
+                  ],
+                  "options": [
+                    "😀 ก",
+                    "﻿"
+                  ],
+                  "translation": ""
+                }
+              ]
+            }
+          },
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "toString",
+            "to": -1
+          },
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "toString",
+            "payload": {
+              "questions": []
+            },
+            "format": false
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    },
+    {
+      "name": "generated commands refused 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "free-form",
+              "payload": {
+                "level": 1
+              },
+              "title": "อาหาร"
+            },
+            {
+              "id": "gf",
+              "type": "free-form",
+              "payload": {
+                "items": [
+                  "ข้าว"
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        },
+        "commands": [
+          {
+            "type": "learn.setPayload",
+            "exerciseId": "wo",
+            "payload": false
+          },
+          {
+            "type": "learn.moveExercise",
+            "exerciseId": "toString",
+            "to": -1,
+            "constructor": [
+              9.713202028386574e+224,
+              null,
+              null,
+              true,
+              null,
+              -3.2237335652118716e-155,
+              -5.8812411875105224e+84,
+              true
+            ]
+          },
+          {
+            "type": "learn.addExercise",
+            "exercise": {
+              "id": "gf",
+              "title": "﻿ ",
+              "type": "gap-fill",
+              "payload": {
+                "items": {
+                  "f": null,
+                  "*,oD)D?": -2.0860355465093826e-37,
+                  "o`NC": 4.348704582026825e-152,
+                  "KbQs(L": "X6Cd9!j",
+                  "~?KE2N@NX": null,
+                  "": -1.0132910012108207e+148,
+                  "n}Epf9t)": null,
+                  "SXD5a0s/": null
+                }
+              }
+            },
+            "at": 3
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_COMMAND",
+          "reason": "malformed-command"
+        }
+      }
+    }
+  ]
+}

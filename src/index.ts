@@ -19,7 +19,7 @@ export type {
 } from "./adapters/local-progress/local-progress.js";
 export { createLocalProgressStore } from "./adapters/local-progress/local-progress.js";
 export { createMemoryProgressStore } from "./adapters/memory-progress/memory-progress.js";
-export type { LearnErrorCode } from "./core/errors/learn-error.js";
+export type { LearnCommandRejection, LearnErrorCode } from "./core/errors/learn-error.js";
 export { isLearnError, LearnError } from "./core/errors/learn-error.js";
 export type { LearnIssue, LearnIssueCode } from "./core/errors/learn-issues.js";
 export { MAX_ISSUE_KEY_LENGTH } from "./core/errors/learn-issues.js";
@@ -31,6 +31,16 @@ export type {
 } from "./core/errors/learn-limits.js";
 export { learnLimitDefinitions, learnLimits } from "./core/errors/learn-limits.js";
 export { accessibleCourses, canAccessCourse } from "./core/model/access.js";
+export type {
+  AddExerciseCommand,
+  ContentDraft,
+  LearnCommand,
+  MoveExerciseCommand,
+  RemoveExerciseCommand,
+  SetExerciseTextCommand,
+  SetPayloadCommand,
+} from "./core/model/commands.js";
+export { COMMANDS_FORMAT } from "./core/model/commands.js";
 export type { Content, Exercise, Grade } from "./core/model/content.js";
 export { CONTENT_FORMAT, CONTENT_VERSION } from "./core/model/content.js";
 export type {
@@ -67,6 +77,11 @@ export type {
   OptionalOption,
   ValidationContext,
 } from "./core/model/validation-context.js";
+export type {
+  AppliedLearnCommand,
+  ApplyLearnCommandOptions,
+} from "./core/operations/apply-command.js";
+export { applyLearnCommand } from "./core/operations/apply-command.js";
 export type { GradeAnswerOptions } from "./core/operations/grade-answer.js";
 export { gradeAnswer } from "./core/operations/grade-answer.js";
 export type { ParseContentOptions } from "./core/operations/parse-content.js";
@@ -75,6 +90,13 @@ export type { AudioSource } from "./core/ports/audio-source.js";
 export type { LearnCallOptions } from "./core/ports/options.js";
 export type { ProgressStore } from "./core/ports/progress-store.js";
 export type { Scheduler } from "./core/ports/scheduler.js";
+export type {
+  LearnEditor,
+  LearnEditorEvent,
+  LearnEditorOptions,
+  LearnEditorSnapshot,
+} from "./core/session/editor.js";
+export { createLearnEditor } from "./core/session/editor.js";
 export type { LoadClipOptions } from "./core/session/load-clip.js";
 export { loadClip } from "./core/session/load-clip.js";
 export type {
@@ -89,6 +111,17 @@ export type {
   PlayerSummary,
 } from "./core/session/player.js";
 export { createLearnPlayer } from "./core/session/player.js";
+export type {
+  LearnEditorTool,
+  LearnEditorToolContext,
+  LearnEditorToolState,
+} from "./features/editor/editor-tools.js";
+export {
+  learnEditorTools,
+  redoTool,
+  removeExerciseTool,
+  undoTool,
+} from "./features/editor/editor-tools.js";
 export type { GapFillAnswer, GapFillItem, GapFillPayload } from "./features/gap-fill/gap-fill.js";
 export { gapFill, splitAtGap } from "./features/gap-fill/gap-fill.js";
 export type {
