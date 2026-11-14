@@ -24,6 +24,20 @@ export default defineConfig(({ mode }) => {
           },
         },
         {
+          // Every package the browser tests import, optimised once before any
+          // test starts, so a later file's new import doesn't make Vite
+          // optimise again and reload the page mid-run.
+          optimizeDeps: {
+            include: [
+              "@hussmartinez/sdk-core",
+              "@hussmartinez/ui",
+              "@hussmartinez/ui/react",
+              "axe-core",
+              "react",
+              "react/jsx-dev-runtime",
+              "react-dom/client",
+            ],
+          },
           test: {
             name: "browser",
             include: ["src/**/*.browser.test.{ts,tsx}", "test/**/*.browser.test.ts"],

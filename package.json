@@ -103,6 +103,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitest/browser-playwright": "catalog:",
+    "axe-core": "catalog:",
     "dependency-cruiser": "catalog:",
     "fast-check": "catalog:",
     "husky": "catalog:",

@@ -4,4 +4,283 @@
 
 ```ts
 
+import type { Announce } from '@hussmartinez/ui/react';
+import type { ComponentType } from 'react';
+import { FilePolicyOverrides } from '@hussmartinez/sdk-core';
+import { ForwardRefExoticComponent } from 'react';
+import { MessageOverrides } from '@hussmartinez/sdk-core';
+import { Messages } from '@hussmartinez/sdk-core';
+import { RefAttributes } from 'react';
+import { SdkCoreErrorCode } from '@hussmartinez/sdk-core';
+import { SdkError } from '@hussmartinez/sdk-core';
+
+// @public
+export function definePlayerBlock<Payload, Answer>(block: ComponentType<PlayerBlockProps<Payload, Answer>>): PlayerBlock;
+
+// @public
+export const GapFillPlayer: PlayerBlock;
+
+// @public
+export const LearnPlayer: ForwardRefExoticComponent<LearnPlayerProps & RefAttributes<LearnPlayerHandle>>;
+
+// @public
+export interface LearnPlayerHandle {
+    check(): void;
+    next(): void;
+    reset(): void;
+}
+
+// @public
+export type LearnPlayerMessageOverrides = MessageOverrides<typeof playerCatalogue>;
+
+// @public
+export type LearnPlayerMessages = Messages<typeof playerCatalogue>;
+
+// @public
+export interface LearnPlayerProps {
+    readonly blocks?: Readonly<Record<string, PlayerBlock>>;
+    // (undocumented)
+    readonly className?: string;
+    readonly content: unknown;
+    // Warning: (ae-forgotten-export) The symbol "LearnLimitOverrides" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly limits?: LearnLimitOverrides;
+    // (undocumented)
+    readonly locale?: string;
+    // (undocumented)
+    readonly messages?: LearnPlayerMessageOverrides;
+    // Warning: (ae-forgotten-export) The symbol "LearnError" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly onError?: (error: LearnError) => void;
+    // Warning: (ae-forgotten-export) The symbol "LearnPlayerEvent" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly onEvent?: (event: LearnPlayerEvent) => void;
+    // Warning: (ae-forgotten-export) The symbol "ProgressChange" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly onProgress?: (change: ProgressChange) => void;
+    // Warning: (ae-forgotten-export) The symbol "LanguageProfile" needs to be exported by the entry point react.d.ts
+    readonly profile?: LanguageProfile;
+    // Warning: (ae-forgotten-export) The symbol "ProgressStore" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly progressStore?: ProgressStore;
+    // Warning: (ae-forgotten-export) The symbol "Scheduler_2" needs to be exported by the entry point react.d.ts
+    //
+    // (undocumented)
+    readonly scheduler?: Scheduler_2;
+    // (undocumented)
+    readonly scope?: string;
+    // Warning: (ae-forgotten-export) The symbol "ExerciseTypes" needs to be exported by the entry point react.d.ts
+    readonly types?: ExerciseTypes;
+}
+
+// @public
+export const MultipleChoicePlayer: PlayerBlock;
+
+// @public
+export type PlayerBlock = ComponentType<PlayerBlockProps>;
+
+// @public
+export interface PlayerBlockProps<Payload = unknown, Answer = unknown> {
+    readonly announce: Announce;
+    readonly answer: Answer | undefined;
+    // Warning: (ae-forgotten-export) The symbol "Exercise" needs to be exported by the entry point react.d.ts
+    readonly exercise: Exercise<Payload>;
+    // Warning: (ae-forgotten-export) The symbol "Grade" needs to be exported by the entry point react.d.ts
+    readonly grade: Grade | null;
+    // (undocumented)
+    readonly messages: LearnPlayerMessages;
+    readonly onAnswer: (answer: Answer) => void;
+    readonly profile: LanguageProfile;
+}
+
+// @public
+export const playerCatalogue: {
+    "dialog.close": "Close";
+    "fileDropZone.choose": "Choose a file";
+    "fileDropZone.chooseMultiple": "Choose files";
+    "fileDropZone.hint": "or drop it here";
+    "fileDropZone.hintMultiple": "or drop them here";
+    "progress.label": "Progress";
+    "spinner.label": "Loading";
+    "errors.INVALID_THEME_TOKEN": "The theme setting {token} has a value that can't be used.";
+    "errors.INVALID_THEME_SELECTOR": "The theme can't be applied to the selector {selector}.";
+    "player.label": "Exercises";
+    "player.position": "Exercise {position, number} of {count, number}";
+    "player.toolbar": "Exercise actions";
+    "player.withKeys": "{label} ({keys})";
+    "player.correct": "Correct";
+    "player.incorrect": "Not quite";
+    "player.skipped": "Skipped";
+    "player.result": "{score, number} of {max, number} right";
+    "player.summary": "Finished: {score, number} of {max, number} right.";
+    "player.summarySkipped": {
+        readonly $plural: "count";
+    } & {
+        readonly one: "You skipped {count} exercise.";
+        readonly other: "You skipped {count, number} exercises.";
+    };
+    "player.unsupported": "This exercise can't be shown here.";
+    "player.saveFailed": "Your progress isn't saved yet.";
+    "player.retrySave": "Try saving again";
+    "multipleChoice.choices": "Choices for question {number, number}";
+    "multipleChoice.rightAnswer": "Right answer: {answer}";
+    "gapFill.gap": "Gap {number, number}";
+    "gapFill.options": "Choices for gap {number, number}";
+    "gapFill.rightAnswer": "Right answer: {answer}";
+    "wordOrder.answer": "Your sentence {number, number}";
+    "wordOrder.bank": "Words for sentence {number, number}";
+    "wordOrder.hint": "Choose the words in order. To move a chosen word, press Alt with an arrow key.";
+    "wordOrder.placed": "{tile} placed, {position, number} of {count, number}";
+    "wordOrder.returned": "{tile} returned to the words";
+    "wordOrder.moved": "{tile} moved to {position, number} of {count, number}";
+    "wordOrder.rightAnswer": "Right answer: {answer}";
+    "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.";
+    "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.";
+    "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
+    "errors.INVALID_COMMAND": "This change couldn't be made. Please try again.";
+    "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
+    "errors.UNSUPPORTED_SCHEDULING_STATE": "Your review schedule was saved by another version of the app. It will start again from today.";
+    "errors.STORAGE_UNAVAILABLE": "Your progress couldn't be saved on this device. Its storage may be full or turned off.";
+    "errors.CONTENT_TOO_LARGE": "This content is {actual, fileSize}, which is over the {maximum, fileSize} limit. Split it into smaller sets.";
+    "errors.TOO_MANY_EXERCISES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A set can have {maximum} exercise. Split the content into smaller sets.";
+        readonly other: "A set can have up to {maximum, number} exercises. Split the content into smaller sets.";
+    };
+    "errors.TOO_MANY_ITEMS": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "An exercise can have {maximum} item. Split it into smaller exercises.";
+        readonly other: "An exercise can have up to {maximum, number} items. Split it into smaller exercises.";
+    };
+    "errors.TOO_MANY_CHOICES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A question can have {maximum} choice.";
+        readonly other: "A question can have up to {maximum, number} choices.";
+    };
+    "errors.TOO_MANY_TILES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A sentence can have {maximum} word to put in order.";
+        readonly other: "A sentence can have up to {maximum, number} words to put in order.";
+    };
+    "errors.TEXT_TOO_LONG": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "A text can be {maximum} character long. Shorten it, then try again.";
+        readonly other: "A text can be up to {maximum, number} characters long. Shorten it, then try again.";
+    };
+    "errors.FILE_TOO_LARGE": "This recording is {actual, fileSize}, which is over the {maximum, fileSize} limit.";
+    "warnings.maxFileSize": "This recording is {actual, fileSize}, and may be slow to load.";
+    "warnings.maxContentSize": "This content is {actual, fileSize}, and may be slow to open.";
+    "warnings.maxExercises": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This set has {actual} exercise.";
+        readonly other: "This set has {actual, number} exercises, and may be slow to open.";
+    };
+    "warnings.maxItems": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This exercise has {actual} item.";
+        readonly other: "This exercise has {actual, number} items, and may be long to answer.";
+    };
+    "warnings.maxChoices": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This question has {actual} choice.";
+        readonly other: "This question has {actual, number} choices, and may be hard to read on a phone.";
+    };
+    "warnings.maxTiles": {
+        readonly $plural: "actual";
+    } & {
+        readonly one: "This sentence has {actual} word to put in order.";
+        readonly other: "This sentence has {actual, number} words to put in order, and may be hard on a phone.";
+    };
+    "warnings.maxTextLength": "This text is long, and may be hard to read on a phone.";
+    "validation.required": "This is required.";
+    "validation.unknown-field": "This field isn't part of the content format. Remove it, or check its spelling.";
+    "validation.not-data": "This field must hold a plain value, not one that's computed.";
+    "validation.expected-object": "This should be a group of fields.";
+    "validation.expected-list": "This should be a list.";
+    "validation.expected-text": "This should be text.";
+    "validation.expected-whole-number": "This should be a whole number, 0 or more.";
+    "validation.expected-yes-no": "This should be yes or no.";
+    "validation.empty-text": "This can't be empty.";
+    "validation.too-few": {
+        readonly $plural: "minimum";
+    } & {
+        readonly one: "Add at least {minimum} entry.";
+        readonly other: "Add at least {minimum, number} entries.";
+    };
+    "validation.out-of-range": "This points to an entry that doesn't exist.";
+    "validation.duplicate-id": "Another exercise already uses this id.";
+    "validation.unknown-type": "This exercise type isn't available here.";
+    "validation.duplicate-choice": "Another choice already says the same. Make each choice different.";
+    "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___";
+    "validation.answer-not-in-options": "None of the choices is an accepted answer. Add the answer to the choices.";
+    "validation.not-a-permutation": "Use every word exactly once, in any order.";
+    "tools.check": "Check";
+    "tools.next": "Next";
+    "tools.previous": "Previous";
+    "tools.retry": "Try again";
+    "tools.skip": "Skip";
+    "tools.undo": "Undo";
+    "tools.redo": "Redo";
+    "tools.remove-exercise": "Remove exercise";
+    "errors.UNKNOWN": "Something went wrong. Please try again.";
+    "errors.ABORTED": "The operation was cancelled.";
+    "errors.TIMEOUT": "The operation took too long and was stopped.";
+    "errors.WORKER_START_FAILED": "The file processor couldn't start. Reload the page and try again.";
+    "errors.WORKER_PROTOCOL_MISMATCH": "The file processor is out of date. Reload the page to update it.";
+    "errors.WORKER_CRASHED": "The file processor stopped unexpectedly. Please try again.";
+    "errors.WORKER_TERMINATED": "The operation was stopped before it finished. Please try again.";
+    "errors.WORKER_METHOD_NOT_FOUND": "This operation isn't available. Reload the page and try again.";
+    "errors.WORKER_DATA_NOT_CLONEABLE": "Something went wrong while processing the file. Please try again.";
+    "errors.UNSUPPORTED_ENVIRONMENT": "This browser doesn't support a feature this tool needs. Update your browser, or try another one.";
+    "errors.TOO_MANY_FILES": {
+        readonly $plural: "maximum";
+    } & {
+        readonly one: "You can add {maximum} file at a time.";
+        readonly other: "You can add up to {maximum} files at a time.";
+    };
+    "errors.DECODED_SIZE_TOO_LARGE": "This file expands to more than {maximum, fileSize} when opened, which is over the limit.";
+    "errors.PROCESSING_TIME_EXCEEDED": "Processing this file took too long and was stopped.";
+    "warnings.maxFiles": "Adding {actual} files at once may be slow.";
+    "warnings.maxDecodedSize": "This file is very large once opened and may be slow to process.";
+    "warnings.maxProcessingTime": "This is taking longer than usual.";
+    "keys.control": "Ctrl";
+    "keys.alt": "Alt";
+    "keys.shift": "Shift";
+    "keys.meta": "Meta";
+    "keys.apple.control": "\u2303";
+    "keys.apple.alt": "\u2325";
+    "keys.apple.shift": "\u21E7";
+    "keys.apple.meta": "\u2318";
+    "keys.space": "Space";
+    "keys.enter": "Enter";
+    "keys.escape": "Esc";
+    "keys.tab": "Tab";
+    "keys.delete": "Delete";
+    "keys.backspace": "Backspace";
+    "keys.arrowUp": "\u2191";
+    "keys.arrowDown": "\u2193";
+    "keys.arrowLeft": "\u2190";
+    "keys.arrowRight": "\u2192";
+    "keys.home": "Home";
+    "keys.end": "End";
+    "keys.pageUp": "Page Up";
+    "keys.pageDown": "Page Down";
+};
+
+// @public
+export const WordOrderPlayer: PlayerBlock;
+
 ```

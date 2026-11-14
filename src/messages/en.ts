@@ -8,7 +8,8 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  * for every {@link LearnErrorCode}, every limit's warning and every
  * {@link LearnIssueCode}. Pass it to `createMessages` from
  * `@hussmartinez/sdk-core`, with the host's locale and overrides. It also
- * labels the player's and editor's tools (`tools.<action>`).
+ * labels the player's and editor's tools (`tools.<action>`). The player's
+ * own text is in `playerCatalogue`, from `@hussmartinez/learn-sdk/react`.
  *
  * Error text is looked up by code, with the error's `details` as
  * parameters, and never taken from `error.message` (ADR 0019). Issue text
