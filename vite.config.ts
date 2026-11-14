@@ -24,6 +24,7 @@ export const entries = {
   index: "src/index.ts",
   react: "src/react.ts",
   element: "src/element.ts",
+  testing: "src/testing.ts",
   styles: "src/styles.css",
 } as const;
 

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { schedulerContract } from "../../../test/contracts/scheduler.contract.js";
 import { isLearnError } from "../../core/errors/learn-error.js";
 import type { SchedulingState } from "../../core/model/scheduling.js";
+import { defineSchedulerContract } from "../../testing/scheduler-contract.js";
 import { createFsrsScheduler } from "./fsrs-scheduler.js";
 
-schedulerContract("createFsrsScheduler", () => createFsrsScheduler());
+defineSchedulerContract("createFsrsScheduler", () => createFsrsScheduler(), { describe, it });
 
 const NOW = Date.UTC(2026, 0, 1);
 

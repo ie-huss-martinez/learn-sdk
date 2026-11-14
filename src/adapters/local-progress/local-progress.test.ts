@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { progressStoreContract } from "../../../test/contracts/progress-store.contract.js";
 import { isLearnError } from "../../core/errors/learn-error.js";
 import type { ProgressChange } from "../../core/model/progress.js";
+import { defineProgressStoreContract } from "../../testing/progress-store-contract.js";
 import { createLocalProgressStore, type ProgressStorage } from "./local-progress.js";
 
 /** An in-memory Web Storage stand-in, for the unit project, which has no DOM. */
@@ -15,8 +15,10 @@ function memoryStorage(): ProgressStorage & { readonly data: Map<string, string>
   };
 }
 
-progressStoreContract("createLocalProgressStore", () =>
-  createLocalProgressStore({ namespace: "test", storage: memoryStorage() }),
+defineProgressStoreContract(
+  "createLocalProgressStore",
+  () => createLocalProgressStore({ namespace: "test", storage: memoryStorage() }),
+  { describe, it },
 );
 
 const attempt: ProgressChange = {

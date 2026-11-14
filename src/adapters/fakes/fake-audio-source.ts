@@ -2,7 +2,7 @@ import { throwIfAborted } from "../../core/errors/error-helpers.js";
 import type { AudioSource } from "../../core/ports/audio-source.js";
 
 /**
- * An {@link AudioSource} for tests: serves the clips it was given, by
+ * An `AudioSource` (from `@hussmartinez/learn-sdk`) for tests: serves the clips it was given, by
  * reference, and `null` for any other reference. It never touches the
  * network.
  *

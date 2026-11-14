@@ -24,7 +24,7 @@ const state = (card: FakeCard): SchedulingState => ({
 });
 
 /**
- * A {@link Scheduler} for tests and demos: simple, fixed intervals that
+ * A `Scheduler` (from `@hussmartinez/learn-sdk`) for tests and demos: simple, fixed intervals that
  * double with each review (10 minutes for "again", then 1, 3 or 7 days).
  * Deterministic, with no dependencies. Use the FSRS adapter for learners.
  *
