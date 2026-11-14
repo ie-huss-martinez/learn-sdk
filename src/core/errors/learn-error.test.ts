@@ -5,18 +5,18 @@ import { isLearnError, LearnError } from "./learn-error.js";
 describe("LearnError", () => {
   it("carries a code, details and cause, as an SdkError", () => {
     const cause = new SyntaxError("Unexpected token");
-    const error = new LearnError("INVALID_CONTENT", "Content isn't JSON.", {
+    const error = new LearnError("INVALID_DOCUMENT", "Content isn't JSON.", {
       details: { count: 1, issues: [{ path: [], code: "not-json" }] },
       cause,
     });
     expect(error).toBeInstanceOf(SdkError);
     expect(error).toMatchObject({
       name: "LearnError",
-      code: "INVALID_CONTENT",
+      code: "INVALID_DOCUMENT",
       details: { count: 1, issues: [{ path: [], code: "not-json" }] },
       cause,
     });
-    expect(isSdkError(error, "INVALID_CONTENT")).toBe(true);
+    expect(isSdkError(error, "INVALID_DOCUMENT")).toBe(true);
   });
 
   it("keeps its class, code and details when serialised, as a server's grading error is", () => {
@@ -37,13 +37,13 @@ describe("isLearnError", () => {
     const error = new LearnError("AUDIO_UNAVAILABLE", "The audio source returned nothing.");
     expect(isLearnError(error)).toBe(true);
     expect(isLearnError(error, "AUDIO_UNAVAILABLE")).toBe(true);
-    expect(isLearnError(error, "INVALID_CONTENT")).toBe(false);
+    expect(isLearnError(error, "INVALID_DOCUMENT")).toBe(false);
   });
 
   it("rejects other SDK errors and plain values", () => {
     expect(isLearnError(new SdkError("ABORTED", "Stopped."))).toBe(false);
-    expect(isLearnError(new Error("INVALID_CONTENT"))).toBe(false);
-    expect(isLearnError({ name: "LearnError", code: "INVALID_CONTENT", message: "forged" })).toBe(
+    expect(isLearnError(new Error("INVALID_DOCUMENT"))).toBe(false);
+    expect(isLearnError({ name: "LearnError", code: "INVALID_DOCUMENT", message: "forged" })).toBe(
       false,
     );
     expect(isLearnError(undefined)).toBe(false);

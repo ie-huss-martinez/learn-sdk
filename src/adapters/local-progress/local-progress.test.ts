@@ -31,31 +31,39 @@ const attempt: ProgressChange = {
 const KEY = "hm-learn:v1:app:learner%201";
 
 describe("createLocalProgressStore", () => {
-  it("stores under a namespaced, versioned key, in a versioned format", async () => {
+  it("stores an hm-learn-progress document under a namespaced, versioned key", async () => {
     const storage = memoryStorage();
     await createLocalProgressStore({ namespace: "app", storage }).save("learner 1", [attempt]);
     expect([...storage.data.keys()]).toEqual([KEY]);
-    expect(JSON.parse(storage.data.get(KEY) ?? "")).toMatchObject({ version: 1, cards: [] });
+    expect(JSON.parse(storage.data.get(KEY) ?? "")).toMatchObject({
+      format: "hm-learn-progress",
+      version: 1,
+      cards: [],
+    });
   });
 
   it("discards what it can't trust on load, with only the reason, and loads empty", async () => {
-    const valid = JSON.stringify({
-      version: 1,
-      attempts: [{ ...attempt, kind: undefined }],
-      cards: [],
-    });
-    for (const stored of [
-      "{not json",
-      JSON.stringify({ version: 2, attempts: [], cards: [] }),
-      JSON.stringify({ version: 1, attempts: [], cards: [], extra: 1 }),
+    const doc = (fields: Record<string, unknown>) =>
       JSON.stringify({
-        version: 1,
-        attempts: [{ exerciseId: "e", grade: { score: 2, max: 1, items: [] }, at: 1, answer: 1 }],
-        cards: [],
-      }),
-      JSON.stringify({
+        format: "hm-learn-progress",
         version: 1,
         attempts: [],
+        cards: [],
+        ...fields,
+      });
+    const goodAttempt = {
+      exerciseId: "e",
+      answer: 1,
+      grade: { score: 0, max: 1, items: [false] },
+      at: 1_700_000_000_000,
+    };
+    for (const stored of [
+      "{not json",
+      JSON.stringify({ format: "hm-learn-progress", version: 2, attempts: [], cards: [] }),
+      JSON.stringify({ format: "hm-learn-content", version: 1, attempts: [], cards: [] }),
+      doc({ extra: 1 }),
+      doc({ attempts: [{ ...goodAttempt, grade: { score: 2, max: 1, items: [] } }] }),
+      doc({
         cards: [
           {
             itemId: "w",
@@ -64,8 +72,11 @@ describe("createLocalProgressStore", () => {
           },
         ],
       }),
-      JSON.stringify({ version: 1, attempts: "x", cards: [] }),
-      valid.replace('"at":', '"__proto__":{"x":1},"at":'),
+      doc({ attempts: "x" }),
+      doc({ attempts: [goodAttempt] }).replace(
+        '"exerciseId":',
+        '"__proto__":{"x":1},"exerciseId":',
+      ),
     ]) {
       const storage = memoryStorage();
       storage.data.set(KEY, stored);

@@ -32,7 +32,7 @@ export type {
 export { learnLimitDefinitions, learnLimits } from "./core/errors/learn-limits.js";
 export { accessibleCourses, canAccessCourse } from "./core/model/access.js";
 export type { Content, Exercise, Grade } from "./core/model/content.js";
-export { CONTENT_VERSION } from "./core/model/content.js";
+export { CONTENT_FORMAT, CONTENT_VERSION } from "./core/model/content.js";
 export type {
   Course,
   Enrolment,
@@ -45,13 +45,21 @@ export type { ExerciseType, ExerciseTypes } from "./core/model/exercise-type.js"
 export { createExerciseTypes, defineExerciseType } from "./core/model/exercise-type.js";
 export type { LanguageProfile, TextDirection } from "./core/model/language-profile.js";
 export { defaultLanguageProfile, normalizeForGrading } from "./core/model/language-profile.js";
+export type { ParseProgressOptions } from "./core/model/parse-progress.js";
+export { parseProgress } from "./core/model/parse-progress.js";
 export type {
   AttemptRecord,
   CardRecord,
   ProgressChange,
   ProgressSnapshot,
 } from "./core/model/progress.js";
-export { applyProgressChanges, emptyProgress } from "./core/model/progress.js";
+export {
+  applyProgressChanges,
+  emptyProgress,
+  PROGRESS_FORMAT,
+  PROGRESS_VERSION,
+  toProgressDocument,
+} from "./core/model/progress.js";
 export type { Rating, Scheduled, SchedulingState } from "./core/model/scheduling.js";
 export type {
   ListLimit,

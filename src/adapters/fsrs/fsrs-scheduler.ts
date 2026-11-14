@@ -55,9 +55,14 @@ const isTime = (value: unknown): value is number =>
 const isNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value);
 
-function unsupported(given: SchedulingState | undefined, message: string): LearnError {
+function unsupported(
+  given: SchedulingState | undefined,
+  reason: "unknown-scheduler" | "malformed-state",
+  message: string,
+): LearnError {
   return new LearnError("UNSUPPORTED_SCHEDULING_STATE", message, {
     details: {
+      reason,
       ...(typeof given?.scheduler === "string" ? { scheduler: given.scheduler.slice(0, 64) } : {}),
       ...(typeof given?.model === "string" ? { model: given.model.slice(0, 64) } : {}),
       ...(typeof given?.version === "number" && Number.isFinite(given.version)
@@ -70,9 +75,30 @@ function unsupported(given: SchedulingState | undefined, message: string): Learn
 /** Reads a stored card, accepting only data FSRS-7 made: plain numbers, known states, real times. */
 function readCard(given: SchedulingState): FsrsCard {
   if (given?.scheduler !== SCHEDULER || given.model !== MODEL || given.version !== VERSION) {
-    throw unsupported(given, "This state isn't an FSRS-7 state this release reads.");
+    throw unsupported(
+      given,
+      "unknown-scheduler",
+      "This state isn't an FSRS-7 state this release reads.",
+    );
   }
-  const card = given.card as Partial<Record<keyof StoredCard, unknown>> | null;
+  const raw: unknown = given.card;
+  // The card is opaque data: read own properties only, never inherited names.
+  const own = (key: keyof StoredCard): unknown =>
+    typeof raw === "object" && raw !== null && Object.hasOwn(raw, key)
+      ? (raw as Record<string, unknown>)[key]
+      : undefined;
+  const card =
+    typeof raw === "object" && raw !== null
+      ? {
+          stability: own("stability"),
+          stabilityFast: own("stabilityFast"),
+          difficulty: own("difficulty"),
+          state: own("state"),
+          scheduleStatus: own("scheduleStatus"),
+          dueAt: own("dueAt"),
+          lastReviewAt: own("lastReviewAt"),
+        }
+      : null;
   if (
     typeof card !== "object" ||
     card === null ||
@@ -85,7 +111,7 @@ function readCard(given: SchedulingState): FsrsCard {
     !isTime(card.dueAt) ||
     !(card.lastReviewAt === null || isTime(card.lastReviewAt))
   ) {
-    throw unsupported(given, "This FSRS-7 state's card is malformed.");
+    throw unsupported(given, "malformed-state", "This FSRS-7 state's card is malformed.");
   }
   return {
     stability: card.stability,
@@ -183,7 +209,12 @@ export function createFsrsScheduler(options: FsrsSchedulerOptions = {}): Schedul
         result = scheduler.review({ card: card as unknown as FsrsInputCard, grade, now: at });
       } catch (error) {
         throw new LearnError("UNSUPPORTED_SCHEDULING_STATE", "FSRS-7 refused this state.", {
-          details: { scheduler: SCHEDULER, model: MODEL, version: VERSION },
+          details: {
+            reason: "malformed-state",
+            scheduler: SCHEDULER,
+            model: MODEL,
+            version: VERSION,
+          },
           cause: error,
         });
       }

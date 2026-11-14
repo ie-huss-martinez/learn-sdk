@@ -32,20 +32,19 @@ const state = (card: FakeCard): SchedulingState => ({
  */
 export function createFakeScheduler(): Scheduler {
   const readCard = (given: SchedulingState): FakeCard => {
-    const card = given?.card as { reviews?: unknown } | null | undefined;
-    if (
-      given?.scheduler !== "fake" ||
-      given.model !== "doubling" ||
-      given.version !== 1 ||
-      typeof card?.reviews !== "number" ||
-      !Number.isSafeInteger(card.reviews) ||
-      card.reviews < 0
-    ) {
+    const ours = given?.scheduler === "fake" && given.model === "doubling" && given.version === 1;
+    const card: unknown = given?.card;
+    const reviews =
+      typeof card === "object" && card !== null && Object.hasOwn(card, "reviews")
+        ? (card as { reviews: unknown }).reviews
+        : undefined;
+    if (!ours || typeof reviews !== "number" || !Number.isSafeInteger(reviews) || reviews < 0) {
       throw new LearnError(
         "UNSUPPORTED_SCHEDULING_STATE",
         "This state isn't the fake scheduler's.",
         {
           details: {
+            reason: ours ? "malformed-state" : "unknown-scheduler",
             ...(typeof given?.scheduler === "string" ? { scheduler: given.scheduler } : {}),
             ...(typeof given?.model === "string" ? { model: given.model } : {}),
             ...(typeof given?.version === "number" ? { version: given.version } : {}),
@@ -53,7 +52,7 @@ export function createFakeScheduler(): Scheduler {
         },
       );
     }
-    return { reviews: card.reviews };
+    return { reviews };
   };
   return {
     id: "fake",

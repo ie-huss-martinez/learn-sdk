@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ie-huss-martinez/learn-sdk/blob/main/formats/hm-learn-content/v1.schema.json",
+  "title": "hm-learn-content, version 1",
+  "description": "learn-sdk content: a set of exercises (docs/formats/hm-learn-content.md, learn-sdk ADR 0006, sdk-core ADR 0045). Lengths and counts are learn-sdk's default limits; the whole document is at most 2,000,000 UTF-8 bytes, which a schema can't express. Beyond this schema, readers check that exercise ids are unique, that the type is one the host registered, that a correct choice is in range, that a gap-fill sentence has exactly one gap, that choices and options are distinct, that a listed answer is among the options, and that each word-order alternative uses exactly the tiles.",
+  "type": "object",
+  "required": ["format", "version", "exercises"],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "hm-learn-content"
+    },
+    "version": {
+      "const": 1
+    },
+    "exercises": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "#/$defs/exercise"
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "description": "A text of 1 to 2,000 Unicode code points (the default maxTextLength) with at least one character that isn't white space, as ECMAScript's String.prototype.trim defines it.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "[^\\t\\n\\v\\f\\r \\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]"
+    },
+    "exercise": {
+      "description": "One exercise. The built-in types' payloads are described below; any other type is a host's, whose payload is an object its own validator checks.",
+      "type": "object",
+      "required": ["id", "type", "payload"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/text"
+        },
+        "type": {
+          "$ref": "#/$defs/text"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "instructions": {
+          "$ref": "#/$defs/text"
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "multiple-choice"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/multipleChoice"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "gap-fill"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/gapFill"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {
+                "const": "word-order"
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/wordOrder"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "multipleChoice": {
+      "description": "The multiple-choice payload.",
+      "type": "object",
+      "required": ["questions"],
+      "additionalProperties": false,
+      "properties": {
+        "questions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "required": ["prompt", "choices", "correct"],
+            "additionalProperties": false,
+            "properties": {
+              "prompt": {
+                "$ref": "#/$defs/text"
+              },
+              "choices": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 8,
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "correct": {
+                "description": "The correct choice's position, from 0.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 7
+              },
+              "explanation": {
+                "$ref": "#/$defs/text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "gapFill": {
+      "description": "The gap-fill payload.",
+      "type": "object",
+      "required": ["items"],
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "required": ["sentence", "answers"],
+            "additionalProperties": false,
+            "properties": {
+              "sentence": {
+                "description": "A sentence with one gap: a run of three or more underscores.",
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/text"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "___"
+                  }
+                ]
+              },
+              "answers": {
+                "description": "The accepted answers.",
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 8,
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "options": {
+                "description": "Choices to pick from, one of which is an accepted answer. Without them, the learner types.",
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 8,
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "translation": {
+                "$ref": "#/$defs/text"
+              }
+            }
+          }
+        }
+      }
+    },
+    "wordOrder": {
+      "description": "The word-order payload.",
+      "type": "object",
+      "required": ["items"],
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "required": ["tiles"],
+            "additionalProperties": false,
+            "properties": {
+              "tiles": {
+                "description": "The tiles in the correct order.",
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 30,
+                "items": {
+                  "$ref": "#/$defs/text"
+                }
+              },
+              "alternatives": {
+                "description": "Other correct orders, each using exactly the tiles.",
+                "type": "array",
+                "maxItems": 8,
+                "items": {
+                  "type": "array",
+                  "maxItems": 30,
+                  "items": {
+                    "$ref": "#/$defs/text"
+                  }
+                }
+              },
+              "translation": {
+                "$ref": "#/$defs/text"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

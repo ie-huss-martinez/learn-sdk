@@ -1,6 +1,7 @@
 import { abortError, asLearnError, throwIfAborted } from "../errors/error-helpers.js";
 import { isLearnError, LearnError } from "../errors/learn-error.js";
 import { type LearnLimitOverrides, learnLimits } from "../errors/learn-limits.js";
+import { codePoints } from "../model/validation.js";
 import type { AudioSource } from "../ports/audio-source.js";
 import type { LearnCallOptions } from "../ports/options.js";
 
@@ -35,7 +36,7 @@ export async function loadClip(
   options: LoadClipOptions = {},
 ): Promise<Blob> {
   const policy = learnLimits.resolve(options.limits);
-  policy.check("maxTextLength", ref.length);
+  policy.check("maxTextLength", codePoints(ref));
   const { signal } = options;
   throwIfAborted(signal);
   let bytes: Blob | ArrayBuffer | null;

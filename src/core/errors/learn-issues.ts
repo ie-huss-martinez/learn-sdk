@@ -5,7 +5,6 @@
  * never change meaning once released; exercise types add their own as they
  * arrive.
  *
- * - `not-json`: a content string couldn't be parsed as JSON.
  * - `required`: a required field is missing.
  * - `unknown-field`: a field the format doesn't define, including
  *   `__proto__` and `constructor`.
@@ -32,7 +31,6 @@
  * @public
  */
 export type LearnIssueCode =
-  | "not-json"
   | "required"
   | "unknown-field"
   | "not-data"

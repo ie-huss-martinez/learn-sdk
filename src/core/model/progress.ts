@@ -92,3 +92,58 @@ export function applyProgressChanges(
   }
   return { attempts, cards: [...cards.values()] };
 }
+
+/**
+ * The name of learn-sdk's progress format (ADR 0006).
+ *
+ * @public
+ */
+export const PROGRESS_FORMAT = "hm-learn-progress";
+
+/**
+ * The progress format's current version.
+ *
+ * @public
+ */
+export const PROGRESS_VERSION = 1;
+
+/**
+ * One scope's progress as an `hm-learn-progress` document, ready to store or
+ * send as JSON (ADR 0006). Answers and scheduler states are opaque JSON,
+ * carried unchanged.
+ *
+ * @public
+ */
+export interface ProgressDocument extends ProgressSnapshot {
+  readonly format: typeof PROGRESS_FORMAT;
+  readonly version: typeof PROGRESS_VERSION;
+}
+
+/**
+ * Writes a snapshot as an `hm-learn-progress` document. Pure; the snapshot
+ * is left unchanged, and opaque values are carried as they are.
+ *
+ * @public
+ */
+export function toProgressDocument(snapshot: ProgressSnapshot): ProgressDocument {
+  return {
+    format: PROGRESS_FORMAT,
+    version: PROGRESS_VERSION,
+    attempts: snapshot.attempts.map(({ exerciseId, answer, grade, at }) => ({
+      exerciseId,
+      answer,
+      grade: { score: grade.score, max: grade.max, items: [...grade.items] },
+      at,
+    })),
+    cards: snapshot.cards.map(({ itemId, scheduling, due }) => ({
+      itemId,
+      scheduling: {
+        scheduler: scheduling.scheduler,
+        model: scheduling.model,
+        version: scheduling.version,
+        card: scheduling.card,
+      },
+      due,
+    })),
+  };
+}

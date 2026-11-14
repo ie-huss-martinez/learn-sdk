@@ -15,6 +15,7 @@ const thai: LanguageProfile = {
   normalizeAnswer: (t) => t.replace(/\s+/g, ""),
 };
 const asContent = (payload: unknown) => ({
+  format: "hm-learn-content",
   version: 1,
   exercises: [{ id: "g", type: "gap-fill", payload }],
 });

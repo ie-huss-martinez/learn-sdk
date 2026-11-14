@@ -3,7 +3,7 @@ import { isLearnError } from "../errors/learn-error.js";
 import type { LearnIssue } from "../errors/learn-issues.js";
 import { MAX_ISSUE_KEY_LENGTH } from "../errors/learn-issues.js";
 import type { LearnLimitPolicy } from "../errors/learn-limits.js";
-import type { OptionalOption, ValidationContext } from "../model/validation-context.js";
+import type { OptionalOption, ValidationContext } from "./validation-context.js";
 
 /** At most this many issues are kept; the rest are only counted (ADR 0002). */
 export const MAX_ISSUES = 100;
@@ -41,8 +41,21 @@ function ownData(target: object, key: PropertyKey): { value: unknown } | "absent
   return "value" in descriptor ? { value: descriptor.value } : "accessor";
 }
 
+/**
+ * Length in Unicode code points, the unit every length limit counts (ADR 0006).
+ *
+ * @internal
+ */
+export function codePoints(text: string): number {
+  let count = 0;
+  for (const _ of text) {
+    count++;
+  }
+  return count;
+}
+
 const keyName = (key: string | symbol) =>
-  (typeof key === "symbol" ? String(key) : key).slice(0, MAX_ISSUE_KEY_LENGTH);
+  [...(typeof key === "symbol" ? String(key) : key)].slice(0, MAX_ISSUE_KEY_LENGTH).join("");
 
 /**
  * Creates the root validation context for one run.
@@ -151,7 +164,7 @@ export function createValidationContext(
         issue("expected-text");
         return undefined;
       }
-      policy.check("maxTextLength", value.length);
+      policy.check("maxTextLength", codePoints(value));
       if (!options?.allowEmpty && value.trim() === "") {
         issue("empty-text");
         return undefined;

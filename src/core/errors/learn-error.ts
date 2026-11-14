@@ -5,45 +5,51 @@ import { isSdkError, type SdkCoreErrorCode, SdkError } from "@hussmartinez/sdk-c
  * `ABORTED`, `UNSUPPORTED_ENVIRONMENT` and `FILE_TOO_LARGE`, plus the learn
  * SDK's (ADR 0002, ADR 0003). They never change meaning once released.
  *
- * - `INVALID_CONTENT`: content failed validation. `details.issues` lists up to
- *   100 {@link LearnIssue | issues}, each with a `path`, a `code` and
- *   `details`, and `details.count` says how many there are.
- * - `UNSUPPORTED_CONTENT_VERSION`: content has a format `version` this
- *   release doesn't know. `details.version` is the content's version when
- *   it's a number, and `details.supported` lists the versions this release
- *   reads.
+ * - `UNSUPPORTED_FORMAT`: a document of another format, or of a format
+ *   version this release doesn't read (ADR 0006). `details.reason` is
+ *   `unknown-format` or `unknown-format-version`, with the `format` and
+ *   `version` found when they're readable, and the `supported` versions.
+ * - `INVALID_DOCUMENT`: content or progress that isn't valid (ADR 0006).
+ *   `details.reason` is `not-json` or `malformed-document`; for the latter,
+ *   `details.issues` lists up to 100 {@link LearnIssue | issues}, each with a
+ *   `path`, a `code` and `details`, and `details.count` says how many there
+ *   are.
  * - `INVALID_ANSWER`: a learner's answer doesn't fit its exercise, such as
- *   a choice that doesn't exist. `details.issues` lists the issues, as for
- *   `INVALID_CONTENT`.
+ *   a choice that doesn't exist. `details.reason` is `malformed-answer`, with
+ *   `details.issues` and `details.count` as for `INVALID_DOCUMENT`.
  * - `AUDIO_UNAVAILABLE`: the host's audio source returned nothing for a
  *   clip, or failed. `details` names no reference or URL.
  * - `STORAGE_UNAVAILABLE`: the device's storage refused to read or write, such
  *   as when it's full or disabled in private browsing. The browser's error is
  *   the `cause`.
  * - `UNSUPPORTED_SCHEDULING_STATE`: a scheduler was given a state from another
- *   scheduler, model or format version (ADR 0004). `details` names the
- *   `scheduler`, `model` and `version` it was given, when they're readable.
+ *   scheduler, model or format version, or a malformed one (ADR 0004).
+ *   `details.reason` is `unknown-scheduler` or `malformed-state`, and
+ *   `details` names the `scheduler`, `model` and `version` given, when they're
+ *   readable.
  * - `CONTENT_TOO_LARGE`: a content string exceeds the `maxContentSize`
  *   limit, before it's parsed.
  * - `TOO_MANY_EXERCISES`: content exceeds the `maxExercises` limit.
  * - `TOO_MANY_ITEMS`: an exercise exceeds the `maxItems` limit.
  * - `TOO_MANY_CHOICES`: an item exceeds the `maxChoices` limit.
  * - `TOO_MANY_TILES`: a word-order item exceeds the `maxTiles` limit.
- * - `TEXT_TOO_LONG`: a string in content or an answer exceeds the
- *   `maxTextLength` limit.
+ * - `TEXT_TOO_LONG`: a string in content, an answer or progress exceeds the
+ *   `maxTextLength` limit, counted in Unicode code points.
  * - `FILE_TOO_LARGE` (sdk-core): an audio clip exceeds the `maxFileSize`
  *   limit, before it's played.
  *
- * Limit codes carry `details` with the `limit`, its `maximum`, the `actual`
- * value and the `unit`. No code's `details` ever contain content text or a
+ * Rejections are compared by `code` and `details.reason`, never by message
+ * (sdk-core ADR 0045). Limit codes carry `details` with the `limit`, its
+ * `maximum`, the `actual` value and the `unit`; `limit` plays the part of a
+ * reason. No code's `details` ever contain content text or a
  * learner's answer (ADR 0003).
  *
  * @public
  */
 export type LearnErrorCode =
   | SdkCoreErrorCode
-  | "INVALID_CONTENT"
-  | "UNSUPPORTED_CONTENT_VERSION"
+  | "UNSUPPORTED_FORMAT"
+  | "INVALID_DOCUMENT"
   | "INVALID_ANSWER"
   | "AUDIO_UNAVAILABLE"
   | "UNSUPPORTED_SCHEDULING_STATE"
@@ -66,7 +72,7 @@ export type LearnErrorCode =
  * try {
  *   content = parseContent(text);
  * } catch (error) {
- *   if (isLearnError(error, "INVALID_CONTENT")) {
+ *   if (isLearnError(error, "INVALID_DOCUMENT")) {
  *     showIssues(error.details?.issues);
  *   } else {
  *     show(messages.error(error));

@@ -50,8 +50,13 @@ export interface Content {
     // (undocumented)
     readonly exercises: readonly Exercise[];
     // (undocumented)
+    readonly format: typeof CONTENT_FORMAT;
+    // (undocumented)
     readonly version: typeof CONTENT_VERSION;
 }
+
+// @public
+export const CONTENT_FORMAT = "hm-learn-content";
 
 // @public
 export const CONTENT_VERSION = 1;
@@ -207,7 +212,7 @@ export class LearnError extends SdkError<LearnErrorCode> {
 }
 
 // @public
-export type LearnErrorCode = SdkCoreErrorCode | "INVALID_CONTENT" | "UNSUPPORTED_CONTENT_VERSION" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "STORAGE_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
+export type LearnErrorCode = SdkCoreErrorCode | "UNSUPPORTED_FORMAT" | "INVALID_DOCUMENT" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "STORAGE_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
 
 // @public
 export interface LearnIssue {
@@ -219,7 +224,7 @@ export interface LearnIssue {
 }
 
 // @public
-export type LearnIssueCode = "not-json" | "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice" | "gap-count" | "answer-not-in-options" | "not-a-permutation";
+export type LearnIssueCode = "required" | "unknown-field" | "not-data" | "expected-object" | "expected-list" | "expected-text" | "expected-whole-number" | "expected-yes-no" | "empty-text" | "too-few" | "out-of-range" | "duplicate-id" | "unknown-type" | "duplicate-choice" | "gap-count" | "answer-not-in-options" | "not-a-permutation";
 
 // @public
 export type LearnLimitDefinitions = typeof learnLimitDefinitions;
@@ -297,13 +302,8 @@ export type LearnMessageCatalogue = typeof learnMessages;
 
 // @public
 export const learnMessages: {
-    readonly "errors.INVALID_CONTENT": {
-        readonly $plural: "count";
-    } & {
-        readonly one: "This content has a problem. Fix it, then try again.";
-        readonly other: "This content has {count, number} problems. Fix them, then try again.";
-    };
-    readonly "errors.UNSUPPORTED_CONTENT_VERSION": "This content was made for a newer version of the app. Update the app, then open it again.";
+    readonly "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.";
+    readonly "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.";
     readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
     readonly "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
     readonly "errors.UNSUPPORTED_SCHEDULING_STATE": "Your review schedule was saved by another version of the app. It will start again from today.";
@@ -367,7 +367,6 @@ export const learnMessages: {
         readonly other: "This sentence has {actual, number} words to put in order, and may be hard on a phone.";
     };
     readonly "warnings.maxTextLength": "This text is long, and may be hard to read on a phone.";
-    readonly "validation.not-json": "This isn't valid content: it couldn't be read as JSON.";
     readonly "validation.required": "This is required.";
     readonly "validation.unknown-field": "This field isn't part of the content format. Remove it, or check its spelling.";
     readonly "validation.not-data": "This field must hold a plain value, not one that's computed.";
@@ -513,6 +512,20 @@ export interface ParseContentOptions {
 }
 
 // @public
+export function parseProgress(input: unknown, options?: ParseProgressOptions): ProgressSnapshot;
+
+// @public
+export interface ParseProgressOptions {
+    readonly limits?: LearnLimitOverrides;
+}
+
+// @public
+export const PROGRESS_FORMAT = "hm-learn-progress";
+
+// @public
+export const PROGRESS_VERSION = 1;
+
+// @public
 export type ProgressChange = ({
     readonly kind: "attempt";
 } & AttemptRecord) | ({
@@ -578,6 +591,11 @@ export function splitAtGap(sentence: string): readonly [before: string, after: s
 
 // @public
 export type TextDirection = "ltr" | "rtl";
+
+// Warning: (ae-forgotten-export) The symbol "ProgressDocument" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function toProgressDocument(snapshot: ProgressSnapshot): ProgressDocument;
 
 // @public
 export interface ValidationContext {

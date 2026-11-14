@@ -18,7 +18,7 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  * @example
  * ```ts
  * const messages = createMessages(learnMessages, { locale: "en", overrides: props.messages });
- * messages.error(error); // "This content has 3 problems. Fix them, then try again."
+ * messages.error(error); // "This content has problems. Fix them, then try again."
  * messages.t("validation.too-few", { minimum: 2 }); // "Add at least 2 entries."
  * ```
  *
@@ -26,12 +26,9 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  */
 export const learnMessages = /* @__PURE__ */ defineMessages({
   ...sdkCoreMessages,
-  "errors.INVALID_CONTENT": /* @__PURE__ */ plural("count", {
-    one: "This content has a problem. Fix it, then try again.",
-    other: "This content has {count, number} problems. Fix them, then try again.",
-  }),
-  "errors.UNSUPPORTED_CONTENT_VERSION":
-    "This content was made for a newer version of the app. Update the app, then open it again.",
+  "errors.UNSUPPORTED_FORMAT":
+    "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.",
+  "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.",
   "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.",
   "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.",
   "errors.UNSUPPORTED_SCHEDULING_STATE":
@@ -81,7 +78,6 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
     other: "This sentence has {actual, number} words to put in order, and may be hard on a phone.",
   }),
   "warnings.maxTextLength": "This text is long, and may be hard to read on a phone.",
-  "validation.not-json": "This isn't valid content: it couldn't be read as JSON.",
   "validation.required": "This is required.",
   "validation.unknown-field":
     "This field isn't part of the content format. Remove it, or check its spelling.",

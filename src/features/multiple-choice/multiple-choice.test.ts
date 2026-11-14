@@ -13,6 +13,7 @@ const question = (overrides: Record<string, unknown> = {}) => ({
   ...overrides,
 });
 const content = (questions: unknown[]) => ({
+  format: "hm-learn-content",
   version: 1,
   exercises: [{ id: "q", type: "multiple-choice", payload: { questions } }],
 });
