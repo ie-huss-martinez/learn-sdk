@@ -7,8 +7,9 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  * The learn SDK's English message catalogue: sdk-core's messages, and text
  * for every {@link LearnErrorCode}, every limit's warning and every
  * {@link LearnIssueCode}. Pass it to `createMessages` from
- * `@hussmartinez/sdk-core`, with the host's locale and overrides. The
- * player's and editor's text joins it as they arrive.
+ * `@hussmartinez/sdk-core`, with the host's locale and overrides. It also
+ * labels the player's tools (`tools.<action>`); the editor's text joins it
+ * as it arrives.
  *
  * Error text is looked up by code, with the error's `details` as
  * parameters, and never taken from `error.message` (ADR 0019). Issue text
@@ -101,6 +102,11 @@ export const learnMessages = /* @__PURE__ */ defineMessages({
   "validation.answer-not-in-options":
     "None of the choices is an accepted answer. Add the answer to the choices.",
   "validation.not-a-permutation": "Use every word exactly once, in any order.",
+  "tools.check": "Check",
+  "tools.next": "Next",
+  "tools.previous": "Previous",
+  "tools.retry": "Try again",
+  "tools.skip": "Skip",
 }) satisfies Record<`errors.${LearnErrorCode}`, MessageValue> &
   Record<`warnings.${LearnLimitName}`, MessageValue> &
   Record<`validation.${LearnIssueCode}`, MessageValue>;

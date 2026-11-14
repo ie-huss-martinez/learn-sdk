@@ -41,7 +41,7 @@ export type {
   LearnRole,
   Level,
 } from "./core/model/course.js";
-export type { ExerciseType, ExerciseTypes } from "./core/model/exercise-type.js";
+export type { ExerciseType, ExerciseTypes, ReviewedItem } from "./core/model/exercise-type.js";
 export { createExerciseTypes, defineExerciseType } from "./core/model/exercise-type.js";
 export type { LanguageProfile, TextDirection } from "./core/model/language-profile.js";
 export { defaultLanguageProfile, normalizeForGrading } from "./core/model/language-profile.js";
@@ -77,6 +77,18 @@ export type { ProgressStore } from "./core/ports/progress-store.js";
 export type { Scheduler } from "./core/ports/scheduler.js";
 export type { LoadClipOptions } from "./core/session/load-clip.js";
 export { loadClip } from "./core/session/load-clip.js";
+export type {
+  LearnPlayer,
+  LearnPlayerEvent,
+  LearnPlayerOptions,
+  LearnPlayerSnapshot,
+  PlayerAbilities,
+  PlayerExerciseState,
+  PlayerExerciseStatus,
+  PlayerSaveState,
+  PlayerSummary,
+} from "./core/session/player.js";
+export { createLearnPlayer } from "./core/session/player.js";
 export type { GapFillAnswer, GapFillItem, GapFillPayload } from "./features/gap-fill/gap-fill.js";
 export { gapFill, splitAtGap } from "./features/gap-fill/gap-fill.js";
 export type {
@@ -85,6 +97,19 @@ export type {
   MultipleChoiceQuestion,
 } from "./features/multiple-choice/multiple-choice.js";
 export { multipleChoice } from "./features/multiple-choice/multiple-choice.js";
+export type {
+  LearnPlayerTool,
+  LearnPlayerToolContext,
+  LearnPlayerToolState,
+} from "./features/player/player-tools.js";
+export {
+  checkTool,
+  learnPlayerTools,
+  nextTool,
+  previousTool,
+  retryTool,
+  skipTool,
+} from "./features/player/player-tools.js";
 export type {
   WordOrderAnswer,
   WordOrderItem,
