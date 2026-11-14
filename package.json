@@ -75,6 +75,7 @@
   },
   "dependencies": {
     "@hussmartinez/sdk-core": "catalog:",
+    "@hussmartinez/ui": "catalog:",
     "ts-fsrs": "catalog:"
   },
   "peerDependencies": {
