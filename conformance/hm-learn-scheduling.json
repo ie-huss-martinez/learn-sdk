@@ -1,0 +1,829 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-scheduling",
+  "description": "Spaced repetition (learn-sdk ADR 0004): FSRS-7 without fuzzing (\"fsrs\", with optional desiredRetention and weights), and the fake scheduler from @hussmartinez/learn-sdk/testing (\"fake\"). input.start begins with a new item's state at that time, or input.state continues from a stored one; input.reviews are applied in order. expected is every state in turn with its due time, the new item's first, or the rejection. Times are milliseconds since the Unix epoch. FSRS-7 states hold computed floats, compared within the case's tolerance.",
+  "cases": [
+    {
+      "name": "FSRS-7: a new item rated again",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "again",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0.1104,
+              "stabilityFast": 0.08832,
+              "difficulty": 6.1686,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767225603307,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1767225603307
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a new item rated hard",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "hard",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 2.2395,
+              "stabilityFast": 1.7916,
+              "difficulty": 5.26127831,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767277220645,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1767277220645
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a new item rated good",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 3.9221,
+              "stabilityFast": 3.13768,
+              "difficulty": 3.53072398,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767638395164,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1767638395164
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a new item rated easy",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "easy",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 11.7841,
+              "stabilityFast": 9.42728,
+              "difficulty": 1,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1771879925937,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1771879925937
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a run of reviews, with a lapse and relearning",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          },
+          {
+            "rating": "good",
+            "at": 1767312000000
+          },
+          {
+            "rating": "good",
+            "at": 1767571200000
+          },
+          {
+            "rating": "again",
+            "at": 1768953600000
+          },
+          {
+            "rating": "good",
+            "at": 1768954200000
+          },
+          {
+            "rating": "easy",
+            "at": 1769126400000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 3.9221,
+              "stabilityFast": 3.13768,
+              "difficulty": 3.53072398,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767638395164,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1767638395164
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 8.21439398,
+              "stabilityFast": 135.76995787,
+              "difficulty": 3.49771674,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1768867601440,
+              "lastReviewAt": 1767312000000
+            }
+          },
+          "due": 1768867601440
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 14.40988472,
+              "stabilityFast": 373.49041317,
+              "difficulty": 3.46503957,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1770866362660,
+              "lastReviewAt": 1767571200000
+            }
+          },
+          "due": 1770866362660
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 3.07772314,
+              "stabilityFast": 0.99448197,
+              "difficulty": 8.91459832,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1768960941450,
+              "lastReviewAt": 1768953600000
+            }
+          },
+          "due": 1768960941450
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 4.14268815,
+              "stabilityFast": 10.14668057,
+              "difficulty": 8.82775234,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1769006774909,
+              "lastReviewAt": 1768954200000
+            }
+          },
+          "due": 1769006774909
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 7.2356622,
+              "stabilityFast": 66.14457474,
+              "difficulty": 8.2671587,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1769391847520,
+              "lastReviewAt": 1769126400000
+            }
+          },
+          "due": 1769391847520
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a review an hour early",
+      "input": {
+        "scheduler": "fsrs",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          },
+          {
+            "rating": "good",
+            "at": 1767229200000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 3.9221,
+              "stabilityFast": 3.13768,
+              "difficulty": 3.53072398,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767638395164,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1767638395164
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 6.46084171,
+              "stabilityFast": 62.61717813,
+              "difficulty": 3.49771674,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1768311564742,
+              "lastReviewAt": 1767229200000
+            }
+          },
+          "due": 1768311564742
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a desired retention of 0.8 schedules later than the default 0.9",
+      "input": {
+        "scheduler": "fsrs",
+        "options": {
+          "desiredRetention": 0.8
+        },
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          },
+          {
+            "rating": "good",
+            "at": 1767312000000
+          },
+          {
+            "rating": "good",
+            "at": 1767657600000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 0,
+              "stabilityFast": 0,
+              "difficulty": 0,
+              "state": 0,
+              "scheduleStatus": "new",
+              "dueAt": 1767225600000,
+              "lastReviewAt": null
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 3.9221,
+              "stabilityFast": 3.13768,
+              "difficulty": 3.53072398,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1770476419770,
+              "lastReviewAt": 1767225600000
+            }
+          },
+          "due": 1770476419770
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 8.21439398,
+              "stabilityFast": 135.76995787,
+              "difficulty": 3.49771674,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1777091153375,
+              "lastReviewAt": 1767312000000
+            }
+          },
+          "due": 1777091153375
+        },
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 15.26780523,
+              "stabilityFast": 395.14395862,
+              "difficulty": 3.46503957,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1788829062514,
+              "lastReviewAt": 1767657600000
+            }
+          },
+          "due": 1788829062514
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: a review from a stored state",
+      "input": {
+        "scheduler": "fsrs",
+        "state": {
+          "scheduler": "fsrs",
+          "model": "FSRS-7",
+          "version": 1,
+          "card": {
+            "stability": 3.9221,
+            "stabilityFast": 3.13768,
+            "difficulty": 3.53072398,
+            "state": 2,
+            "scheduleStatus": "review",
+            "dueAt": 1767638395164,
+            "lastReviewAt": 1767225600000
+          }
+        },
+        "reviews": [
+          {
+            "rating": "hard",
+            "at": 1767398400000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fsrs",
+            "model": "FSRS-7",
+            "version": 1,
+            "card": {
+              "stability": 7.24196059,
+              "stabilityFast": 95.601703,
+              "difficulty": 6.11697781,
+              "state": 2,
+              "scheduleStatus": "review",
+              "dueAt": 1767969341651,
+              "lastReviewAt": 1767398400000
+            }
+          },
+          "due": 1767969341651
+        }
+      ],
+      "tolerance": 1e-9
+    },
+    {
+      "name": "FSRS-7: refuses the fake scheduler's state",
+      "input": {
+        "scheduler": "fsrs",
+        "state": {
+          "scheduler": "fake",
+          "model": "doubling",
+          "version": 1,
+          "card": {
+            "reviews": 1
+          }
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "unknown-scheduler"
+        }
+      }
+    },
+    {
+      "name": "FSRS-7: refuses a state of another model",
+      "input": {
+        "scheduler": "fsrs",
+        "state": {
+          "scheduler": "fsrs",
+          "model": "FSRS-6",
+          "version": 1,
+          "card": {
+            "stability": 3.9221,
+            "stabilityFast": 3.13768,
+            "difficulty": 3.53072398,
+            "state": 2,
+            "scheduleStatus": "review",
+            "dueAt": 1767638395164,
+            "lastReviewAt": 1767225600000
+          }
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "unknown-scheduler"
+        }
+      }
+    },
+    {
+      "name": "FSRS-7: refuses a state of a later version",
+      "input": {
+        "scheduler": "fsrs",
+        "state": {
+          "scheduler": "fsrs",
+          "model": "FSRS-7",
+          "version": 2,
+          "card": {
+            "stability": 3.9221,
+            "stabilityFast": 3.13768,
+            "difficulty": 3.53072398,
+            "state": 2,
+            "scheduleStatus": "review",
+            "dueAt": 1767638395164,
+            "lastReviewAt": 1767225600000
+          }
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "unknown-scheduler"
+        }
+      }
+    },
+    {
+      "name": "FSRS-7: refuses a malformed state of its own",
+      "input": {
+        "scheduler": "fsrs",
+        "state": {
+          "scheduler": "fsrs",
+          "model": "FSRS-7",
+          "version": 1,
+          "card": {}
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "malformed-state"
+        }
+      }
+    },
+    {
+      "name": "fake: intervals double with each review, and start again after again",
+      "input": {
+        "scheduler": "fake",
+        "start": 1767225600000,
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          },
+          {
+            "rating": "good",
+            "at": 1767312000000
+          },
+          {
+            "rating": "again",
+            "at": 1767484800000
+          },
+          {
+            "rating": "easy",
+            "at": 1767484800000
+          }
+        ]
+      },
+      "expected": [
+        {
+          "state": {
+            "scheduler": "fake",
+            "model": "doubling",
+            "version": 1,
+            "card": {
+              "reviews": 0
+            }
+          },
+          "due": 1767225600000
+        },
+        {
+          "state": {
+            "scheduler": "fake",
+            "model": "doubling",
+            "version": 1,
+            "card": {
+              "reviews": 1
+            }
+          },
+          "due": 1767484800000
+        },
+        {
+          "state": {
+            "scheduler": "fake",
+            "model": "doubling",
+            "version": 1,
+            "card": {
+              "reviews": 2
+            }
+          },
+          "due": 1767830400000
+        },
+        {
+          "state": {
+            "scheduler": "fake",
+            "model": "doubling",
+            "version": 1,
+            "card": {
+              "reviews": 0
+            }
+          },
+          "due": 1767485400000
+        },
+        {
+          "state": {
+            "scheduler": "fake",
+            "model": "doubling",
+            "version": 1,
+            "card": {
+              "reviews": 1
+            }
+          },
+          "due": 1768089600000
+        }
+      ]
+    },
+    {
+      "name": "fake: refuses FSRS-7's state",
+      "input": {
+        "scheduler": "fake",
+        "state": {
+          "scheduler": "fsrs",
+          "model": "FSRS-7",
+          "version": 1,
+          "card": {
+            "stability": 3.9221,
+            "stabilityFast": 3.13768,
+            "difficulty": 3.53072398,
+            "state": 2,
+            "scheduleStatus": "review",
+            "dueAt": 1767638395164,
+            "lastReviewAt": 1767225600000
+          }
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "unknown-scheduler"
+        }
+      }
+    },
+    {
+      "name": "fake: refuses a malformed state of its own",
+      "input": {
+        "scheduler": "fake",
+        "state": {
+          "scheduler": "fake",
+          "model": "doubling",
+          "version": 1,
+          "card": {
+            "reviews": -1
+          }
+        },
+        "reviews": [
+          {
+            "rating": "good",
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_SCHEDULING_STATE",
+          "reason": "malformed-state"
+        }
+      }
+    }
+  ]
+}

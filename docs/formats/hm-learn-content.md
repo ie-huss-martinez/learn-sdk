@@ -38,6 +38,8 @@ learn-sdk's content format: a set of exercises, as a teacher writes them and a p
 - **Hostile keys:** in an object of fixed shape, `__proto__`, `constructor` and `toString` are unknown fields and refused. In a host type's payload they're ordinary data, read as own properties and copied unchanged.
 - **Strict:** an unknown field in any object of fixed shape is refused, never dropped, so a later version's document can't be misread as this one.
 
+A port in another language proves it reads `hm-learn-content` as this SDK does by passing [`conformance/hm-learn-content.json`](../../conformance/hm-learn-content.json); [Conformance vectors](conformance.md) explains how to run them.
+
 `parseContent(input, { types })` reads a document and returns it validated, with its `format` and `version`, so it can be stored as it is. It throws `UNSUPPORTED_FORMAT` (`unknown-format`, `unknown-format-version`), `INVALID_DOCUMENT` (`not-json`, `malformed-document`, with every issue's path) or a limit's code.
 
 ## Validating elsewhere

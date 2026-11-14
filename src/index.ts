@@ -51,6 +51,7 @@ export type {
   AttemptRecord,
   CardRecord,
   ProgressChange,
+  ProgressDocument,
   ProgressSnapshot,
 } from "./core/model/progress.js";
 export {

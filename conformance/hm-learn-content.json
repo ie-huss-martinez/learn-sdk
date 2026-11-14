@@ -1,0 +1,2850 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-content",
+  "description": "Reading hm-learn-content documents (docs/formats/hm-learn-content.md). input.document is the document, as a JSON value or as JSON text; input.limits, when given, overrides learn-sdk's default limits. expected is the content as the reader returns it, or the rejection. The host registers the built-in types and \"free-form\", whose payload is any object, returned unchanged.",
+  "cases": [
+    {
+      "name": "reads one exercise of each built-in type",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "multiple-choice",
+            "title": "อาหาร",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "กิน",
+                  "choices": [
+                    "eat",
+                    "drink",
+                    "sleep"
+                  ],
+                  "correct": 0,
+                  "explanation": "กิน means to eat."
+                }
+              ]
+            }
+          },
+          {
+            "id": "gf",
+            "type": "gap-fill",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "ฉัน ___ ข้าว",
+                  "answers": [
+                    "กิน"
+                  ],
+                  "options": [
+                    "กิน",
+                    "ดื่ม"
+                  ],
+                  "translation": "I eat rice."
+                },
+                {
+                  "sentence": "Je _____ du pain.",
+                  "answers": [
+                    "mange"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "word-order",
+            "instructions": "Put the words in order.",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "Yesterday",
+                    "I",
+                    "ran"
+                  ],
+                  "alternatives": [
+                    [
+                      "I",
+                      "ran",
+                      "Yesterday"
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a document with no exercises",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "reads a document from JSON text",
+      "input": {
+        "document": "{\"format\":\"hm-learn-content\",\"version\":1,\"exercises\":[{\"id\":\"mc\",\"type\":\"multiple-choice\",\"title\":\"อาหาร\",\"payload\":{\"questions\":[{\"prompt\":\"กิน\",\"choices\":[\"eat\",\"drink\",\"sleep\"],\"correct\":0,\"explanation\":\"กิน means to eat.\"}]}},{\"id\":\"gf\",\"type\":\"gap-fill\",\"payload\":{\"items\":[{\"sentence\":\"ฉัน ___ ข้าว\",\"answers\":[\"กิน\"],\"options\":[\"กิน\",\"ดื่ม\"],\"translation\":\"I eat rice.\"},{\"sentence\":\"Je _____ du pain.\",\"answers\":[\"mange\"]}]}},{\"id\":\"wo\",\"type\":\"word-order\",\"instructions\":\"Put the words in order.\",\"payload\":{\"items\":[{\"tiles\":[\"Yesterday\",\"I\",\"ran\"],\"alternatives\":[[\"I\",\"ran\",\"Yesterday\"]]}]}}]}"
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "multiple-choice",
+            "title": "อาหาร",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "กิน",
+                  "choices": [
+                    "eat",
+                    "drink",
+                    "sleep"
+                  ],
+                  "correct": 0,
+                  "explanation": "กิน means to eat."
+                }
+              ]
+            }
+          },
+          {
+            "id": "gf",
+            "type": "gap-fill",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "ฉัน ___ ข้าว",
+                  "answers": [
+                    "กิน"
+                  ],
+                  "options": [
+                    "กิน",
+                    "ดื่ม"
+                  ],
+                  "translation": "I eat rice."
+                },
+                {
+                  "sentence": "Je _____ du pain.",
+                  "answers": [
+                    "mange"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "wo",
+            "type": "word-order",
+            "instructions": "Put the words in order.",
+            "payload": {
+              "items": [
+                {
+                  "tiles": [
+                    "Yesterday",
+                    "I",
+                    "ran"
+                  ],
+                  "alternatives": [
+                    [
+                      "I",
+                      "ran",
+                      "Yesterday"
+                    ]
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a host type's payload unchanged",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {
+                "level": 2,
+                "cards": [
+                  {
+                    "front": "กิน",
+                    "back": null
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "h",
+            "type": "free-form",
+            "payload": {
+              "level": 2,
+              "cards": [
+                {
+                  "front": "กิน",
+                  "back": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "keeps __proto__, constructor and toString in a host type's payload as data",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {
+                "__proto__": {
+                  "x": 1
+                },
+                "constructor": "a",
+                "toString": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "h",
+            "type": "free-form",
+            "payload": {
+              "__proto__": {
+                "x": 1
+              },
+              "constructor": "a",
+              "toString": 5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads exercise ids __proto__, constructor and toString",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "__proto__",
+              "type": "free-form",
+              "payload": {}
+            },
+            {
+              "id": "constructor",
+              "type": "free-form",
+              "payload": {}
+            },
+            {
+              "id": "toString",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "__proto__",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "constructor",
+            "type": "free-form",
+            "payload": {}
+          },
+          {
+            "id": "toString",
+            "type": "free-form",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a text of 2,000 emoji: the limit counts code points",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "h",
+            "type": "free-form",
+            "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a text of 10 emoji, 20 UTF-16 units, under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "😀😀😀😀😀😀😀😀😀😀"
+            }
+          ]
+        },
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "h",
+            "type": "free-form",
+            "title": "😀😀😀😀😀😀😀😀😀😀",
+            "payload": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a gap of five underscores",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน _____ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "gf",
+            "type": "gap-fill",
+            "payload": {
+              "items": [
+                {
+                  "sentence": "ฉัน _____ ข้าว",
+                  "answers": [
+                    "กิน"
+                  ],
+                  "options": [
+                    "กิน",
+                    "ดื่ม"
+                  ],
+                  "translation": "I eat rice."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads 8 choices",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8"
+                    ],
+                    "correct": 7,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "multiple-choice",
+            "title": "อาหาร",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "กิน",
+                  "choices": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8"
+                  ],
+                  "correct": 7,
+                  "explanation": "กิน means to eat."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads texts with white space around them",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "  กิน\n",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": [
+          {
+            "id": "mc",
+            "type": "multiple-choice",
+            "title": "อาหาร",
+            "payload": {
+              "questions": [
+                {
+                  "prompt": "  กิน\n",
+                  "choices": [
+                    "eat",
+                    "drink",
+                    "sleep"
+                  ],
+                  "correct": 0,
+                  "explanation": "กิน means to eat."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "refuses text that isn't JSON",
+      "input": {
+        "document": "{\"format\":"
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "not-json"
+        }
+      }
+    },
+    {
+      "name": "refuses JSON that isn't an object",
+      "input": {
+        "document": "[]"
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a document without a format",
+      "input": {
+        "document": {
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format"
+        }
+      }
+    },
+    {
+      "name": "refuses another format",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format"
+        }
+      }
+    },
+    {
+      "name": "refuses a later version",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 2,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format-version"
+        }
+      }
+    },
+    {
+      "name": "refuses a version given as text",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": "1",
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format-version"
+        }
+      }
+    },
+    {
+      "name": "refuses a document without a version",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "exercises": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an unknown field",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "extra": true
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a __proto__ field in the document",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [],
+          "__proto__": {}
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a constructor field in an exercise",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "constructor": "x"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a toString field in a built-in payload's question",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "p",
+                    "choices": [
+                      "a",
+                      "b"
+                    ],
+                    "correct": 0,
+                    "toString": 1
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a __proto__ field in a built-in payload",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "wo",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "a",
+                      "b"
+                    ]
+                  }
+                ],
+                "__proto__": {}
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses two exercises with the same id",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "a",
+              "type": "free-form",
+              "payload": {}
+            },
+            {
+              "id": "a",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a type the host didn't register",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "e",
+              "type": "essay",
+              "payload": {}
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a host type's payload that isn't an object",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": [
+                "a"
+              ]
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an exercise without a payload",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a text of spaces",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "   "
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a text of ideographic spaces",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "　　"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a text of a byte order mark",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "﻿",
+              "type": "free-form",
+              "payload": {}
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an empty text",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "instructions": ""
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a text of 2,001 emoji",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TEXT_TOO_LONG"
+        }
+      }
+    },
+    {
+      "name": "refuses a text of 11 emoji under a limit of 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "h",
+              "type": "free-form",
+              "payload": {},
+              "title": "😀😀😀😀😀😀😀😀😀😀😀"
+            }
+          ]
+        },
+        "limits": {
+          "maxTextLength": 10
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TEXT_TOO_LONG"
+        }
+      }
+    },
+    {
+      "name": "refuses 9 choices",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TOO_MANY_CHOICES"
+        }
+      }
+    },
+    {
+      "name": "refuses 3 exercises under a limit of 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  },
+                  {
+                    "sentence": "Je _____ du pain.",
+                    "answers": [
+                      "mange"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran",
+                        "Yesterday"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "limits": {
+          "maxExercises": 2
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TOO_MANY_EXERCISES"
+        }
+      }
+    },
+    {
+      "name": "refuses 31 tiles",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "w0",
+                      "w1",
+                      "w2",
+                      "w3",
+                      "w4",
+                      "w5",
+                      "w6",
+                      "w7",
+                      "w8",
+                      "w9",
+                      "w10",
+                      "w11",
+                      "w12",
+                      "w13",
+                      "w14",
+                      "w15",
+                      "w16",
+                      "w17",
+                      "w18",
+                      "w19",
+                      "w20",
+                      "w21",
+                      "w22",
+                      "w23",
+                      "w24",
+                      "w25",
+                      "w26",
+                      "w27",
+                      "w28",
+                      "w29",
+                      "w30"
+                    ],
+                    "alternatives": []
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TOO_MANY_TILES"
+        }
+      }
+    },
+    {
+      "name": "refuses text over the size limit, counted in UTF-8 bytes",
+      "input": {
+        "document": "{\"format\":\"hm-learn-content\",\"version\":1,\"exercises\":[{\"id\":\"h\",\"type\":\"free-form\",\"payload\":{},\"title\":\"กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก\"}]}",
+        "limits": {
+          "maxContentSize": 150
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "CONTENT_TOO_LARGE"
+        }
+      }
+    },
+    {
+      "name": "refuses a question with one choice",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a correct choice out of range",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 3,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a correct choice that isn't a whole number",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": 0.5,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a negative correct choice",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      "drink",
+                      "sleep"
+                    ],
+                    "correct": -1,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses choices the same once trimmed",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "eat",
+                      " eat "
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses choices the same after NFC",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "mc",
+              "type": "multiple-choice",
+              "title": "อาหาร",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "กิน",
+                    "choices": [
+                      "café",
+                      "café"
+                    ],
+                    "correct": 0,
+                    "explanation": "กิน means to eat."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a sentence without a gap",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน __ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a sentence with two gaps",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "___ กิน ___",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "กิน",
+                      "ดื่ม"
+                    ],
+                    "translation": "I eat rice."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses options without an accepted answer",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "gf",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "ฉัน ___ ข้าว",
+                    "answers": [
+                      "กิน"
+                    ],
+                    "options": [
+                      "ดื่ม",
+                      "นอน"
+                    ],
+                    "translation": "I eat rice."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an alternative that isn't a permutation of the tiles",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "Yesterday",
+                      "I",
+                      "ran"
+                    ],
+                    "alternatives": [
+                      [
+                        "I",
+                        "ran"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses one tile",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "wo",
+              "type": "word-order",
+              "instructions": "Put the words in order.",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "ran"
+                    ],
+                    "alternatives": []
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document read 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document read 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-content",
+        "version": 1,
+        "exercises": []
+      }
+    },
+    {
+      "name": "generated document refused 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "a",
+              "title": "",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": " 😀____ก😀_😀😀",
+                    "answers": [
+                      "a　﻿"
+                    ],
+                    "translation": "﻿"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "a",
+              "title": "😀",
+              "type": "gap-fill",
+              "payload": {
+                "items": []
+              }
+            },
+            {
+              "id": "c",
+              "title": "  a",
+              "type": "gap-fill",
+              "payload": {
+                "items": []
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "c",
+              "title": "﻿﻿",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  [
+                    2.3957579648964805e-116,
+                    {
+                      "C": -8.705020242682968e+108
+                    }
+                  ]
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "　 ",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  false
+                ]
+              }
+            },
+            {
+              "id": "a",
+              "title": "",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "___ก😀😀a",
+                    "answers": [],
+                    "translation": "\n😀😀"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "　\n\n",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "735": -8.920390423414766e+174,
+                    "E~{jZ`H": 2.0539072365287793e-33,
+                    "Yj3": null,
+                    ";XgGM_J": "T"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "﻿a\n",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": "\nก  _",
+                    "choices": [
+                      " \n﻿ a"
+                    ],
+                    "correct": 1,
+                    "explanation": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": "a",
+              "title": "😀 ﻿  ",
+              "type": "free-form",
+              "payload": [
+                -1.7875006651384587e+157,
+                [
+                  null,
+                  false,
+                  "n<Eo",
+                  "YC( ?p",
+                  2.3416326266574318e-111,
+                  null,
+                  ">",
+                  null,
+                  "yrO\"\\DRir"
+                ]
+              ]
+            },
+            {
+              "id": " ",
+              "title": "",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": [
+                  {
+                    "prompt": " 😀\n\n",
+                    "choices": [
+                      ""
+                    ],
+                    "correct": 3
+                  },
+                  {
+                    "prompt": " a\naก",
+                    "choices": [
+                      "😀"
+                    ],
+                    "correct": "ref",
+                    "explanation": " _　ก"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [],
+          "extra": {}
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "c",
+              "title": "a aกa",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "a ",
+                    "answers": [
+                      ""
+                    ],
+                    "options": [
+                      "　 ",
+                      "a"
+                    ],
+                    "translation": "　\n\n"
+                  },
+                  {
+                    "sentence": [
+                      -3.439993575507608e+126,
+                      "9",
+                      1.0307436572555588e+115,
+                      false,
+                      -7.945443855731353e+236,
+                      null,
+                      false,
+                      null,
+                      -3.063887823583269e+52,
+                      null
+                    ],
+                    "answers": [
+                      "😀﻿　"
+                    ],
+                    "options": [
+                      "\n\n_\n",
+                      "_\na　 "
+                    ],
+                    "translation": "😀"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "c",
+              "title": "  a😀 ",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "\n",
+                      " 　"
+                    ],
+                    "alternatives": [
+                      [
+                        "",
+                        ""
+                      ]
+                    ],
+                    "translation": ""
+                  }
+                ]
+              }
+            },
+            {
+              "id": " ",
+              "title": "_　😀 \n",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "  ",
+                    "answers": [],
+                    "options": [
+                      " 😀"
+                    ],
+                    "translation": " ก"
+                  },
+                  {
+                    "sentence": "😀﻿😀\n___　 😀",
+                    "answers": [],
+                    "options": [
+                      "　﻿ก 　"
+                    ],
+                    "translation": "aa \n"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "a　",
+              "type": "gap-fill",
+              "payload": {
+                "items": [
+                  {
+                    "sentence": "😀",
+                    "answers": [],
+                    "options": [
+                      "　"
+                    ],
+                    "translation": "　　a　_"
+                  }
+                ]
+              }
+            },
+            {
+              "id": "b",
+              "title": "😀_😀a ",
+              "type": "word-order",
+              "payload": {
+                "items": []
+              }
+            },
+            {
+              "id": "a",
+              "title": " \n_\n ",
+              "type": "word-order",
+              "payload": {
+                "items": [],
+                "payload": []
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "",
+              "type": "free-form",
+              "payload": [
+                null,
+                "P.a%X5uU",
+                null,
+                true,
+                true,
+                null,
+                true,
+                true
+              ]
+            },
+            {
+              "id": "b",
+              "title": "aกa  ",
+              "type": "word-order",
+              "payload": {
+                "items": []
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "a",
+              "title": "　a",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "a _",
+                      ""
+                    ],
+                    "alternatives": [
+                      []
+                    ],
+                    "translation": " a 　"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": " ",
+              "title": "ก",
+              "type": "multiple-choice",
+              "payload": {
+                "questions": []
+              }
+            },
+            {
+              "id": "a",
+              "title": "  a ",
+              "type": "word-order",
+              "payload": {
+                "items": []
+              }
+            },
+            {
+              "id": " ",
+              "title": " ﻿",
+              "type": "gap-fill",
+              "payload": {
+                "items": []
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "ก",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "a_a😀",
+                      ""
+                    ],
+                    "alternatives": [
+                      [
+                        "  ",
+                        "a"
+                      ]
+                    ],
+                    "payload": [
+                      [
+                        -3.566626283627233e-177,
+                        "T0VlHW#S*",
+                        false,
+                        false,
+                        "W^",
+                        null,
+                        -5.968531135730055e+104,
+                        4.526505069827776e-191,
+                        null
+                      ]
+                    ]
+                  },
+                  {
+                    "tiles": [
+                      " "
+                    ],
+                    "translation": "😀　 "
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            [
+              null,
+              null,
+              null,
+              1.573227215901687e-204,
+              null
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": " ",
+              "title": "ก😀  ",
+              "type": "word-order",
+              "payload": {
+                "items": []
+              }
+            },
+            {
+              "id": " ",
+              "title": "﻿a",
+              "type": "word-order",
+              "payload": {
+                "items": [
+                  {
+                    "tiles": [
+                      "ก ",
+                      "ก﻿aก"
+                    ],
+                    "alternatives": [
+                      [
+                        "__a",
+                        "　ก",
+                        "\n"
+                      ]
+                    ],
+                    "translation": " ﻿ _"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "exercises": [
+            {
+              "id": "b",
+              "title": "",
+              "type": "free-form",
+              "payload": {
+                "}": true,
+                "}`EzKeL": "L\"yRbz ",
+                "G%f": false,
+                "": true,
+                "GTZ*`Y": false,
+                "Pz?": 1.1895418961831944e-99,
+                "Ck2.0o3": -3.499263690276424e-265,
+                "LVivQU": null,
+                "D-vX.+s": null,
+                "%JUP`": "l'V^Lz$.Q"
+              }
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    }
+  ]
+}

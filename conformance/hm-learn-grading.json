@@ -1,0 +1,1036 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-grading",
+  "description": "Grading an answer with learn-sdk's default language profile, which applies Unicode NFC and nothing else: no case folding, trimming or locale rules, and no ICU. input.exercise is one exercise, read as an hm-learn-content document of its own, and input.answer the learner's answer. expected is the grade, or the rejection.",
+  "cases": [
+    {
+      "name": "multiple choice: both right",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": {
+          "selected": [
+            0,
+            1
+          ]
+        }
+      },
+      "expected": {
+        "score": 2,
+        "max": 2,
+        "items": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "name": "multiple choice: one wrong, one skipped",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": {
+          "selected": [
+            1,
+            null
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 2,
+        "items": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "name": "multiple choice: refuses an answer for one question of two",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": {
+          "selected": [
+            0
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "multiple choice: refuses a choice out of range",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": {
+          "selected": [
+            0,
+            3
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "multiple choice: refuses an answer that isn't an object",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": [
+          0,
+          1
+        ]
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "multiple choice: refuses an unknown field in an answer",
+      "input": {
+        "exercise": {
+          "id": "mc",
+          "type": "multiple-choice",
+          "payload": {
+            "questions": [
+              {
+                "prompt": "กิน",
+                "choices": [
+                  "eat",
+                  "drink"
+                ],
+                "correct": 0
+              },
+              {
+                "prompt": "ดื่ม",
+                "choices": [
+                  "eat",
+                  "drink",
+                  "sleep"
+                ],
+                "correct": 1
+              }
+            ]
+          }
+        },
+        "answer": {
+          "selected": [
+            0,
+            1
+          ],
+          "score": 2
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "gap fill: Thai, exactly as accepted",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน",
+                  "ทาน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "กิน"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Thai, the second accepted answer",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน",
+                  "ทาน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "ทาน"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Thai, a different word",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "กับ"
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Thai sara am written as nikhahit and sara aa doesn't match: NFC keeps them apart, and only a language profile may unify them",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "น้ำ"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "นํ้า"
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Thai tone mark and vowel in another order don't match under NFC alone",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "ที่"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "ท่ี"
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Latin, composed and decomposed accents match after NFC",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "café"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "café"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Vietnamese, stacked accents match after NFC",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "phở"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "phở"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: Korean, conjoining jamo match the syllable after NFC",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "한"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "한"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: letter case matters without a language profile",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "mange"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "Mange"
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: spaces around an answer matter without a language profile",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "mange"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            " mange"
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: an empty answer is wrong",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "mange"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            ""
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: a skipped gap is wrong",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "mange"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            null
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "gap fill: an accepted answer counts even when it isn't among the options",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน",
+                  "ทาน"
+                ],
+                "options": [
+                  "กิน",
+                  "ดื่ม"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "ทาน"
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "gap fill: refuses an answer that isn't text",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            1
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "gap fill: refuses two answers for one gap",
+      "input": {
+        "exercise": {
+          "id": "gf",
+          "type": "gap-fill",
+          "payload": {
+            "items": [
+              {
+                "sentence": "___",
+                "answers": [
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "filled": [
+            "กิน",
+            "กิน"
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "word order: the tiles' own order",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน",
+                  "ข้าว"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              0,
+              1,
+              2
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "word order: another order is wrong",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน",
+                  "ข้าว"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              1,
+              0,
+              2
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "word order: an alternative order is right",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "Yesterday",
+                  "I",
+                  "ran"
+                ],
+                "alternatives": [
+                  [
+                    "I",
+                    "ran",
+                    "Yesterday"
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              1,
+              2,
+              0
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "word order: swapping two identical tiles is still right",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "the",
+                  "cat",
+                  "saw",
+                  "the",
+                  "dog"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              3,
+              1,
+              2,
+              0,
+              4
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "score": 1,
+        "max": 1,
+        "items": [
+          true
+        ]
+      }
+    },
+    {
+      "name": "word order: a skipped item is wrong",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            null
+          ]
+        }
+      },
+      "expected": {
+        "score": 0,
+        "max": 1,
+        "items": [
+          false
+        ]
+      }
+    },
+    {
+      "name": "word order: refuses a tile placed twice",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "word order: refuses a tile out of range",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              0,
+              2
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "word order: refuses too few tiles",
+      "input": {
+        "exercise": {
+          "id": "wo",
+          "type": "word-order",
+          "payload": {
+            "items": [
+              {
+                "tiles": [
+                  "ฉัน",
+                  "กิน",
+                  "ข้าว"
+                ]
+              }
+            ]
+          }
+        },
+        "answer": {
+          "orders": [
+            [
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_ANSWER",
+          "reason": "malformed-answer"
+        }
+      }
+    },
+    {
+      "name": "refuses an exercise of a type the host didn't register",
+      "input": {
+        "exercise": {
+          "id": "e",
+          "type": "essay",
+          "payload": {}
+        },
+        "answer": {}
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    }
+  ]
+}
