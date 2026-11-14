@@ -29,4 +29,12 @@ describe("createExerciseTypes", () => {
     expect(createExerciseTypes([shortAnswer]).get("short-answer")).toBe(shortAnswer);
     expect(() => createExerciseTypes([shortAnswer, shortAnswer])).toThrow(TypeError);
   });
+
+  it("takes an optional reviewItems function, and refuses anything else there", () => {
+    const reviewItems = () => [];
+    expect(defineExerciseType({ ...shortAnswer, reviewItems }).reviewItems).toBe(reviewItems);
+    expect(() => defineExerciseType({ ...shortAnswer, reviewItems: "no" as never })).toThrow(
+      TypeError,
+    );
+  });
 });

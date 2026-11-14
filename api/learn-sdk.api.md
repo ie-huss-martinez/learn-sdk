@@ -9,6 +9,7 @@ import { FilePolicyOverrides } from '@hussmartinez/sdk-core';
 import { Limits } from '@hussmartinez/sdk-core';
 import { SdkCoreErrorCode } from '@hussmartinez/sdk-core';
 import { SdkError } from '@hussmartinez/sdk-core';
+import { Tool } from '@hussmartinez/sdk-core';
 
 // @public
 export function accessibleCourses<C extends Pick<Course, "code" | "position">>(learner: Learner, courses: readonly C[]): C[];
@@ -46,6 +47,9 @@ export interface CardRecord {
 }
 
 // @public
+export const checkTool: LearnPlayerTool;
+
+// @public
 export interface Content {
     // (undocumented)
     readonly exercises: readonly Exercise[];
@@ -75,6 +79,9 @@ export function createExerciseTypes(types: readonly ExerciseType<unknown, unknow
 
 // @public
 export function createFsrsScheduler(options?: FsrsSchedulerOptions): Scheduler_2;
+
+// @public
+export function createLearnPlayer(options: LearnPlayerOptions): LearnPlayer;
 
 // @public
 export function createLocalProgressStore(options: LocalProgressStoreOptions): ProgressStore;
@@ -119,6 +126,8 @@ export interface Exercise<Payload = unknown> {
 export interface ExerciseType<Payload = unknown, Answer = unknown> {
     // (undocumented)
     grade(payload: Payload, answer: Answer, profile: LanguageProfile): Grade;
+    // (undocumented)
+    reviewItems?(payload: Payload, answer: Answer, grade: Grade): readonly ReviewedItem[];
     readonly type: string;
     // (undocumented)
     validate(payload: unknown, context: ValidationContext): Payload | undefined;
@@ -389,6 +398,11 @@ export const learnMessages: {
     readonly "validation.gap-count": "Write the sentence with exactly one gap, as three underscores: ___";
     readonly "validation.answer-not-in-options": "None of the choices is an accepted answer. Add the answer to the choices.";
     readonly "validation.not-a-permutation": "Use every word exactly once, in any order.";
+    readonly "tools.check": "Check";
+    readonly "tools.next": "Next";
+    readonly "tools.previous": "Previous";
+    readonly "tools.retry": "Try again";
+    readonly "tools.skip": "Skip";
     readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
     readonly "errors.ABORTED": "The operation was cancelled.";
     readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
@@ -433,6 +447,85 @@ export const learnMessages: {
     readonly "keys.pageUp": "Page Up";
     readonly "keys.pageDown": "Page Down";
 };
+
+// @public
+export interface LearnPlayer {
+    answer(answer: unknown): void;
+    check(): void;
+    dispose(): void;
+    // (undocumented)
+    getSnapshot(): LearnPlayerSnapshot;
+    // (undocumented)
+    next(): void;
+    // (undocumented)
+    previous(): void;
+    retry(): void;
+    retrySave(): void;
+    settled(): Promise<void>;
+    // (undocumented)
+    skip(): void;
+    // (undocumented)
+    subscribe(listener: () => void): () => void;
+}
+
+// @public
+export type LearnPlayerEvent = {
+    readonly type: "exercise_checked";
+    readonly exerciseType: string;
+    readonly items: number;
+} | {
+    readonly type: "player_completed";
+    readonly exercises: number;
+};
+
+// @public
+export interface LearnPlayerOptions {
+    readonly content: unknown;
+    // (undocumented)
+    readonly limits?: LearnLimitOverrides;
+    readonly now?: () => number;
+    readonly onError?: (error: LearnError) => void;
+    // (undocumented)
+    readonly onEvent?: (event: LearnPlayerEvent) => void;
+    readonly onProgress?: (change: ProgressChange) => void;
+    readonly profile?: LanguageProfile;
+    readonly progressStore?: ProgressStore;
+    readonly scheduler?: Scheduler_2;
+    readonly scope?: string;
+    // (undocumented)
+    readonly types: ExerciseTypes;
+}
+
+// @public
+export interface LearnPlayerSnapshot {
+    // (undocumented)
+    readonly can: PlayerAbilities;
+    readonly content: Content;
+    // (undocumented)
+    readonly exercises: readonly PlayerExerciseState[];
+    readonly position: number;
+    // (undocumented)
+    readonly save: PlayerSaveState;
+    readonly summary: PlayerSummary | null;
+}
+
+// @public
+export type LearnPlayerTool = Tool<LearnPlayerToolState, LearnPlayerToolContext, undefined>;
+
+// @public
+export interface LearnPlayerToolContext {
+    // (undocumented)
+    readonly player: LearnPlayer;
+}
+
+// @public
+export const learnPlayerTools: readonly LearnPlayerTool[];
+
+// @public
+export interface LearnPlayerToolState {
+    // (undocumented)
+    readonly snapshot: LearnPlayerSnapshot;
+}
 
 // @public
 export type LearnRole = "learner" | "teacher";
@@ -495,6 +588,9 @@ export interface MultipleChoiceQuestion {
 }
 
 // @public
+export const nextTool: LearnPlayerTool;
+
+// @public
 export function normalizeForGrading(text: string, profile: LanguageProfile): string;
 
 // @public
@@ -518,6 +614,51 @@ export function parseProgress(input: unknown, options?: ParseProgressOptions): P
 export interface ParseProgressOptions {
     readonly limits?: LearnLimitOverrides;
 }
+
+// @public
+export interface PlayerAbilities {
+    // (undocumented)
+    readonly check: boolean;
+    // (undocumented)
+    readonly next: boolean;
+    // (undocumented)
+    readonly previous: boolean;
+    // (undocumented)
+    readonly retry: boolean;
+    // (undocumented)
+    readonly skip: boolean;
+}
+
+// @public
+export interface PlayerExerciseState {
+    readonly draft: unknown;
+    readonly grade: Grade | null;
+    // (undocumented)
+    readonly id: string;
+    // (undocumented)
+    readonly status: PlayerExerciseStatus;
+    // (undocumented)
+    readonly type: string;
+}
+
+// @public
+export type PlayerExerciseStatus = "answering" | "checked" | "skipped";
+
+// @public
+export type PlayerSaveState = "idle" | "saving" | "failed";
+
+// @public
+export interface PlayerSummary {
+    // (undocumented)
+    readonly max: number;
+    // (undocumented)
+    readonly score: number;
+    // (undocumented)
+    readonly skipped: number;
+}
+
+// @public
+export const previousTool: LearnPlayerTool;
 
 // @public
 export const PROGRESS_FORMAT = "hm-learn-progress";
@@ -571,6 +712,16 @@ export interface ProgressStore {
 export type Rating = "again" | "hard" | "good" | "easy";
 
 // @public
+export const retryTool: LearnPlayerTool;
+
+// @public
+export interface ReviewedItem {
+    readonly itemId: string;
+    // (undocumented)
+    readonly rating: Rating;
+}
+
+// @public
 export interface Scheduled {
     // (undocumented)
     readonly due: number;
@@ -593,6 +744,9 @@ export interface SchedulingState {
     readonly scheduler: string;
     readonly version: number;
 }
+
+// @public
+export const skipTool: LearnPlayerTool;
 
 // @public
 export function splitAtGap(sentence: string): readonly [before: string, after: string] | undefined;

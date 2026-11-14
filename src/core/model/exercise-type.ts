@@ -1,5 +1,6 @@
 import type { Grade } from "./content.js";
 import type { LanguageProfile } from "./language-profile.js";
+import type { Rating } from "./scheduling.js";
 import type { ValidationContext } from "./validation-context.js";
 
 /**
@@ -14,6 +15,10 @@ import type { ValidationContext } from "./validation-context.js";
  *   validated data.
  * - `grade` scores a validated answer. It compares text only through
  *   {@link normalizeForGrading}, never `Intl` (ADR 0004).
+ * - `reviewItems`, optional, gives the items a checked answer reviewed, for
+ *   spaced repetition (ADR 0007). It's for types whose items the learner
+ *   rates, such as flashcards; quiz types leave it out, unless a host
+ *   decides how their grades become ratings.
  *
  * @typeParam Payload - The type's validated data.
  * @typeParam Answer - The type's validated answer.
@@ -25,6 +30,19 @@ export interface ExerciseType<Payload = unknown, Answer = unknown> {
   validate(payload: unknown, context: ValidationContext): Payload | undefined;
   validateAnswer(answer: unknown, payload: Payload, context: ValidationContext): Answer | undefined;
   grade(payload: Payload, answer: Answer, profile: LanguageProfile): Grade;
+  reviewItems?(payload: Payload, answer: Answer, grade: Grade): readonly ReviewedItem[];
+}
+
+/**
+ * An item a checked answer reviewed, and how the learner rated it, as
+ * {@link ExerciseType.reviewItems} returns it.
+ *
+ * @public
+ */
+export interface ReviewedItem {
+  /** The item's id, which its card in the learner's progress is kept under. */
+  readonly itemId: string;
+  readonly rating: Rating;
 }
 
 /**
@@ -81,6 +99,9 @@ export function defineExerciseType<Payload, Answer>(
     if (typeof definition[name] !== "function") {
       throw new TypeError(`The exercise type "${definition.type}" needs a ${name} function.`);
     }
+  }
+  if (definition.reviewItems !== undefined && typeof definition.reviewItems !== "function") {
+    throw new TypeError(`The exercise type "${definition.type}"'s reviewItems must be a function.`);
   }
   return Object.freeze({ ...definition });
 }

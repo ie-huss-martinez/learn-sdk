@@ -1,7 +1,7 @@
 import { LearnError } from "../errors/learn-error.js";
 import { type LearnLimitOverrides, learnLimits } from "../errors/learn-limits.js";
 import type { Exercise, Grade } from "../model/content.js";
-import type { ExerciseTypes } from "../model/exercise-type.js";
+import type { ExerciseType, ExerciseTypes } from "../model/exercise-type.js";
 import { defaultLanguageProfile, type LanguageProfile } from "../model/language-profile.js";
 import { createIssueSink, createValidationContext, issueDetails } from "../model/validation.js";
 
@@ -61,6 +61,32 @@ export function gradeAnswer(
   answer: unknown,
   options: GradeAnswerOptions,
 ): Grade {
+  return checkAnswer(exercise, answer, options).grade;
+}
+
+/**
+ * What {@link gradeAnswer} does, keeping what the player records: the
+ * exercise's type, and the answer as its type validated it.
+ *
+ * @internal
+ */
+export interface CheckedAnswer {
+  readonly type: ExerciseType;
+  readonly answer: unknown;
+  readonly grade: Grade;
+}
+
+/**
+ * Validates and grades an answer, as {@link gradeAnswer} does, and returns
+ * the validated answer and the type with the grade.
+ *
+ * @internal
+ */
+export function checkAnswer(
+  exercise: Exercise,
+  answer: unknown,
+  options: GradeAnswerOptions,
+): CheckedAnswer {
   const type = options.types.get(exercise.type);
   if (!type) {
     throw new LearnError("INVALID_DOCUMENT", "The exercise's type isn't available.", {
@@ -87,5 +113,9 @@ export function gradeAnswer(
   if (!isValidGrade(grade)) {
     throw new TypeError(`The exercise type "${type.type}" returned an invalid grade.`);
   }
-  return { score: grade.score, max: grade.max, items: [...grade.items] };
+  return {
+    type,
+    answer: validAnswer,
+    grade: { score: grade.score, max: grade.max, items: [...grade.items] },
+  };
 }
