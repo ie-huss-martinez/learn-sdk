@@ -1,0 +1,49 @@
+{
+  "format": "hm-learn-content",
+  "version": 1,
+  "exercises": [
+    {
+      "id": "food-words",
+      "type": "multiple-choice",
+      "title": "Food words",
+      "instructions": "Choose what each word means.",
+      "payload": {
+        "questions": [
+          {
+            "prompt": "กิน",
+            "choices": ["to eat", "to drink", "to sleep"],
+            "correct": 0,
+            "explanation": "กิน (gin) is the everyday word for eating."
+          },
+          { "prompt": "น้ำ", "choices": ["rice", "water"], "correct": 1 }
+        ]
+      }
+    },
+    {
+      "id": "at-the-market",
+      "type": "gap-fill",
+      "title": "At the market",
+      "instructions": "Fill in each gap.",
+      "payload": {
+        "items": [
+          { "sentence": "ฉัน ___ ข้าว", "answers": ["กิน"], "translation": "I eat rice." },
+          {
+            "sentence": "เขา ___ น้ำ",
+            "answers": ["ดื่ม"],
+            "options": ["กิน", "ดื่ม"],
+            "translation": "He drinks water."
+          }
+        ]
+      }
+    },
+    {
+      "id": "first-sentences",
+      "type": "word-order",
+      "title": "First sentences",
+      "instructions": "Put the words in order.",
+      "payload": {
+        "items": [{ "tiles": ["ฉัน", "กิน", "ข้าว"], "translation": "I eat rice." }]
+      }
+    }
+  ]
+}
