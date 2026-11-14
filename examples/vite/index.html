@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Nothing from anywhere but this origin: the player makes no requests of its own. -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; connect-src 'self'; style-src 'self'; object-src 'none'; base-uri 'self'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The learn-sdk player</title>
+  </head>
+  <body>
+    <main>
+      <h1>The learn-sdk player</h1>
+      <p>Thai basics, with every exercise type. Answers stay on this device.</p>
+      <div id="player"></div>
+    </main>
+    <script type="module" src="/src/player.tsx"></script>
+  </body>
+</html>

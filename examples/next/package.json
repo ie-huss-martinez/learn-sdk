@@ -1,0 +1,25 @@
+{
+  "name": "@hussmartinez/learn-sdk-example-next",
+  "private": true,
+  "description": "A Next.js App Router application that renders the built @hussmartinez/learn-sdk player on the server and hydrates it under a nonce-based Content Security Policy, for the end-to-end tests.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "NEXT_TELEMETRY_DISABLED=1 next build",
+    "start": "NEXT_TELEMETRY_DISABLED=1 next start --port 4341"
+  },
+  "dependencies": {
+    "@hussmartinez/learn-sdk": "workspace:*",
+    "@hussmartinez/ui": "catalog:",
+    "next": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}
