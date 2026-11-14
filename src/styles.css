@@ -7,3 +7,222 @@
  * host's unlayered CSS beats every hm layer without !important (ADR 0005).
  */
 @layer hm.tokens, hm.base, hm.components, hm.sdk;
+
+@layer hm.sdk {
+  /* The player (ADR 0005): one exercise at a time, then its actions. */
+  .hm-learn-player {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hm-gap-loose);
+    max-inline-size: var(--hm-surface-width-large);
+    color: var(--hm-color-text);
+    font-family: var(--hm-font-family);
+    font-size: var(--hm-font-size-body);
+    line-height: var(--hm-line-height-body);
+  }
+
+  .hm-learn-exercise,
+  .hm-learn-block,
+  .hm-learn-question {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hm-gap-normal);
+  }
+
+  .hm-learn-block {
+    gap: var(--hm-gap-loose);
+  }
+
+  .hm-learn-position,
+  .hm-learn-hint,
+  .hm-learn-translation {
+    margin: 0;
+    color: var(--hm-color-text-muted);
+    font-size: var(--hm-font-size-small);
+  }
+
+  .hm-learn-title {
+    margin: 0;
+    font-size: var(--hm-font-size-title);
+    font-weight: var(--hm-font-weight-strong);
+    line-height: var(--hm-line-height-tight);
+  }
+
+  .hm-learn-title:focus-visible {
+    border-radius: var(--hm-radius-control);
+    outline: var(--hm-focus-ring);
+    outline-offset: var(--hm-focus-ring-offset);
+  }
+
+  .hm-learn-instructions,
+  .hm-learn-prompt,
+  .hm-learn-sentence,
+  .hm-learn-unsupported,
+  .hm-learn-error {
+    margin: 0;
+  }
+
+  .hm-learn-prompt,
+  .hm-learn-sentence {
+    font-size: var(--hm-font-size-title);
+  }
+
+  /* Groups of choices and tiles: fieldsets without their frame. */
+  .hm-learn-choices,
+  .hm-learn-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hm-gap-tight);
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .hm-learn-tiles--placed {
+    min-block-size: var(--hm-target-size);
+    padding: var(--hm-inset-tight);
+    border: var(--hm-border-width) dashed var(--hm-color-border-strong);
+    border-radius: var(--hm-radius-surface);
+  }
+
+  .hm-learn-choice,
+  .hm-learn-tile {
+    min-block-size: var(--hm-target-size);
+    min-inline-size: var(--hm-target-size);
+    padding-inline: var(--hm-control-padding-x);
+    border: var(--hm-border-width) solid var(--hm-color-border-strong);
+    border-radius: var(--hm-radius-control);
+    background: var(--hm-color-control);
+    color: var(--hm-color-text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .hm-learn-choice:hover,
+  .hm-learn-tile:hover {
+    background: var(--hm-color-control-hover);
+  }
+
+  .hm-learn-choice:focus-visible,
+  .hm-learn-tile:focus-visible,
+  .hm-learn-gap:focus-visible {
+    outline: var(--hm-focus-ring);
+    outline-offset: var(--hm-focus-ring-offset);
+  }
+
+  .hm-learn-choice[aria-pressed="true"] {
+    border-color: var(--hm-color-accent);
+    background: var(--hm-color-accent-subtle);
+    color: var(--hm-color-accent-text);
+    font-weight: var(--hm-font-weight-strong);
+  }
+
+  /* Can't be chosen any more, but stays focusable (ADR 0005). */
+  .hm-learn-choice[aria-disabled="true"],
+  .hm-learn-tile[aria-disabled="true"] {
+    cursor: default;
+  }
+
+  .hm-learn-tile[data-hm-placed] {
+    border-style: dashed;
+    background: transparent;
+    color: var(--hm-color-text-muted);
+  }
+
+  .hm-learn-choice[data-hm-result="right"] {
+    border-color: var(--hm-color-success);
+    background: var(--hm-color-success-subtle);
+    color: var(--hm-color-success-text);
+  }
+
+  .hm-learn-choice[data-hm-result="wrong"] {
+    border-color: var(--hm-color-danger);
+    background: var(--hm-color-danger-subtle);
+    color: var(--hm-color-danger-text);
+  }
+
+  .hm-learn-gap {
+    display: inline-block;
+    min-inline-size: var(--hm-surface-width-small);
+    max-inline-size: 100%;
+    margin-inline: var(--hm-gap-tight);
+    padding-inline: var(--hm-inset-tight);
+    border: 0;
+    border-block-end: var(--hm-border-width-2) solid var(--hm-color-border-strong);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+
+  span.hm-learn-gap:not([data-hm-filled]) {
+    color: var(--hm-color-text-muted);
+  }
+
+  /* Results carry an icon and text, never colour alone (ADR 0005). */
+  .hm-learn-result,
+  .hm-learn-item-result {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--hm-gap-tight);
+    margin: 0;
+  }
+
+  .hm-learn-result {
+    font-weight: var(--hm-font-weight-strong);
+  }
+
+  .hm-learn-result svg,
+  .hm-learn-item-result svg {
+    flex: none;
+    inline-size: var(--hm-icon-size);
+    block-size: var(--hm-icon-size);
+  }
+
+  [data-hm-result="right"]:is(.hm-learn-result, .hm-learn-item-result) {
+    color: var(--hm-color-success-text);
+  }
+
+  [data-hm-result="wrong"]:is(.hm-learn-result, .hm-learn-item-result) {
+    color: var(--hm-color-danger-text);
+  }
+
+  .hm-learn-explanation {
+    color: var(--hm-color-text);
+  }
+
+  .hm-learn-save-failed,
+  .hm-learn-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--hm-gap-normal);
+    padding: var(--hm-inset-normal);
+    border-radius: var(--hm-radius-surface);
+  }
+
+  .hm-learn-save-failed {
+    background: var(--hm-color-warning-subtle);
+    color: var(--hm-color-warning-text);
+  }
+
+  .hm-learn-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--hm-color-surface-sunken);
+  }
+
+  .hm-learn-save-failed p,
+  .hm-learn-summary p {
+    margin: 0;
+  }
+
+  .hm-learn-error {
+    color: var(--hm-color-danger-text);
+  }
+
+  .hm-learn-toolbar {
+    flex-wrap: wrap;
+  }
+}

@@ -1,3 +1,4 @@
+import { browserInstances } from "@hussmartinez/sdk-config/testing/browser-instances";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
@@ -23,6 +24,20 @@ export default defineConfig(({ mode }) => {
           },
         },
         {
+          // Every package the browser tests import, optimised once before any
+          // test starts, so a later file's new import doesn't make Vite
+          // optimise again and reload the page mid-run.
+          optimizeDeps: {
+            include: [
+              "@hussmartinez/sdk-core",
+              "@hussmartinez/ui",
+              "@hussmartinez/ui/react",
+              "axe-core",
+              "react",
+              "react/jsx-dev-runtime",
+              "react-dom/client",
+            ],
+          },
           test: {
             name: "browser",
             include: ["src/**/*.browser.test.{ts,tsx}", "test/**/*.browser.test.ts"],
@@ -30,7 +45,10 @@ export default defineConfig(({ mode }) => {
               enabled: true,
               headless: true,
               provider: playwright(),
-              instances: browsers.map((browser) => ({ browser })),
+              // The same browsers; with HM_BROWSER_DIAGNOSTICS set to a folder,
+              // Chromium also records a net log there, for startup failures
+              // that leave no reason (sdk-config's browserInstances).
+              instances: browserInstances(browsers),
             },
           },
         },
