@@ -1,0 +1,597 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-progress-changes",
+  "description": "Changes applied to stored progress, as a progress store saves them (learn-sdk ADR 0003): input.progress is an hm-learn-progress document, and input.changes the changes in order. An attempt is appended; a review replaces its item's card where it is, or appends a new item's card. expected is the hm-learn-progress document after the changes, or the rejection of the progress.",
+  "cases": [
+    {
+      "name": "no changes leave progress as it was",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        },
+        "changes": []
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "attempts are appended in order",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        },
+        "changes": [
+          {
+            "kind": "attempt",
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600001
+          },
+          {
+            "kind": "attempt",
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                1
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600002
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600001
+          },
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                1
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600002
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "a review of a new item appends its card",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        },
+        "changes": [
+          {
+            "kind": "review",
+            "itemId": "น้ำ",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000,
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          },
+          {
+            "itemId": "น้ำ",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000
+          }
+        ]
+      }
+    },
+    {
+      "name": "a review replaces its item's card, which keeps its place",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            },
+            {
+              "itemId": "ข้าว",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        },
+        "changes": [
+          {
+            "kind": "review",
+            "itemId": "กิน",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000,
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000
+          },
+          {
+            "itemId": "ข้าว",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "the last of two reviews of an item wins",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        },
+        "changes": [
+          {
+            "kind": "review",
+            "itemId": "w",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000,
+            "at": 1767225600000
+          },
+          {
+            "kind": "review",
+            "itemId": "w",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767398400000
+              }
+            },
+            "due": 1767398400000,
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "w",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767398400000
+              }
+            },
+            "due": 1767398400000
+          }
+        ]
+      }
+    },
+    {
+      "name": "item ids __proto__ and constructor are ordinary ids",
+      "input": {
+        "progress": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        },
+        "changes": [
+          {
+            "kind": "review",
+            "itemId": "__proto__",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000,
+            "at": 1767225600000
+          },
+          {
+            "kind": "review",
+            "itemId": "constructor",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000,
+            "at": 1767225600000
+          },
+          {
+            "kind": "review",
+            "itemId": "__proto__",
+            "rating": "good",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767398400000
+              }
+            },
+            "due": 1767398400000,
+            "at": 1767225600000
+          }
+        ]
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "__proto__",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767398400000
+              }
+            },
+            "due": 1767398400000
+          },
+          {
+            "itemId": "constructor",
+            "scheduling": {
+              "scheduler": "fake",
+              "model": "doubling",
+              "version": 1,
+              "card": {
+                "n": 1767312000000
+              }
+            },
+            "due": 1767312000000
+          }
+        ]
+      }
+    },
+    {
+      "name": "refuses progress that isn't hm-learn-progress",
+      "input": {
+        "progress": {
+          "attempts": [],
+          "cards": []
+        },
+        "changes": []
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format"
+        }
+      }
+    }
+  ]
+}

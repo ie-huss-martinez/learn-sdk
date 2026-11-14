@@ -1,0 +1,2996 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-progress",
+  "description": "Reading hm-learn-progress documents (docs/formats/hm-learn-progress.md). input.document is the document, as a JSON value or as JSON text; input.limits, when given, overrides learn-sdk's default limits. expected is the document as the reader writes it back, or the rejection. Answers and scheduler states are opaque, so they come back exactly as given.",
+  "cases": [
+    {
+      "name": "reads a document unchanged",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a document with no attempts or cards",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "reads a document from JSON text",
+      "input": {
+        "document": "{\"format\":\"hm-learn-progress\",\"version\":1,\"attempts\":[{\"exerciseId\":\"mc\",\"answer\":{\"selected\":[0]},\"grade\":{\"score\":1,\"max\":1,\"items\":[true]},\"at\":1767225600000}],\"cards\":[{\"itemId\":\"กิน\",\"scheduling\":{\"scheduler\":\"fsrs\",\"model\":\"FSRS-7\",\"version\":1,\"card\":{\"stability\":3.9,\"difficulty\":5.1}},\"due\":1767484800000}]}"
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "copies answers of every JSON kind unchanged",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": null,
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            },
+            {
+              "exerciseId": "mc",
+              "answer": "กิน",
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            },
+            {
+              "exerciseId": "mc",
+              "answer": 1.5,
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            },
+            {
+              "exerciseId": "mc",
+              "answer": [
+                1,
+                "a",
+                null
+              ],
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            },
+            {
+              "exerciseId": "mc",
+              "answer": true,
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            },
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "deep": {
+                  "list": [
+                    {}
+                  ]
+                }
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": null,
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": "กิน",
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": 1.5,
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": [
+              1,
+              "a",
+              null
+            ],
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": true,
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          },
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "deep": {
+                "list": [
+                  {}
+                ]
+              }
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "copies a scheduler state's floats exactly",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 0.30000000000000004,
+                  "difficulty": 1e-7
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 0.30000000000000004,
+                "difficulty": 1e-7
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a state from a scheduler it doesn't know",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "my-own",
+                "model": "v9",
+                "version": 7,
+                "card": [
+                  1,
+                  2
+                ]
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "my-own",
+              "model": "v9",
+              "version": 7,
+              "card": [
+                1,
+                2
+              ]
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "keeps __proto__, constructor and toString in an answer and a scheduler state as data",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "e",
+              "answer": {
+                "__proto__": {
+                  "x": 1
+                },
+                "constructor": "a",
+                "toString": 5
+              },
+              "grade": {
+                "score": 0,
+                "max": 1,
+                "items": [
+                  false
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "w",
+              "scheduling": {
+                "scheduler": "s",
+                "model": "m",
+                "version": 1,
+                "card": {
+                  "__proto__": [],
+                  "constructor": {}
+                }
+              },
+              "due": 1767225600000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "e",
+            "answer": {
+              "__proto__": {
+                "x": 1
+              },
+              "constructor": "a",
+              "toString": 5
+            },
+            "grade": {
+              "score": 0,
+              "max": 1,
+              "items": [
+                false
+              ]
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "w",
+            "scheduling": {
+              "scheduler": "s",
+              "model": "m",
+              "version": 1,
+              "card": {
+                "__proto__": [],
+                "constructor": {}
+              }
+            },
+            "due": 1767225600000
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads item ids __proto__, constructor and toString",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "__proto__",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            },
+            {
+              "itemId": "constructor",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            },
+            {
+              "itemId": "toString",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "__proto__",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          },
+          {
+            "itemId": "constructor",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          },
+          {
+            "itemId": "toString",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a grade with no items",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 0,
+                "max": 0,
+                "items": []
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 0,
+              "max": 0,
+              "items": []
+            },
+            "at": 1767225600000
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "reads a time of 1, just after the epoch",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "mc",
+            "answer": {
+              "selected": [
+                0
+              ]
+            },
+            "grade": {
+              "score": 1,
+              "max": 1,
+              "items": [
+                true
+              ]
+            },
+            "at": 1
+          }
+        ],
+        "cards": [
+          {
+            "itemId": "กิน",
+            "scheduling": {
+              "scheduler": "fsrs",
+              "model": "FSRS-7",
+              "version": 1,
+              "card": {
+                "stability": 3.9,
+                "difficulty": 5.1
+              }
+            },
+            "due": 1767484800000
+          }
+        ]
+      }
+    },
+    {
+      "name": "refuses text that isn't JSON",
+      "input": {
+        "document": "{oops"
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "not-json"
+        }
+      }
+    },
+    {
+      "name": "refuses another format",
+      "input": {
+        "document": {
+          "format": "hm-learn-content",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format"
+        }
+      }
+    },
+    {
+      "name": "refuses a later version",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 2,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "reason": "unknown-format-version"
+        }
+      }
+    },
+    {
+      "name": "refuses a document without cards",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an unknown field in an attempt",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000,
+              "correct": true
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a __proto__ field in an attempt",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "e",
+              "answer": 1,
+              "grade": {
+                "score": 0,
+                "max": 1,
+                "items": [
+                  false
+                ]
+              },
+              "at": 1767225600000,
+              "__proto__": {}
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a constructor field in a grade",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "e",
+              "answer": 1,
+              "grade": {
+                "score": 0,
+                "max": 1,
+                "items": [
+                  false
+                ],
+                "constructor": 1
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a toString field in a scheduling envelope",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "w",
+              "scheduling": {
+                "scheduler": "s",
+                "model": "m",
+                "version": 1,
+                "card": {},
+                "toString": 1
+              },
+              "due": 1767225600000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an attempt without an answer",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a card without a scheduler state",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a score over the max",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 2,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a grade item that isn't true or false",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 0,
+                "max": 1,
+                "items": [
+                  1
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a time of 0",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 0
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a negative time",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": -1
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a time that isn't whole",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767225600000.5
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a blank exercise id",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": " ",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 1,
+                "items": [
+                  true
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses a scheduler version that isn't whole",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1.5,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "refuses an item id of 2,001 emoji",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TEXT_TOO_LONG"
+        }
+      }
+    },
+    {
+      "name": "refuses a grade of 101 items",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "mc",
+              "answer": {
+                "selected": [
+                  0
+                ]
+              },
+              "grade": {
+                "score": 0,
+                "max": 101,
+                "items": [
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false,
+                  false
+                ]
+              },
+              "at": 1767225600000
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "กิน",
+              "scheduling": {
+                "scheduler": "fsrs",
+                "model": "FSRS-7",
+                "version": 1,
+                "card": {
+                  "stability": 3.9,
+                  "difficulty": 5.1
+                }
+              },
+              "due": 1767484800000
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "TOO_MANY_ITEMS"
+        }
+      }
+    },
+    {
+      "name": "refuses text over the size limit",
+      "input": {
+        "document": "{\"format\":\"hm-learn-progress\",\"version\":1,\"attempts\":[{\"exerciseId\":\"mc\",\"answer\":{\"selected\":[0]},\"grade\":{\"score\":1,\"max\":1,\"items\":[true]},\"at\":1767225600000}],\"cards\":[{\"itemId\":\"กิน\",\"scheduling\":{\"scheduler\":\"fsrs\",\"model\":\"FSRS-7\",\"version\":1,\"card\":{\"stability\":3.9,\"difficulty\":5.1}},\"due\":1767484800000}]}",
+        "limits": {
+          "maxContentSize": 100
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "CONTENT_TOO_LARGE"
+        }
+      }
+    },
+    {
+      "name": "generated document read 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "a　a　",
+              "scheduling": {
+                "scheduler": "  _ 😀",
+                "model": " 😀  ",
+                "version": 0,
+                "card": "bhaau"
+              },
+              "due": 3
+            },
+            {
+              "itemId": "　 a",
+              "scheduling": {
+                "scheduler": " a",
+                "model": "กa",
+                "version": 2,
+                "card": true
+              },
+              "due": 1189893212285
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": "a　a　",
+            "scheduling": {
+              "scheduler": "  _ 😀",
+              "model": " 😀  ",
+              "version": 0,
+              "card": "bhaau"
+            },
+            "due": 3
+          },
+          {
+            "itemId": "　 a",
+            "scheduling": {
+              "scheduler": " a",
+              "model": "กa",
+              "version": 2,
+              "card": true
+            },
+            "due": 1189893212285
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated document read 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "+U*",
+              "answer": -4.839416738761983e-195,
+              "grade": {
+                "score": 1,
+                "max": 2,
+                "items": [
+                  false
+                ]
+              },
+              "at": 504030131705
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "+U*",
+            "answer": -4.839416738761983e-195,
+            "grade": {
+              "score": 1,
+              "max": 2,
+              "items": [
+                false
+              ]
+            },
+            "at": 504030131705
+          }
+        ],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "😀\na_😀",
+              "answer": {
+                "EfihH>:": "=",
+                "d\\": null,
+                "f0,)zhp1": "Bd>",
+                "c@iD:jT": "Y@Eyp"
+              },
+              "grade": {
+                "score": 2,
+                "max": 2,
+                "items": []
+              },
+              "at": 2
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "😀\na_😀",
+            "answer": {
+              "EfihH>:": "=",
+              "d\\": null,
+              "f0,)zhp1": "Bd>",
+              "c@iD:jT": "Y@Eyp"
+            },
+            "grade": {
+              "score": 2,
+              "max": 2,
+              "items": []
+            },
+            "at": 2
+          }
+        ],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": " 😀aก",
+              "scheduling": {
+                "scheduler": "﻿﻿ ก",
+                "model": "_😀﻿ _",
+                "version": 0,
+                "card": null
+              },
+              "due": 1462858845938
+            }
+          ]
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": [
+          {
+            "itemId": " 😀aก",
+            "scheduling": {
+              "scheduler": "﻿﻿ ก",
+              "model": "_😀﻿ _",
+              "version": 0,
+              "card": null
+            },
+            "due": 1462858845938
+          }
+        ]
+      }
+    },
+    {
+      "name": "generated document read 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": " 😀ก\n",
+              "answer": [
+                [],
+                null,
+                {
+                  "xbIH&|{": true,
+                  "D72|}:U": "p0NO`s",
+                  "qP0v": "|b~EJcm,<`",
+                  "fl": "|aq]zo8 ",
+                  "=Hn@SI": "Un6tke",
+                  "3!<6i=": "#lz%r>P)b",
+                  "Hb(UJ9-z": 2.0747005656668754e-28,
+                  "hdfo/N]I4q": null,
+                  "}FC": 2.1114041801027902e-45,
+                  "a": true
+                }
+              ],
+              "grade": {
+                "score": 2,
+                "max": 3,
+                "items": []
+              },
+              "at": 2
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": " 😀ก\n",
+            "answer": [
+              [],
+              null,
+              {
+                "xbIH&|{": true,
+                "D72|}:U": "p0NO`s",
+                "qP0v": "|b~EJcm,<`",
+                "fl": "|aq]zo8 ",
+                "=Hn@SI": "Un6tke",
+                "3!<6i=": "#lz%r>P)b",
+                "Hb(UJ9-z": 2.0747005656668754e-28,
+                "hdfo/N]I4q": null,
+                "}FC": 2.1114041801027902e-45,
+                "a": true
+              }
+            ],
+            "grade": {
+              "score": 2,
+              "max": 3,
+              "items": []
+            },
+            "at": 2
+          }
+        ],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document read 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "ก",
+              "answer": {
+                "": -1.395253149152243e+280,
+                "~ ;$RBn": "%BN<",
+                "]IZu(+%/F": "|CGA=1",
+                ",HZ": true,
+                "toString": [
+                  {
+                    "5": false,
+                    ">aH6Gf2dW": null,
+                    "[I": -3.4856510982266586e+135,
+                    " <Fm": null,
+                    "": true,
+                    "m%Nb": "r1?#m< ",
+                    "=}I<": false,
+                    "12B_Lma!L": "p4/ON-y"
+                  },
+                  null,
+                  {
+                    "": "t",
+                    "j=g]<Xo BP": 7.232900125454822e+101,
+                    "J": "uVZ@",
+                    "stF@7U": "Zr102!Y",
+                    "@Xpw>p2I&": false,
+                    "H_": 1.7702070963732324e+301
+                  }
+                ]
+              },
+              "grade": {
+                "score": 2,
+                "max": 3,
+                "items": [
+                  true,
+                  true,
+                  false
+                ]
+              },
+              "at": 562578351766
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "format": "hm-learn-progress",
+        "version": 1,
+        "attempts": [
+          {
+            "exerciseId": "ก",
+            "answer": {
+              "": -1.395253149152243e+280,
+              "~ ;$RBn": "%BN<",
+              "]IZu(+%/F": "|CGA=1",
+              ",HZ": true,
+              "toString": [
+                {
+                  "5": false,
+                  ">aH6Gf2dW": null,
+                  "[I": -3.4856510982266586e+135,
+                  " <Fm": null,
+                  "": true,
+                  "m%Nb": "r1?#m< ",
+                  "=}I<": false,
+                  "12B_Lma!L": "p4/ON-y"
+                },
+                null,
+                {
+                  "": "t",
+                  "j=g]<Xo BP": 7.232900125454822e+101,
+                  "J": "uVZ@",
+                  "stF@7U": "Zr102!Y",
+                  "@Xpw>p2I&": false,
+                  "H_": 1.7702070963732324e+301
+                }
+              ]
+            },
+            "grade": {
+              "score": 2,
+              "max": 3,
+              "items": [
+                true,
+                true,
+                false
+              ]
+            },
+            "at": 562578351766
+          }
+        ],
+        "cards": []
+      }
+    },
+    {
+      "name": "generated document refused 1",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "",
+              "answer": {
+                "D": "",
+                "x|l": true,
+                "b11s|vb!": false,
+                "Ad#d": -7.693162796779279e-19,
+                "": "__p",
+                "#": 0
+              },
+              "grade": {
+                "score": 2,
+                "max": 0,
+                "items": []
+              },
+              "at": 1
+            },
+            {
+              "exerciseId": "",
+              "answer": 7e-323,
+              "grade": {
+                "score": 2,
+                "max": 1,
+                "items": [
+                  false,
+                  true,
+                  true
+                ]
+              },
+              "at": 1
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "",
+              "scheduling": {
+                "scheduler": "ก　　_😀",
+                "model": "\n﻿﻿\n ",
+                "version": 2,
+                "card": "if7Gb3j"
+              },
+              "due": 1
+            },
+            {
+              "itemId": "_ ",
+              "scheduling": {
+                "scheduler": "  😀 ก",
+                "model": "a　　😀",
+                "version": 1,
+                "card": [
+                  [
+                    -1.5335641921394036e+97,
+                    false,
+                    1.376236370876846e+46,
+                    -6.6981527758799405e-93,
+                    -6.267125905303791e+220,
+                    "?-9B%MbJb8",
+                    "N`+8",
+                    -5.1930800384625976e+222,
+                    null
+                  ]
+                ]
+              },
+              "due": 451871776855
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 2",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "",
+              "answer": "",
+              "grade": {
+                "score": 1,
+                "max": 0,
+                "items": [
+                  true,
+                  false,
+                  false
+                ]
+              },
+              "at": 825966133890
+            },
+            {
+              "exerciseId": " 😀",
+              "answer": {
+                "&[{": null,
+                "SK": "zOS",
+                "o;A": -3.156965474958231e+171,
+                "R\\P'hz": "I_b(rOF"
+              },
+              "grade": {
+                "score": 3,
+                "max": 2,
+                "items": [
+                  true,
+                  false,
+                  "cj"
+                ]
+              },
+              "at": 1593387891678
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 3",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "ก😀　",
+              "answer": {
+                "(x6tCm~}": false,
+                "Tw>}z": true,
+                "|,s7O": -1.045034027520105e+215,
+                "+#JE4FXMa2": "G",
+                "*": false,
+                "$B[[$)'7W": 1.2866495054763236e+37
+              },
+              "grade": {
+                "score": 2,
+                "max": 1,
+                "items": [
+                  true,
+                  true,
+                  true
+                ]
+              },
+              "at": 3
+            },
+            {
+              "exerciseId": "",
+              "answer": -1.1383651003003999e+70,
+              "grade": {
+                "score": 1,
+                "max": 0,
+                "items": []
+              },
+              "at": 3
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "_ 　",
+              "scheduling": {
+                "scheduler": "﻿　 ",
+                "model": "  😀\n",
+                "version": 2,
+                "card": {}
+              },
+              "due": 3
+            },
+            {
+              "itemId": "a \n 　",
+              "scheduling": {
+                "scheduler": "a　 ",
+                "model": " 😀",
+                "version": 1,
+                "card": true
+              },
+              "due": 0
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 4",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": " 　",
+              "scheduling": {
+                "scheduler": "",
+                "model": "　",
+                "version": 1,
+                "card": -5.4e-323
+              },
+              "due": 658328942165
+            },
+            {
+              "itemId": " ",
+              "scheduling": {
+                "scheduler": "",
+                "model": "😀　😀 \n",
+                "version": 1,
+                "card": {
+                  "Z'": {
+                    "": 1.185571732113825e-109,
+                    "$ oZ5,mMx)": "'wqo_:UL",
+                    "r-q*(n4": null,
+                    "LeZR": null,
+                    "-IH3": true,
+                    "227S>7(.L": null,
+                    "1AQarM": "%{z-}"
+                  },
+                  "|_?z]`uJ": {
+                    "PR)l@Y}-": true,
+                    "yAjo0a >C": "\\H2[{ JtJU",
+                    " ?T&|t.M": false,
+                    "S\"F": null,
+                    "v/R%uZ": 2.0185672439078076e-193,
+                    "": "icEAvl.",
+                    "K_w5": null
+                  },
+                  "foJEK`])1g": [
+                    null
+                  ]
+                }
+              },
+              "due": 1443500417518
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 5",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "a",
+              "answer": {
+                "a6tx": true,
+                ",": true,
+                "F&!j6735": -8.920390423414766e+174,
+                "E~{jZ`H": 1.797693134862315e+308,
+                "Yj3": null,
+                ";XgGM_J": "T",
+                "jFb}~": -4.9331631728470145e+160
+              },
+              "grade": {
+                "score": 0,
+                "max": 2,
+                "items": []
+              },
+              "at": 639792959542
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "",
+              "scheduling": {
+                "scheduler": "a_　😀a",
+                "model": "",
+                "version": 1,
+                "card": ""
+              },
+              "due": 37
+            },
+            {
+              "itemId": "_ 😀﻿",
+              "scheduling": {
+                "scheduler": "﻿﻿\na ",
+                "model": "  a",
+                "version": 1,
+                "card": {
+                  "Z<d]B$b": 1.5902548040730756e-171,
+                  "$}#YZ3D": true,
+                  "f#": null,
+                  "HDme\"1@\\": "a,r9",
+                  "K": false
+                }
+              },
+              "due": 0
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 6",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            6.4e-323
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 7",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": null,
+              "answer": {
+                "=0{cG#Ds0": [
+                  -3.6355447171678503e-158,
+                  "Rz[\"'#e",
+                  "`JFA",
+                  null,
+                  null,
+                  true,
+                  false,
+                  5.113667428531652e+225
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 3,
+                "items": [
+                  false
+                ]
+              },
+              "at": 1791066718076
+            }
+          ],
+          "cards": [
+            {
+              "itemId": " \n",
+              "scheduling": {
+                "scheduler": "﻿",
+                "model": "   ",
+                "version": 2,
+                "card": {
+                  "PU": "R(WT!=ee",
+                  "y;7AH`k": null,
+                  "&jKpwg;O": null,
+                  "e.z10[Y": 2.2040212197203344e+145,
+                  "du{0ek^kr$": 1.2736683682521355e+292
+                }
+              },
+              "due": 0
+            },
+            {
+              "itemId": " ﻿ก\n",
+              "scheduling": {
+                "scheduler": " ",
+                "model": "   a😀",
+                "version": 1,
+                "card": "y>"
+              },
+              "due": 2
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 8",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "",
+              "answer": {
+                "}\\S%4(lY*": false,
+                "": [
+                  null,
+                  true,
+                  "-hR/",
+                  false,
+                  -4.800516124770198e-235,
+                  -4.6812043132697816e-57,
+                  1.256377219490661e-23,
+                  "fA%*sz"
+                ],
+                "T.r": [
+                  "Z&~.(ju,3",
+                  "D",
+                  null,
+                  null,
+                  false
+                ]
+              },
+              "grade": {
+                "score": 1,
+                "max": 2,
+                "items": [
+                  false,
+                  false
+                ]
+              },
+              "at": 1838832644731
+            },
+            {
+              "exerciseId": "_a　_　",
+              "answer": [
+                1.2969935201398674e+57,
+                {
+                  "nOlfXJpVd": null,
+                  "uZm": null,
+                  "f\\Y": "vfoK",
+                  "`D-hJ~*": " FexSZvVC",
+                  "a\"-4f\\)H": 3.0612717625961513e-217,
+                  "8?Hvwb#": false
+                },
+                -3.063887823583269e+52
+              ],
+              "grade": {
+                "score": 3,
+                "max": 0,
+                "items": [
+                  "^fee"
+                ]
+              },
+              "at": 2
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 9",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": true,
+          "cards": [
+            {
+              "itemId": "",
+              "scheduling": {
+                "scheduler": " 😀　",
+                "model": "ก_",
+                "version": 1,
+                "card": [
+                  "uUz7=",
+                  true,
+                  null,
+                  2.542266978716939e-152,
+                  true,
+                  4.0984238895431074e-113,
+                  null,
+                  true,
+                  false
+                ]
+              },
+              "due": 2
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 10",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "",
+              "answer": [],
+              "grade": {
+                "score": 1,
+                "max": 2,
+                "items": [
+                  true,
+                  true
+                ]
+              },
+              "at": 2
+            },
+            {
+              "exerciseId": "",
+              "answer": -1.1108727042560554e+147,
+              "grade": {
+                "score": 0,
+                "max": 2,
+                "items": [
+                  false,
+                  true
+                ]
+              },
+              "at": 1661552129215
+            }
+          ],
+          "cards": [
+            {
+              "itemId": " 😀a\n😀",
+              "scheduling": {
+                "scheduler": "　 😀 ",
+                "model": "    ",
+                "version": 0,
+                "card": {
+                  "4g": [
+                    true,
+                    8.055386713395256e+222,
+                    null,
+                    6.159694194240006e-180,
+                    "hMSxL",
+                    "^S1[>$f^?",
+                    null,
+                    null
+                  ]
+                }
+              },
+              "due": 472570233961
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 11",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "  ",
+              "answer": [
+                {
+                  "#H|]": true,
+                  "yKlk-Nk": 9.042957253268056e-241,
+                  "Shmd": true,
+                  "yG-lUP2v7": -6.079012729570294e+233,
+                  "": "T0VlHW#S*",
+                  "b ~-+": null,
+                  ")Af\\UNFV`": null
+                }
+              ],
+              "grade": {
+                "score": 3,
+                "max": 0,
+                "items": [
+                  false
+                ]
+              },
+              "at": 1303563450577
+            }
+          ],
+          "cards": [
+            {
+              "itemId": "",
+              "scheduling": {
+                "scheduler": " ",
+                "model": "﻿😀😀　",
+                "version": 1,
+                "card": [
+                  [
+                    -3.12484056435814e-73,
+                    7.900025540614085e-193
+                  ],
+                  "Mz"
+                ]
+              },
+              "due": 635499501699
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 12",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "﻿😀 _",
+              "answer": [
+                "r",
+                null,
+                1.573227215901687e-204,
+                null,
+                null,
+                -3.299121323986121e-166,
+                null,
+                false
+              ],
+              "grade": {
+                "score": 2,
+                "max": 2,
+                "items": [
+                  true,
+                  false
+                ]
+              },
+              "at": 1
+            },
+            {
+              "exerciseId": "﻿_\n😀 ",
+              "answer": [
+                -1.153849784470396e-277,
+                [
+                  "TJWngU",
+                  "Zg_bm]d:",
+                  "M!AiRw#6}#",
+                  1.0223777195613302e+288
+                ]
+              ],
+              "grade": {
+                "score": 3,
+                "max": 3,
+                "items": [
+                  true,
+                  true
+                ]
+              },
+              "at": 2
+            }
+          ],
+          "cards": [
+            [
+              null,
+              null,
+              9.346628273903653e-81,
+              false,
+              true,
+              null,
+              true
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 13",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [],
+          "cards": [
+            {
+              "itemId": "ก😀  ",
+              "scheduling": {
+                "scheduler": "_\n　\n",
+                "model": "😀",
+                "version": 2,
+                "card": [
+                  "Y5",
+                  false,
+                  null,
+                  null,
+                  true,
+                  null,
+                  -3.2237335652118716e-155,
+                  -5.8812411875105224e+84,
+                  true,
+                  -7.237313133862574e+182
+                ]
+              },
+              "due": 2
+            },
+            {
+              "itemId": "_  ก",
+              "scheduling": {
+                "scheduler": "_ก 😀",
+                "model": "",
+                "version": 2,
+                "card": -3.5612692811047434e+261
+              },
+              "due": 324007605588
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 14",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "exerciseId": "  a",
+              "answer": [
+                {
+                  "qba}`EzKeL": "L\"yRbz "
+                },
+                {}
+              ],
+              "grade": {
+                "score": 3,
+                "max": 2,
+                "items": [
+                  false
+                ]
+              },
+              "at": 2
+            },
+            {
+              "exerciseId": "a\n \n",
+              "answer": {
+                "\"Ck2.0o": "%$",
+                "LVivQU": null,
+                "D-vX.+s": null,
+                "%JUP`": "l'V^Lz$.Q",
+                "1i7Rw": 2.326970563972715e+136,
+                ")C aP,F;'i": null,
+                "t=.}%$$U": false,
+                "lW/<.%i>0j": null
+              },
+              "grade": {
+                "score": 1,
+                "max": 0,
+                "items": [
+                  true,
+                  false,
+                  true
+                ]
+              },
+              "at": 0
+            }
+          ],
+          "cards": [
+            {
+              "itemId": " ก \n　",
+              "scheduling": {
+                "scheduler": "_ ﻿a",
+                "model": "  a  ",
+                "version": 0,
+                "card": {
+                  "g*#gH": -1.1810636279697383e-153,
+                  "": null,
+                  "YuP$m": 8.989912110868956e-137,
+                  "7.": 1.8357178161403862e+171,
+                  "X`l4&n": false,
+                  "a}y": "b",
+                  "U_::c?G": 8.887656967287707e+70,
+                  "PD_": "uC489?",
+                  ")%O": "i22:"
+                }
+              },
+              "due": 1
+            },
+            {
+              "itemId": "\n  　ก",
+              "scheduling": {
+                "scheduler": "　_a\n",
+                "model": " 　 _",
+                "version": 2,
+                "card": {
+                  "UM+ON4$KEU": "OcFZ",
+                  "sJJw": 1.4207617791744274e+275,
+                  "#EjTPb5": -7.551654265443951e+100,
+                  "QWj|ny": false,
+                  ">HJq\"C": -2.942423662143661e-127,
+                  "": 2.3853399371226263e-292
+                }
+              },
+              "due": 138302881317
+            }
+          ]
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    },
+    {
+      "name": "generated document refused 15",
+      "input": {
+        "document": {
+          "format": "hm-learn-progress",
+          "version": 1,
+          "attempts": [
+            {
+              "4y`)GpbmZ": ";yhS~V",
+              "0i": "",
+              "": -8.4770833073591225e+276,
+              "\\8": null,
+              "n": 2.501516305774021e-192,
+              "yIe!cg2": null,
+              "<:==": null,
+              "e01 3:": true,
+              "lM^": 1.226220576469935e-244,
+              ")sh7": null
+            }
+          ],
+          "cards": []
+        }
+      },
+      "expected": {
+        "error": {
+          "code": "INVALID_DOCUMENT",
+          "reason": "malformed-document"
+        }
+      }
+    }
+  ]
+}

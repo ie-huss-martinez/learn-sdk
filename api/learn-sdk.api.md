@@ -539,6 +539,14 @@ export type ProgressChange = ({
 export type ProgressDiscardReason = "too-large" | "invalid";
 
 // @public
+export interface ProgressDocument extends ProgressSnapshot {
+    // (undocumented)
+    readonly format: typeof PROGRESS_FORMAT;
+    // (undocumented)
+    readonly version: typeof PROGRESS_VERSION;
+}
+
+// @public
 export interface ProgressSnapshot {
     // (undocumented)
     readonly attempts: readonly AttemptRecord[];
@@ -592,8 +600,6 @@ export function splitAtGap(sentence: string): readonly [before: string, after: s
 // @public
 export type TextDirection = "ltr" | "rtl";
 
-// Warning: (ae-forgotten-export) The symbol "ProgressDocument" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function toProgressDocument(snapshot: ProgressSnapshot): ProgressDocument;
 

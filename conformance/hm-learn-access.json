@@ -1,0 +1,299 @@
+{
+  "format": "hm-conformance",
+  "version": 1,
+  "subject": "hm-learn-access",
+  "description": "Which courses a learner may open (learn-sdk ADR 0001): input.learner is a learner, and input.courses the courses. expected is the codes of the courses they may open, sorted by position, with courses at the same position in the order given.",
+  "cases": [
+    {
+      "name": "a teacher opens every course, in course order",
+      "input": {
+        "learner": {
+          "role": "teacher",
+          "enrolments": []
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": [
+        "A1",
+        "A2",
+        "B1"
+      ]
+    },
+    {
+      "name": "a learner opens a course they're enrolled in",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": [
+            {
+              "course": "A1",
+              "status": "active"
+            }
+          ]
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": [
+        "A1"
+      ]
+    },
+    {
+      "name": "a learner keeps a course they've completed",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": [
+            {
+              "course": "A1",
+              "status": "completed"
+            },
+            {
+              "course": "A2",
+              "status": "active"
+            }
+          ]
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": [
+        "A1",
+        "A2"
+      ]
+    },
+    {
+      "name": "a learner without enrolments opens nothing",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": []
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "enrolment in a later course opens no earlier ones: access is never a range",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": [
+            {
+              "course": "B1",
+              "status": "active"
+            }
+          ]
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": [
+        "B1"
+      ]
+    },
+    {
+      "name": "an enrolment in a course that isn't listed opens nothing",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": [
+            {
+              "course": "C1",
+              "status": "active"
+            }
+          ]
+        },
+        "courses": [
+          {
+            "code": "A2",
+            "title": "Course A2",
+            "level": "A",
+            "position": 2
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "B1",
+            "title": "Course B1",
+            "level": "B",
+            "position": 3
+          }
+        ]
+      },
+      "expected": []
+    },
+    {
+      "name": "courses at the same position keep the order given",
+      "input": {
+        "learner": {
+          "role": "teacher",
+          "enrolments": []
+        },
+        "courses": [
+          {
+            "code": "B2",
+            "title": "Course B2",
+            "level": "B",
+            "position": 1
+          },
+          {
+            "code": "A1",
+            "title": "Course A1",
+            "level": "A",
+            "position": 1
+          },
+          {
+            "code": "Z9",
+            "title": "Course Z9",
+            "level": "Z",
+            "position": 0
+          }
+        ]
+      },
+      "expected": [
+        "Z9",
+        "B2",
+        "A1"
+      ]
+    },
+    {
+      "name": "course codes __proto__, constructor and toString are ordinary codes",
+      "input": {
+        "learner": {
+          "role": "learner",
+          "enrolments": [
+            {
+              "course": "__proto__",
+              "status": "active"
+            },
+            {
+              "course": "toString",
+              "status": "active"
+            }
+          ]
+        },
+        "courses": [
+          {
+            "code": "__proto__",
+            "title": "Course __proto__",
+            "level": "_",
+            "position": 1
+          },
+          {
+            "code": "constructor",
+            "title": "Course constructor",
+            "level": "c",
+            "position": 2
+          },
+          {
+            "code": "toString",
+            "title": "Course toString",
+            "level": "t",
+            "position": 3
+          }
+        ]
+      },
+      "expected": [
+        "__proto__",
+        "toString"
+      ]
+    }
+  ]
+}

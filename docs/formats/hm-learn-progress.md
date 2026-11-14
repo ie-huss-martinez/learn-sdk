@@ -33,6 +33,8 @@ learn-sdk's progress format: one scope's attempts and spaced-repetition cards, a
 - **Beyond the schema,** readers check that a grade's `score` is at most its `max`, and that a document is at most 2,000,000 UTF-8 bytes by default.
 - **Strict:** an unknown field in any object of fixed shape is refused, never dropped.
 
+A port in another language proves it reads `hm-learn-progress` as this SDK does by passing [`conformance/hm-learn-progress.json`](../../conformance/hm-learn-progress.json); [Conformance vectors](conformance.md) explains how to run them.
+
 `toProgressDocument(snapshot)` writes a document and `parseProgress(input)` reads one back, as untrusted input, throwing `UNSUPPORTED_FORMAT`, `INVALID_DOCUMENT` or `CONTENT_TOO_LARGE`. The device store, `createLocalProgressStore`, uses both, and a host keeping progress on its own server can do the same.
 
 The schema ships with the package, at `@hussmartinez/learn-sdk/formats/hm-learn-progress/v1.schema.json`; [`hm-learn-content`](hm-learn-content.md#validating-elsewhere) shows how to load one.
