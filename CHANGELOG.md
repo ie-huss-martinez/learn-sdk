@@ -1,5 +1,49 @@
 # @hussmartinez/learn-sdk
 
+## 0.2.0
+
+### Minor Changes
+
+- [#27](https://github.com/ie-huss-martinez/learn-sdk/pull/27) [`9b6157e`](https://github.com/ie-huss-martinez/learn-sdk/commit/9b6157e4a36ca9b4de8cefde0b3a838762496ed4) Thanks [@hussmartinez](https://github.com/hussmartinez)! - Add the teacher's editor session and its portable edit commands, headless, so React and the custom element can wrap them later (ADR 0007).
+  
+  - **`createLearnEditor({ initialContent, types, limits, newId, onChange, onEvent })`** opens valid `hm-learn-content`, or starts empty, and returns a store (`getSnapshot`, `subscribe`) with `execute(command)`, `group(fn)`, `undo()`, `redo()`, `getContent()` and `newExerciseId()`. The snapshot holds the `draft`, its `issues` (each with the path to its field, from the same validators as `parseContent`), an `error` when the whole draft exceeds a limit, `canUndo`, `canRedo` and `trimmed`.
+  - **Drafts may be invalid while a teacher works,** such as a new exercise with no questions yet. `onChange(draft, { issues })` reports every change, so you can keep drafts; `getContent()` returns validated content for publishing, or throws `INVALID_DOCUMENT` with every issue.
+  - **Undo instead of confirmation:** every edit is one undoable step, and `group(fn)` makes a burst of edits, such as typing in a field, one step. The history keeps 500 steps; `trimmed` says when the earliest were dropped.
+  - **Edit commands, `hm-learn-command` v1:** `learn.addExercise`, `learn.removeExercise`, `learn.moveExercise`, `learn.setExerciseText` and `learn.setPayload`, plain JSON with a JSON Schema in `@hussmartinez/learn-sdk/formats/hm-learn-command/v1.schema.json`, documented in `docs/formats/hm-learn-command.md`. `applyLearnCommand(draft, command, { types, limits })` applies one and returns the new draft with the command that undoes it, so a server can replay stored or synced commands exactly as the editor does. Exercise ids are fixed once created, because progress refers to them.
+  - **Commands are untrusted input:** each is copied and checked by shape, and every text in it, including texts and keys inside a payload, is measured against `maxTextLength` in code points. A refused command throws `INVALID_COMMAND` with a `details.reason` (`LearnCommandRejection`): `malformed-command`, `unknown-command`, `unknown-exercise`, `duplicate-id`, `unknown-type`, `position-out-of-range`, `text-too-long` or `too-many-exercises`.
+  - **Usage events** are `content_edited` with the command's type, `edit_undone` and `edit_redone`: never content or ids.
+  - **Tools:** `learnEditorTools` (`undoTool`, `redoTool` and `removeExerciseTool`, which removes the selected exercise) with the family's undo, redo and delete shortcuts, and labels in `learnMessages`.
+
+- [#29](https://github.com/ie-huss-martinez/learn-sdk/pull/29) [`2e51c65`](https://github.com/ie-huss-martinez/learn-sdk/commit/2e51c6580e1fa196a6558e204a9b0d9114ecb3f2) Thanks [@hussmartinez](https://github.com/hussmartinez)! - Add `LearnPlayer`, the learner's player for React (`@hussmartinez/learn-sdk/react`), with blocks for multiple choice, gap fill and word order (ADR 0005, ADR 0007).
+  
+  ```tsx
+  import "@hussmartinez/ui/styles.css";
+  import "@hussmartinez/learn-sdk/styles.css";
+  import { LearnPlayer } from "@hussmartinez/learn-sdk/react";
+  
+  <LearnPlayer content={content} profile={{ code: "th", direction: "ltr" }} onProgress={save} />
+  ```
+  
+  - **One exercise at a time,** with Check, Previous, Try again, Skip and Next, and `Mod+Enter` to check. Each check's result shows with an icon and text, never colour alone, along with the right answer, and is announced in a polite live region. Once every exercise is checked or skipped, the player sums up.
+  - **Keyboard and single taps only:** each group of choices or tiles is one Tab stop, with the arrow keys, Home and End inside it. In word order, choosing a word places it and choosing a placed word returns it, and Alt with an arrow moves a placed word; every move is announced. Choices that can't be chosen any more stay focusable with `aria-disabled`. After moving on, focus goes to the new exercise's heading.
+  - **The learned language** is marked with the profile's `lang` and `dir`.
+  - **Props:** `content`, `types`, `profile`, `progressStore` with `scope`, `scheduler`, `limits`, `onProgress`, `onEvent`, `onError`, `messages`, `locale` and `className`, as the session takes them. Invalid content shows its error instead of the exercises. If saving fails, the player says so and offers to try again. A ref gives `check()`, `next()` and `reset()`.
+  - **Your own exercise types:** pass a block per type in `blocks`, written with `definePlayerBlock`; it gets the exercise, the answer so far, `onAnswer`, the grade once checked, the profile, the messages and `announce`. `MultipleChoicePlayer`, `GapFillPlayer` and `WordOrderPlayer` are the built-in blocks.
+  - **Text:** `learnMessages` adds the player's text (`player.*`, `multipleChoice.*`, `gapFill.*`, `wordOrder.*`); `playerCatalogue` joins it with ui's, and `messages` overrides any of it.
+
+- [#25](https://github.com/ie-huss-martinez/learn-sdk/pull/25) [`6ae9e96`](https://github.com/ie-huss-martinez/learn-sdk/commit/6ae9e96966d6830b4c3af9a255eb18b44bebe9da) Thanks [@hussmartinez](https://github.com/hussmartinez)! - Add the learner's player session, headless, so it runs anywhere and React and the custom element can wrap it later (ADR 0007).
+  
+  - **`createLearnPlayer({ content, types, profile, progressStore, scope, scheduler, now, onProgress, onEvent, onError })`** reads content with `parseContent` and returns a store (`getSnapshot`, `subscribe`) with the learner's actions: `answer`, `check`, `next`, `previous`, `retry` and `skip`. The snapshot holds each exercise's status, draft and grade, the current position, what the learner `can` do now, the `summary` once every exercise is checked or skipped, and whether progress is saved. Actions the snapshot doesn't allow change nothing.
+  - **Checking** grades with `gradeAnswer`, as a server does, and records one attempt, which goes to `onProgress` at once and to the progress store in order. A draft that doesn't fit its exercise throws `INVALID_ANSWER` and changes nothing. Skipped exercises count as neither right nor wrong, and record nothing.
+  - **Saving never blocks the learner:** the grade shows at once. If a save fails, `save` becomes `"failed"`, `onError` gets `STORAGE_UNAVAILABLE`, the changes stay queued, and `retrySave()` saves them and any since, in order. `settled()` resolves once saving is done, and `dispose()` stops it.
+  - **Spaced repetition only from the learner's own ratings:** an exercise type may define `reviewItems(payload, answer, grade)`, returning `ReviewedItem`s (`{ itemId, rating }`). With a `scheduler`, checking such a type reviews each item from its card in the learner's progress. No built-in quiz type defines it, so quiz answers never become scheduling signals unless you opt a type in with your own `reviewItems`.
+  - **Usage events** (`onEvent`) are `exercise_checked`, with the exercise type and its number of items, and `player_completed`, with the number of exercises: never answers, ids or scores.
+  - **Tools:** `learnPlayerTools` (`checkTool`, `nextTool`, `previousTool`, `retryTool`, `skipTool`) are the player's actions for a toolbar, with labels in `learnMessages` (`tools.check` …) and `Mod+Enter` to check.
+
+### Patch Changes
+
+- [#28](https://github.com/ie-huss-martinez/learn-sdk/pull/28) [`8e265b7`](https://github.com/ie-huss-martinez/learn-sdk/commit/8e265b77e1b7e4245fd1e56e782421bb355bdb14) Thanks [@hussmartinez](https://github.com/hussmartinez)! - Depend on `@hussmartinez/ui` ^0.7.0, the family's design system, which the player and editor components will use, and move to `@hussmartinez/sdk-core` ^0.4.3. A page using learn-sdk with the other `@hussmartinez` SDKs on these ranges loads one copy of each. Nothing changes in learn-sdk's own API.
+
 ## 0.1.0
 
 ### Minor Changes
