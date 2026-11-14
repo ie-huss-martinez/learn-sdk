@@ -1,6 +1,6 @@
 # 0002. Content is hostile input: size first, parse on the page, validate by shape, render as text
 
-- **Status:** Accepted
+- **Status:** Accepted; its rejection codes and length unit superseded by [0006](0006-portable-formats.md)
 - **Date:** 2026-11-12
 
 ## Context
