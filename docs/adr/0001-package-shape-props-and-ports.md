@@ -1,6 +1,6 @@
 # 0001. Package shape: a server-safe core, a player and an editor, and three ports
 
-- **Status:** Accepted
+- **Status:** Accepted; its content model refined by [0006](0006-portable-formats.md)
 - **Date:** 2026-11-12
 
 ## Context

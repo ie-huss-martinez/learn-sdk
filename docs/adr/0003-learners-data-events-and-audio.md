@@ -1,6 +1,6 @@
 # 0003. Learners' data stays with the host; audio arrives as bytes; no speech synthesis
 
-- **Status:** Accepted
+- **Status:** Accepted; its stored format refined by [0006](0006-portable-formats.md)
 - **Date:** 2026-11-12
 
 ## Context
