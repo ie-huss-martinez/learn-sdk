@@ -17,6 +17,9 @@ import { isSdkError, type SdkCoreErrorCode, SdkError } from "@hussmartinez/sdk-c
  * - `INVALID_ANSWER`: a learner's answer doesn't fit its exercise, such as
  *   a choice that doesn't exist. `details.reason` is `malformed-answer`, with
  *   `details.issues` and `details.count` as for `INVALID_DOCUMENT`.
+ * - `INVALID_COMMAND`: an editor command was refused (ADR 0007).
+ *   `details.reason` is a {@link LearnCommandRejection}, and `details.command`
+ *   the command's `type` when it's one this release knows.
  * - `AUDIO_UNAVAILABLE`: the host's audio source returned nothing for a
  *   clip, or failed. `details` names no reference or URL.
  * - `STORAGE_UNAVAILABLE`: the device's storage refused to read or write, such
@@ -51,6 +54,7 @@ export type LearnErrorCode =
   | "UNSUPPORTED_FORMAT"
   | "INVALID_DOCUMENT"
   | "INVALID_ANSWER"
+  | "INVALID_COMMAND"
   | "AUDIO_UNAVAILABLE"
   | "UNSUPPORTED_SCHEDULING_STATE"
   | "STORAGE_UNAVAILABLE"
@@ -60,6 +64,34 @@ export type LearnErrorCode =
   | "TOO_MANY_CHOICES"
   | "TOO_MANY_TILES"
   | "TEXT_TOO_LONG";
+
+/**
+ * Why an editor command was refused, as `details.reason` of an
+ * `INVALID_COMMAND` error (ADR 0007). The tokens never change meaning once
+ * released.
+ *
+ * - `malformed-command`: not shaped as its type says: a missing, unknown or
+ *   mistyped field, a blank id, or a value that isn't JSON.
+ * - `unknown-command`: a `type` this release doesn't know.
+ * - `unknown-exercise`: no exercise has the `exerciseId`.
+ * - `duplicate-id`: an added exercise's id is taken.
+ * - `unknown-type`: an added exercise's type isn't registered.
+ * - `position-out-of-range`: `at` or `to` is outside the list.
+ * - `text-too-long`: a text, anywhere in the command, over `maxTextLength`,
+ *   counted in Unicode code points.
+ * - `too-many-exercises`: an addition past `maxExercises`.
+ *
+ * @public
+ */
+export type LearnCommandRejection =
+  | "malformed-command"
+  | "unknown-command"
+  | "unknown-exercise"
+  | "duplicate-id"
+  | "unknown-type"
+  | "position-out-of-range"
+  | "text-too-long"
+  | "too-many-exercises";
 
 /**
  * The error `@hussmartinez/learn-sdk` throws and rejects with, with a stable

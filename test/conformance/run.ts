@@ -1,7 +1,10 @@
+import { conforms } from "@hussmartinez/sdk-config/testing/conformance";
 import {
   accessibleCourses,
+  applyLearnCommand,
   applyProgressChanges,
   type Content,
+  type ContentDraft,
   type Course,
   createExerciseTypes,
   createFsrsScheduler,
@@ -10,6 +13,7 @@ import {
   type Grade,
   gapFill,
   gradeAnswer,
+  type LearnCommand,
   type Learner,
   type LearnLimitOverrides,
   multipleChoice,
@@ -128,4 +132,37 @@ export function schedule(input: SchedulingInput): Scheduled[] {
     state = next.state;
   }
   return states;
+}
+
+/** Commands applied in order to content, with limits other than the defaults. */
+export interface CommandsInput {
+  readonly document: unknown;
+  readonly commands: readonly unknown[];
+  readonly limits?: LearnLimitOverrides;
+}
+
+/**
+ * `hm-learn-commands`: commands applied in order to content read with
+ * `parseContent`, giving the draft. Their inverses, applied in reverse
+ * order, must restore the content exactly, though the inverses themselves
+ * aren't compared.
+ */
+export function editCommands({ document, commands, limits }: CommandsInput): ContentDraft {
+  const options = { types, ...(limits ? { limits } : {}) };
+  const start: ContentDraft = parseContent(document, options);
+  let state = start;
+  const inverses: LearnCommand[] = [];
+  for (const command of commands) {
+    const applied = applyLearnCommand(state, command, options);
+    state = applied.state;
+    inverses.unshift(applied.inverse);
+  }
+  const undone = inverses.reduce(
+    (draft, inverse) => applyLearnCommand(draft, inverse, options).state,
+    state,
+  );
+  if (!conforms(JSON.parse(JSON.stringify(undone)), JSON.parse(JSON.stringify(start)))) {
+    throw new Error("The commands' inverses didn't restore the content.");
+  }
+  return state;
 }

@@ -15,6 +15,36 @@ import { Tool } from '@hussmartinez/sdk-core';
 export function accessibleCourses<C extends Pick<Course, "code" | "position">>(learner: Learner, courses: readonly C[]): C[];
 
 // @public
+export interface AddExerciseCommand {
+    // (undocumented)
+    readonly at: number;
+    // (undocumented)
+    readonly exercise: Exercise;
+    // (undocumented)
+    readonly type: "learn.addExercise";
+}
+
+// @public
+export interface AppliedLearnCommand {
+    // (undocumented)
+    readonly command: LearnCommand;
+    // (undocumented)
+    readonly inverse: LearnCommand;
+    // (undocumented)
+    readonly state: ContentDraft;
+}
+
+// @public
+export function applyLearnCommand(draft: ContentDraft, command: unknown, options: ApplyLearnCommandOptions): AppliedLearnCommand;
+
+// @public
+export interface ApplyLearnCommandOptions {
+    // (undocumented)
+    readonly limits?: LearnLimitOverrides;
+    readonly types: ExerciseTypes;
+}
+
+// @public
 export function applyProgressChanges(snapshot: ProgressSnapshot, changes: readonly ProgressChange[]): ProgressSnapshot;
 
 // @public
@@ -50,6 +80,9 @@ export interface CardRecord {
 export const checkTool: LearnPlayerTool;
 
 // @public
+export const COMMAND_FORMAT = "hm-learn-command";
+
+// @public
 export interface Content {
     // (undocumented)
     readonly exercises: readonly Exercise[];
@@ -66,6 +99,16 @@ export const CONTENT_FORMAT = "hm-learn-content";
 export const CONTENT_VERSION = 1;
 
 // @public
+export interface ContentDraft {
+    // (undocumented)
+    readonly exercises: readonly Exercise[];
+    // (undocumented)
+    readonly format: typeof CONTENT_FORMAT;
+    // (undocumented)
+    readonly version: typeof CONTENT_VERSION;
+}
+
+// @public
 export interface Course {
     readonly code: string;
     readonly level: string;
@@ -79,6 +122,9 @@ export function createExerciseTypes(types: readonly ExerciseType<unknown, unknow
 
 // @public
 export function createFsrsScheduler(options?: FsrsSchedulerOptions): Scheduler_2;
+
+// @public
+export function createLearnEditor(options: LearnEditorOptions): LearnEditor;
 
 // @public
 export function createLearnPlayer(options: LearnPlayerOptions): LearnPlayer;
@@ -208,6 +254,88 @@ export interface LearnCallOptions {
 }
 
 // @public
+export type LearnCommand = AddExerciseCommand | RemoveExerciseCommand | MoveExerciseCommand | SetExerciseTextCommand | SetPayloadCommand;
+
+// @public
+export type LearnCommandRejection = "malformed-command" | "unknown-command" | "unknown-exercise" | "duplicate-id" | "unknown-type" | "position-out-of-range" | "text-too-long" | "too-many-exercises";
+
+// @public
+export interface LearnEditor {
+    execute(command: LearnCommand): void;
+    getContent(): Content;
+    // (undocumented)
+    getSnapshot(): LearnEditorSnapshot;
+    group<T>(fn: () => T): T;
+    newExerciseId(): string;
+    // (undocumented)
+    redo(): void;
+    // (undocumented)
+    subscribe(listener: () => void): () => void;
+    // (undocumented)
+    undo(): void;
+}
+
+// @public
+export type LearnEditorEvent = {
+    readonly type: "content_edited";
+    readonly command: LearnCommand["type"];
+} | {
+    readonly type: "edit_undone";
+} | {
+    readonly type: "edit_redone";
+};
+
+// @public
+export interface LearnEditorOptions {
+    readonly initialContent?: unknown;
+    // (undocumented)
+    readonly limits?: LearnLimitOverrides;
+    readonly newId?: () => string;
+    readonly onChange?: (draft: ContentDraft, problems: {
+        readonly issues: readonly LearnIssue[];
+    }) => void;
+    // (undocumented)
+    readonly onEvent?: (event: LearnEditorEvent) => void;
+    // (undocumented)
+    readonly types: ExerciseTypes;
+}
+
+// @public
+export interface LearnEditorSnapshot {
+    // (undocumented)
+    readonly canRedo: boolean;
+    // (undocumented)
+    readonly canUndo: boolean;
+    // (undocumented)
+    readonly draft: ContentDraft;
+    readonly error: LearnError | null;
+    readonly issues: readonly LearnIssue[];
+    readonly trimmed: boolean;
+}
+
+// @public
+export type LearnEditorTool = Tool<LearnEditorToolState, LearnEditorToolContext, undefined>;
+
+// @public
+export interface LearnEditorToolContext {
+    // (undocumented)
+    readonly editor: LearnEditor;
+    // (undocumented)
+    readonly selected: string | null;
+}
+
+// @public
+export const learnEditorTools: readonly LearnEditorTool[];
+
+// @public
+export interface LearnEditorToolState {
+    // (undocumented)
+    readonly selected: string | null;
+    // (undocumented)
+    readonly snapshot: LearnEditorSnapshot;
+}
+
+// @public
 export interface Learner {
     // (undocumented)
     readonly enrolments: readonly Enrolment[];
@@ -221,7 +349,7 @@ export class LearnError extends SdkError<LearnErrorCode> {
 }
 
 // @public
-export type LearnErrorCode = SdkCoreErrorCode | "UNSUPPORTED_FORMAT" | "INVALID_DOCUMENT" | "INVALID_ANSWER" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "STORAGE_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
+export type LearnErrorCode = SdkCoreErrorCode | "UNSUPPORTED_FORMAT" | "INVALID_DOCUMENT" | "INVALID_ANSWER" | "INVALID_COMMAND" | "AUDIO_UNAVAILABLE" | "UNSUPPORTED_SCHEDULING_STATE" | "STORAGE_UNAVAILABLE" | "CONTENT_TOO_LARGE" | "TOO_MANY_EXERCISES" | "TOO_MANY_ITEMS" | "TOO_MANY_CHOICES" | "TOO_MANY_TILES" | "TEXT_TOO_LONG";
 
 // @public
 export interface LearnIssue {
@@ -314,6 +442,7 @@ export const learnMessages: {
     readonly "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.";
     readonly "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.";
     readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
+    readonly "errors.INVALID_COMMAND": "This change couldn't be made. Please try again.";
     readonly "errors.AUDIO_UNAVAILABLE": "This recording isn't available right now. Please try again later.";
     readonly "errors.UNSUPPORTED_SCHEDULING_STATE": "Your review schedule was saved by another version of the app. It will start again from today.";
     readonly "errors.STORAGE_UNAVAILABLE": "Your progress couldn't be saved on this device. Its storage may be full or turned off.";
@@ -403,6 +532,9 @@ export const learnMessages: {
     readonly "tools.previous": "Previous";
     readonly "tools.retry": "Try again";
     readonly "tools.skip": "Skip";
+    readonly "tools.undo": "Undo";
+    readonly "tools.redo": "Redo";
+    readonly "tools.remove-exercise": "Remove exercise";
     readonly "errors.UNKNOWN": "Something went wrong. Please try again.";
     readonly "errors.ABORTED": "The operation was cancelled.";
     readonly "errors.TIMEOUT": "The operation took too long and was stopped.";
@@ -563,6 +695,16 @@ export interface LocalProgressStoreOptions {
 export const MAX_ISSUE_KEY_LENGTH = 64;
 
 // @public
+export interface MoveExerciseCommand {
+    // (undocumented)
+    readonly exerciseId: string;
+    // (undocumented)
+    readonly to: number;
+    // (undocumented)
+    readonly type: "learn.moveExercise";
+}
+
+// @public
 export const multipleChoice: ExerciseType<MultipleChoicePayload, MultipleChoiceAnswer>;
 
 // @public
@@ -712,6 +854,20 @@ export interface ProgressStore {
 export type Rating = "again" | "hard" | "good" | "easy";
 
 // @public
+export const redoTool: LearnEditorTool;
+
+// @public
+export interface RemoveExerciseCommand {
+    // (undocumented)
+    readonly exerciseId: string;
+    // (undocumented)
+    readonly type: "learn.removeExercise";
+}
+
+// @public
+export const removeExerciseTool: LearnEditorTool;
+
+// @public
 export const retryTool: LearnPlayerTool;
 
 // @public
@@ -746,6 +902,28 @@ export interface SchedulingState {
 }
 
 // @public
+export interface SetExerciseTextCommand {
+    // (undocumented)
+    readonly exerciseId: string;
+    // (undocumented)
+    readonly field: "title" | "instructions";
+    // (undocumented)
+    readonly type: "learn.setExerciseText";
+    // (undocumented)
+    readonly value: string | null;
+}
+
+// @public
+export interface SetPayloadCommand {
+    // (undocumented)
+    readonly exerciseId: string;
+    // (undocumented)
+    readonly payload: object;
+    // (undocumented)
+    readonly type: "learn.setPayload";
+}
+
+// @public
 export const skipTool: LearnPlayerTool;
 
 // @public
@@ -756,6 +934,9 @@ export type TextDirection = "ltr" | "rtl";
 
 // @public
 export function toProgressDocument(snapshot: ProgressSnapshot): ProgressDocument;
+
+// @public
+export const undoTool: LearnEditorTool;
 
 // @public
 export interface ValidationContext {

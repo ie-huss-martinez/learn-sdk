@@ -4,10 +4,12 @@ import type {
 } from "@hussmartinez/sdk-config/testing/conformance";
 import fc from "fast-check";
 import { isLearnError, type SchedulingState } from "../../src/index.js";
+import { command } from "../arbitraries/commands.js";
 import { content, mutated, progress } from "../arbitraries/documents.js";
 import {
   access,
   applyChanges,
+  editCommands,
   grade,
   readContent,
   readProgress,
@@ -93,21 +95,19 @@ function run<Input>(
 }
 
 /**
- * Documents from the schema properties' generators: as many that a reader
- * accepts as it refuses, since most generated documents are refused.
+ * Inputs from a generator: as many that the SDK accepts as it refuses, since
+ * most generated inputs are refused.
  */
-function generated(
-  documents: fc.Arbitrary<unknown>,
-  read: (input: { document: unknown }) => unknown,
+function generatedInputs(
+  inputs: fc.Arbitrary<unknown>,
+  run: (input: never) => unknown,
+  what: string,
 ) {
   const kept: { accepted: HandWritten[]; refused: HandWritten[] } = { accepted: [], refused: [] };
-  for (const document of fc.sample(fc.oneof(documents, mutated(documents)), {
-    numRuns: GENERATED_POOL,
-    seed: SEED,
-  })) {
+  for (const input of fc.sample(inputs, { numRuns: GENERATED_POOL, seed: SEED })) {
     let outcome: Outcome = accepted;
     try {
-      read({ document: asJson(document) });
+      run(asJson(input) as never);
     } catch (error) {
       if (!isLearnError(error)) {
         throw error;
@@ -118,14 +118,25 @@ function generated(
     const list = outcome === accepted ? kept.accepted : kept.refused;
     if (list.length < GENERATED_EACH) {
       list.push([
-        `generated document ${outcome === accepted ? "read" : "refused"} ${list.length + 1}`,
-        { document },
+        `generated ${what} ${outcome === accepted ? "applied" : "refused"} ${list.length + 1}`,
+        input,
         outcome,
       ]);
     }
   }
   return [...kept.accepted, ...kept.refused];
 }
+
+/** Documents from the schema properties' generators, as they come and mutated. */
+const generated = (
+  documents: fc.Arbitrary<unknown>,
+  read: (input: { document: unknown }) => unknown,
+) =>
+  generatedInputs(
+    fc.oneof(documents, mutated(documents)).map((document) => ({ document })),
+    read,
+    "document",
+  ).map(([name, ...rest]): HandWritten => [name.replace("applied", "read"), ...rest]);
 
 // hm-learn-content
 
@@ -1054,6 +1065,295 @@ export function schedulingCases(): ConformanceFile {
   );
 }
 
+// hm-learn-commands
+
+/** Three small exercises, so each case stays short; commands don't depend on the payloads. */
+const COMMAND_BASE = contentDocument(
+  { ...freeForm("mc", { level: 1 }), title: "อาหาร" },
+  freeForm("gf", { items: ["ข้าว"] }),
+  freeForm("wo", {}),
+);
+
+export function commandCases(): ConformanceFile {
+  const edit = (
+    commands: unknown[],
+    document: unknown = COMMAND_BASE,
+    limits?: Record<string, number>,
+  ) => ({
+    document,
+    commands,
+    ...(limits ? { limits } : {}),
+  });
+  const refusedCommand = (reason: string) => refused("INVALID_COMMAND", reason);
+  const add = (id: string, at: number, extra: Record<string, unknown> = {}) => ({
+    type: "learn.addExercise",
+    exercise: { ...freeForm(id), ...extra },
+    at,
+  });
+  const remove = (exerciseId: string) => ({ type: "learn.removeExercise", exerciseId });
+  const move = (exerciseId: string, to: number) => ({ type: "learn.moveExercise", exerciseId, to });
+  const setText = (exerciseId: string, field: string, value: string | null) => ({
+    type: "learn.setExerciseText",
+    exerciseId,
+    field,
+    value,
+  });
+  const setPayload = (exerciseId: string, payload: unknown) => ({
+    type: "learn.setPayload",
+    exerciseId,
+    payload,
+  });
+  const cases: HandWritten[] = [
+    ["adds an exercise first", edit([add("new", 0)]), accepted],
+    ["adds an exercise between two", edit([add("new", 1)]), accepted],
+    ["adds an exercise last", edit([add("new", 3)]), accepted],
+    [
+      "adds an exercise with a title and instructions, in the format's field order",
+      edit([
+        {
+          type: "learn.addExercise",
+          exercise: {
+            payload: {},
+            instructions: "Read.",
+            title: "อาหาร",
+            type: "free-form",
+            id: "new",
+          },
+          at: 0,
+        },
+      ]),
+      accepted,
+    ],
+    [
+      "adds an empty multiple-choice exercise, an invalid draft, then fills it in",
+      edit([
+        {
+          type: "learn.addExercise",
+          exercise: { id: "q", type: "multiple-choice", payload: { questions: [] } },
+          at: 3,
+        },
+        setPayload("q", { questions: [{ prompt: "", choices: ["", ""], correct: 0 }] }),
+        setPayload("q", { questions: [{ prompt: "ดื่ม", choices: ["eat", "drink"], correct: 1 }] }),
+      ]),
+      accepted,
+    ],
+    ["removes an exercise", edit([remove("gf")]), accepted],
+    ["removes every exercise", edit([remove("mc"), remove("gf"), remove("wo")]), accepted],
+    ["moves the first exercise last", edit([move("mc", 2)]), accepted],
+    ["moves the last exercise first", edit([move("wo", 0)]), accepted],
+    ["moves an exercise to where it is", edit([move("gf", 1)]), accepted],
+    ["sets a title", edit([setText("gf", "title", "ข้าว")]), accepted],
+    ["replaces a title", edit([setText("mc", "title", "Food")]), accepted],
+    ["removes a title", edit([setText("mc", "title", null)]), accepted],
+    [
+      "removes instructions an exercise doesn't have",
+      edit([setText("mc", "instructions", null)]),
+      accepted,
+    ],
+    [
+      "replaces a payload",
+      edit([setPayload("wo", { items: [{ tiles: ["ฉัน", "กิน"] }] })]),
+      accepted,
+    ],
+    [
+      "sets a payload a draft may hold: blank texts and missing fields",
+      edit([setPayload("gf", { items: [{ sentence: " ", answers: [] }] })]),
+      accepted,
+    ],
+    [
+      "adds, then removes, leaving the content as it was",
+      edit([add("new", 1), remove("new")]),
+      accepted,
+    ],
+    [
+      "edits exercises with ids __proto__, constructor and toString as ordinary ids",
+      edit([
+        add("__proto__", 0),
+        add("constructor", 1),
+        add("toString", 2),
+        move("__proto__", 5),
+        setText("constructor", "title", "c"),
+        remove("toString"),
+      ]),
+      accepted,
+    ],
+    [
+      "keeps __proto__, constructor and toString in a payload as data",
+      edit([
+        fromText(
+          '{"type":"learn.setPayload","exerciseId":"mc","payload":{"__proto__":{"x":1},"constructor":"a","toString":5}}',
+        ),
+      ]),
+      accepted,
+    ],
+    [
+      "takes a title of 2,000 emoji: the limit counts code points",
+      edit([setText("mc", "title", emoji(2_000))]),
+      accepted,
+    ],
+    [
+      "takes a payload text of 10 emoji under a limit of 10",
+      edit([setPayload("mc", { note: emoji(10) })], COMMAND_BASE, { maxTextLength: 10 }),
+      accepted,
+    ],
+    [
+      "takes a title of 10 emoji, 20 UTF-16 units, under a limit of 10",
+      edit([setText("mc", "title", emoji(10))], COMMAND_BASE, { maxTextLength: 10 }),
+      accepted,
+    ],
+
+    [
+      "refuses a command without a type",
+      edit([{ exerciseId: "mc" }]),
+      refusedCommand("malformed-command"),
+    ],
+    ["refuses a type that isn't text", edit([{ type: 1 }]), refusedCommand("malformed-command")],
+    [
+      "refuses a command that isn't an object",
+      edit([["learn.removeExercise", "mc"]]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses an unknown command",
+      edit([{ type: "learn.renameExercise", exerciseId: "mc" }]),
+      refusedCommand("unknown-command"),
+    ],
+    [
+      "refuses another SDK's command",
+      edit([{ type: "audio.setGain", key: "a", gainDb: 0 }]),
+      refusedCommand("unknown-command"),
+    ],
+    [
+      "refuses a command type named __proto__",
+      edit([fromText('{"type":"__proto__"}')]),
+      refusedCommand("unknown-command"),
+    ],
+    [
+      "refuses an unknown field",
+      edit([{ ...remove("mc"), force: true }]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a __proto__ field in a command",
+      edit([fromText('{"type":"learn.removeExercise","exerciseId":"mc","__proto__":{}}')]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a constructor field in an added exercise",
+      edit([
+        fromText(
+          '{"type":"learn.addExercise","exercise":{"id":"new","type":"free-form","payload":{},"constructor":1},"at":0}',
+        ),
+      ]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a missing field",
+      edit([{ type: "learn.moveExercise", exerciseId: "mc" }]),
+      refusedCommand("malformed-command"),
+    ],
+    ["refuses a blank id", edit([remove(" ")]), refusedCommand("malformed-command")],
+    [
+      "refuses a position that isn't whole",
+      edit([move("mc", 0.5)]),
+      refusedCommand("malformed-command"),
+    ],
+    ["refuses a negative position", edit([add("new", -1)]), refusedCommand("malformed-command")],
+    [
+      "refuses setting an id as text",
+      edit([setText("mc", "id", "x")]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a blank title: removing one takes null",
+      edit([setText("mc", "title", "  ")]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a payload that isn't an object",
+      edit([setPayload("mc", ["x"])]),
+      refusedCommand("malformed-command"),
+    ],
+    ["refuses a null payload", edit([setPayload("mc", null)]), refusedCommand("malformed-command")],
+    [
+      "refuses an added exercise without a payload",
+      edit([{ type: "learn.addExercise", exercise: { id: "new", type: "free-form" }, at: 0 }]),
+      refusedCommand("malformed-command"),
+    ],
+    [
+      "refuses a command for an exercise that doesn't exist",
+      edit([remove("nope")]),
+      refusedCommand("unknown-exercise"),
+    ],
+    [
+      "refuses an id only Object.prototype has",
+      edit([setText("hasOwnProperty", "title", "x")]),
+      refusedCommand("unknown-exercise"),
+    ],
+    ["refuses an id that's taken", edit([add("gf", 0)]), refusedCommand("duplicate-id")],
+    [
+      "refuses a second exercise with the id __proto__",
+      edit([add("__proto__", 0), add("__proto__", 0)]),
+      refusedCommand("duplicate-id"),
+    ],
+    [
+      "refuses a type the host didn't register",
+      edit([
+        { type: "learn.addExercise", exercise: { id: "new", type: "essay", payload: {} }, at: 0 },
+      ]),
+      refusedCommand("unknown-type"),
+    ],
+    [
+      "refuses an addition past the end",
+      edit([add("new", 4)]),
+      refusedCommand("position-out-of-range"),
+    ],
+    ["refuses a move past the end", edit([move("mc", 3)]), refusedCommand("position-out-of-range")],
+    [
+      "refuses a command after a removal that makes it point nowhere",
+      edit([remove("wo"), move("mc", 2)]),
+      refusedCommand("position-out-of-range"),
+    ],
+    [
+      "refuses a title of 2,001 emoji",
+      edit([setText("mc", "title", emoji(2_001))]),
+      refusedCommand("text-too-long"),
+    ],
+    [
+      "refuses a payload text of 11 emoji under a limit of 10, however deep",
+      edit([setPayload("mc", { a: [{ b: emoji(11) }] })], COMMAND_BASE, { maxTextLength: 10 }),
+      refusedCommand("text-too-long"),
+    ],
+    [
+      "refuses a payload key of 11 emoji under a limit of 10",
+      edit([setPayload("mc", { [emoji(11)]: 1 })], COMMAND_BASE, { maxTextLength: 10 }),
+      refusedCommand("text-too-long"),
+    ],
+    [
+      "refuses a title of 11 emoji under a limit of 10",
+      edit([setText("mc", "title", emoji(11))], COMMAND_BASE, { maxTextLength: 10 }),
+      refusedCommand("text-too-long"),
+    ],
+    [
+      "refuses an addition past maxExercises",
+      edit([add("new", 0)], COMMAND_BASE, { maxExercises: 3 }),
+      refusedCommand("too-many-exercises"),
+    ],
+    ...generatedInputs(
+      fc
+        .array(fc.oneof(command, mutated(command)), { minLength: 1, maxLength: 3 })
+        .map((commands) => edit(commands)),
+      editCommands,
+      "commands",
+    ),
+  ];
+  return file(
+    "hm-learn-commands",
+    'Applying hm-learn-command commands (docs/formats/hm-learn-command.md). input.document is hm-learn-content, read with parseContent; input.commands are applied to it in order; input.limits, when given, overrides learn-sdk\'s default limits. expected is the draft after every command, which may be invalid content, or the rejection of the first command refused. The inverses of the commands applied, in reverse order, must restore the content exactly. The host registers the built-in types and "free-form", whose payload is any object.',
+    run(editCommands, cases),
+  );
+}
+
 /** Every file, by its name in conformance/. */
 export const conformanceFiles = {
   "hm-learn-content.json": contentCases,
@@ -1062,4 +1362,5 @@ export const conformanceFiles = {
   "hm-learn-access.json": accessCases,
   "hm-learn-progress-changes.json": progressChangeCases,
   "hm-learn-scheduling.json": schedulingCases,
+  "hm-learn-commands.json": commandCases,
 } as const;

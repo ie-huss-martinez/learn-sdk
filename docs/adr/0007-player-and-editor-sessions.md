@@ -117,3 +117,7 @@ The actions are tools, registered with `defineTool` and given shortcuts from the
 - `hm-learn-commands` is a fourth portable format with its own schema and vectors, which the editor's pull request adds. The five commands are enough for any exercise type the SDK adds, and only a change to the commands themselves needs a new version.
 - Drafts can be invalid while publishing can't, so hosts need to keep the two apart: `onChange` gives drafts, `getContent()` gives content.
 - The pull requests that follow are: the player session, then the editor session with its format and vectors, each headless; then the components.
+
+## Amendment
+
+- **2026-11-14:** the command format is named `hm-learn-command` (singular, one command per document), in `formats/hm-learn-command/v1.schema.json` and `docs/formats/hm-learn-command.md`, as the family names `hm-audio-command`, `hm-image-command` and `hm-video-command`. The vectors keep the plural, `conformance/hm-learn-commands.json`, because they hold many cases.

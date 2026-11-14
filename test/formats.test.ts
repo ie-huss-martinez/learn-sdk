@@ -1,7 +1,8 @@
 import { schemaValidator } from "@hussmartinez/sdk-config/testing/conformance";
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { parseContent, parseProgress } from "../src/index.js";
+import { applyLearnCommand, type ContentDraft, parseContent, parseProgress } from "../src/index.js";
+import { command } from "./arbitraries/commands.js";
 import { content, mutated, progress } from "./arbitraries/documents.js";
 import { accepts, types } from "./conformance/run.js";
 
@@ -19,7 +20,29 @@ const progressErrors = schemaValidator(
   new URL("../formats/hm-learn-progress/v1.schema.json", import.meta.url),
 );
 
+const commandErrors = schemaValidator(
+  new URL("../formats/hm-learn-command/v1.schema.json", import.meta.url),
+);
+
+/** A draft with the exercise ids the command generator uses. */
+const DRAFT: ContentDraft = {
+  format: "hm-learn-content",
+  version: 1,
+  exercises: ["mc", "gf", "wo"].map((id) => ({ id, type: "free-form", payload: {} })),
+};
+
 describe("the format schemas agree with the readers", () => {
+  it("never let applyLearnCommand apply a command hm-learn-command's schema refuses", () => {
+    fc.assert(
+      fc.property(fc.oneof(command, mutated(command)), (value) => {
+        if (accepts(() => applyLearnCommand(DRAFT, value, { types }))) {
+          expect(commandErrors(value)).toEqual([]);
+        }
+      }),
+      { numRuns: 3_000 },
+    );
+  });
+
   it("never let parseContent accept a document hm-learn-content's schema refuses", () => {
     fc.assert(
       fc.property(fc.oneof(content, mutated(content)), (document) => {
@@ -53,6 +76,11 @@ describe("the format schemas agree with the readers", () => {
     expect(share(fc.sample(progress, { numRuns: 500, seed: 1 }), parseProgress)).toBeGreaterThan(
       0.05,
     );
+    expect(
+      share(fc.sample(command, { numRuns: 500, seed: 1 }), (value) =>
+        applyLearnCommand(DRAFT, value, { types }),
+      ),
+    ).toBeGreaterThan(0.05);
   });
 
   it("count text lengths in code points, as the schema's maxLength does", () => {

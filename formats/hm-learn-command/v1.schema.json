@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ie-huss-martinez/learn-sdk/blob/main/formats/hm-learn-command/v1.schema.json",
+  "title": "hm-learn-command, version 1",
+  "description": "One edit to an hm-learn-content draft (docs/formats/hm-learn-command.md, learn-sdk ADR 0007, sdk-core ADR 0045). Every command's inverse is a command of this format. Texts, including every string and key inside a payload, are at most 2,000 Unicode code points, learn-sdk's default maxTextLength. Beyond this schema, the reducer checks each command against the draft it applies to: an exercise with the id exists, or doesn't when one is added; an added exercise's type is registered; a position is within the list; an addition stays within maxExercises; and a payload is nested at most 64 levels deep.",
+  "oneOf": [
+    {
+      "description": "Adds an exercise at a position, from 0 to the number of exercises.",
+      "type": "object",
+      "required": ["type", "exercise", "at"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "learn.addExercise"
+        },
+        "exercise": {
+          "$ref": "#/$defs/exercise"
+        },
+        "at": {
+          "$ref": "#/$defs/position"
+        }
+      }
+    },
+    {
+      "description": "Removes an exercise.",
+      "type": "object",
+      "required": ["type", "exerciseId"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "learn.removeExercise"
+        },
+        "exerciseId": {
+          "$ref": "#/$defs/text"
+        }
+      }
+    },
+    {
+      "description": "Moves an exercise to a position among the others, from 0 to one less than the number of exercises.",
+      "type": "object",
+      "required": ["type", "exerciseId", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "learn.moveExercise"
+        },
+        "exerciseId": {
+          "$ref": "#/$defs/text"
+        },
+        "to": {
+          "$ref": "#/$defs/position"
+        }
+      }
+    },
+    {
+      "description": "Sets an exercise's title or instructions, or removes it with null.",
+      "type": "object",
+      "required": ["type", "exerciseId", "field", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "learn.setExerciseText"
+        },
+        "exerciseId": {
+          "$ref": "#/$defs/text"
+        },
+        "field": {
+          "enum": ["title", "instructions"]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/text"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "description": "Replaces an exercise's payload, as its type's editor builds it. The payload may be incomplete: the draft it makes may be invalid content until the teacher finishes.",
+      "type": "object",
+      "required": ["type", "exerciseId", "payload"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "learn.setPayload"
+        },
+        "exerciseId": {
+          "$ref": "#/$defs/text"
+        },
+        "payload": {
+          "$ref": "#/$defs/payload"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "text": {
+      "description": "A text of 1 to 2,000 Unicode code points (the default maxTextLength) with at least one character that isn't white space, as ECMAScript's String.prototype.trim defines it.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "[^\\t\\n\\v\\f\\r \\u00a0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000\\ufeff]"
+    },
+    "anyText": {
+      "description": "Any text of at most 2,000 Unicode code points, blank or not, as a draft's payload may hold.",
+      "type": "string",
+      "maxLength": 2000
+    },
+    "position": {
+      "description": "A position in the list of exercises, from 0.",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "payload": {
+      "description": "An exercise's data: any JSON object, whose texts and keys are at most 2,000 code points.",
+      "type": "object",
+      "propertyNames": {
+        "maxLength": 2000
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/json"
+      }
+    },
+    "json": {
+      "description": "Any JSON value, with texts and keys of at most 2,000 code points.",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "#/$defs/anyText"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/json"
+          }
+        },
+        {
+          "$ref": "#/$defs/payload"
+        }
+      ]
+    },
+    "exercise": {
+      "description": "An exercise, as hm-learn-content holds it, with any object as its payload.",
+      "type": "object",
+      "required": ["id", "type", "payload"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/text"
+        },
+        "type": {
+          "$ref": "#/$defs/text"
+        },
+        "title": {
+          "$ref": "#/$defs/text"
+        },
+        "instructions": {
+          "$ref": "#/$defs/text"
+        },
+        "payload": {
+          "$ref": "#/$defs/payload"
+        }
+      }
+    }
+  }
+}

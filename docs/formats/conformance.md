@@ -12,6 +12,7 @@ Each file is an `hm-conformance` document, which `@hussmartinez/sdk-config`'s sc
 | [`hm-learn-access.json`](../../conformance/hm-learn-access.json) | Which courses a learner may open | `{ learner, courses }` | The course codes, in course order |
 | [`hm-learn-progress-changes.json`](../../conformance/hm-learn-progress-changes.json) | Applying changes to progress | `{ progress, changes }` | The `hm-learn-progress` document after them |
 | [`hm-learn-scheduling.json`](../../conformance/hm-learn-scheduling.json) | Spaced repetition | `{ scheduler, options?, start or state, reviews }` | Every scheduling state in turn, with its due time |
+| [`hm-learn-commands.json`](../../conformance/hm-learn-commands.json) | Applying [`hm-learn-command`](hm-learn-command.md) | `{ document, commands, limits? }` | The draft after every command; their inverses, in reverse order, must restore the content |
 
 Any case may instead expect a rejection, `{ "error": { "code", "reason"? } }`.
 
@@ -25,6 +26,7 @@ Any case may instead expect a rejection, `{ "error": { "code", "reason"? } }`.
 - **Grading** reads the exercise as an `hm-learn-content` document holding just that exercise, then grades with the default language profile: Unicode NFC, and nothing else. No case folding, no trimming, no locale rules and no ICU. Thai text is compared as NFC leaves it, so sara am written as nikhahit and sara aa doesn't match the precomposed form: unifying them is a Thai profile's job, not the default's.
 - **Scheduling:** `"fsrs"` is FSRS-7 without fuzzing, with optional `desiredRetention` and `weights`; `"fake"` is the fake scheduler from `@hussmartinez/learn-sdk/testing`. `start` begins with a new item's state at that time and includes it in the result; `state` continues from a stored one. Times are milliseconds since the Unix epoch.
 - **Progress changes:** an attempt is appended; a review replaces its item's card where it already is, or appends a new item's card.
+- **Commands** apply in order to the content, which is read with `parseContent` first. The result is a draft, which may be invalid content. A port also applies each command's inverse, in reverse order, and checks that it restores the content exactly; the inverses themselves aren't compared, only what they do.
 - **Course order:** courses are sorted by `position`, and courses at the same position keep the order given.
 
 In TypeScript, `test/conformance/run.ts` is the runner for each subject, and `describeConformance` from `@hussmartinez/sdk-config/testing/conformance` registers a test for each case.
@@ -34,11 +36,11 @@ In TypeScript, `test/conformance/run.ts` is the runner for each subject, and `de
 `test/conformance/generate.ts` writes the files.
 
 - **Hand-written cases** cover every outcome. Each one names the outcome it's meant to have, and generation fails if the SDK disagrees.
-- **Generated cases** for the two formats come from the schema properties' document generators, with a fixed seed: 15 documents the reader accepts and 15 it refuses.
+- **Generated cases** come from the schema properties' generators, with a fixed seed: for each format, 15 documents the reader accepts and 15 it refuses; for commands, 15 runs of up to three commands that apply and 15 that are refused.
 
 `pnpm conformance:update` rewrites the files, and the tests fail when the checked-in files differ from what the generator writes. Biome doesn't format them, so the generator's output is what's checked in.
 
-The tests also check that the format schemas agree with the readers. Every document the vectors read passes its schema, and over thousands of generated and mutated documents, neither reader accepts one its schema refuses (`test/formats.test.ts`).
+The tests also check that the format schemas agree with the readers. Every document the vectors read passes its schema, and over thousands of generated and mutated documents, neither reader accepts one its schema refuses, and `applyLearnCommand` applies no command its schema refuses (`test/formats.test.ts`).
 
 ## Changing them
 
