@@ -30,6 +30,12 @@ export default [
     limit: "40 kB",
   },
   {
+    name: "Contract suites and fakes (./testing), with the shared code it loads",
+    path: ["dist/testing.js", "dist/shared/*.js"],
+    brotli: true,
+    limit: "10 kB",
+  },
+  {
     name: "Stylesheet (./styles.css)",
     path: "dist/styles.css",
     brotli: true,

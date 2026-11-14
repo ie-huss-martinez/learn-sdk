@@ -59,6 +59,18 @@ describe("the built package", () => {
     }
   });
 
+  it("depends on no test framework, not even in ./testing", () => {
+    expect(chunk("testing.js").code.length).toBeGreaterThan(0);
+    for (const file of files) {
+      if (file.type === "chunk") {
+        expect(
+          file.imports.filter((name) => /^(?:vitest|jest|@jest\/|node:test)/.test(name)),
+          file.fileName,
+        ).toEqual([]);
+      }
+    }
+  });
+
   it("uses the production JSX runtime and leaks no local paths", () => {
     const code = files.flatMap((file) => (file.type === "chunk" ? [file.code] : [])).join("\n");
     expect(code).not.toContain("jsx-dev-runtime");

@@ -10,8 +10,6 @@
  * @packageDocumentation
  */
 
-export { createFakeAudioSource } from "./adapters/fakes/fake-audio-source.js";
-export { createFakeScheduler } from "./adapters/fakes/fake-scheduler.js";
 export type { FsrsSchedulerOptions } from "./adapters/fsrs/fsrs-scheduler.js";
 export { createFsrsScheduler } from "./adapters/fsrs/fsrs-scheduler.js";
 export type {

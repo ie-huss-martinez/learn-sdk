@@ -1,13 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { audioSourceContract } from "../../../test/contracts/audio-source.contract.js";
-import { schedulerContract } from "../../../test/contracts/scheduler.contract.js";
+import { defineAudioSourceContract } from "../../testing/audio-source-contract.js";
+import { defineSchedulerContract } from "../../testing/scheduler-contract.js";
 import { createFakeAudioSource } from "./fake-audio-source.js";
 import { createFakeScheduler } from "./fake-scheduler.js";
 
-audioSourceContract("createFakeAudioSource", () =>
-  createFakeAudioSource({ known: new Uint8Array([1, 2, 3]) }),
+defineAudioSourceContract(
+  "createFakeAudioSource",
+  () => createFakeAudioSource({ known: new Uint8Array([1, 2, 3]) }),
+  {
+    describe,
+    it,
+  },
 );
-schedulerContract("createFakeScheduler", createFakeScheduler);
+defineSchedulerContract("createFakeScheduler", createFakeScheduler, { describe, it });
 
 describe("createFakeScheduler", () => {
   it("doubles intervals with each review, and starts again after 'again'", () => {

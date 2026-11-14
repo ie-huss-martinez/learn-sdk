@@ -1,4 +1,8 @@
-import { progressStoreContract } from "../../../test/contracts/progress-store.contract.js";
+import { describe, it } from "vitest";
+import { defineProgressStoreContract } from "../../testing/progress-store-contract.js";
 import { createMemoryProgressStore } from "./memory-progress.js";
 
-progressStoreContract("createMemoryProgressStore", createMemoryProgressStore);
+defineProgressStoreContract("createMemoryProgressStore", createMemoryProgressStore, {
+  describe,
+  it,
+});

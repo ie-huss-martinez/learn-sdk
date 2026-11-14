@@ -69,12 +69,6 @@ export interface Course {
 export function createExerciseTypes(types: readonly ExerciseType<unknown, unknown>[]): ExerciseTypes;
 
 // @public
-export function createFakeAudioSource(clips: Readonly<Record<string, Uint8Array | Blob>>): AudioSource;
-
-// @public
-export function createFakeScheduler(): Scheduler_2;
-
-// @public
 export function createFsrsScheduler(options?: FsrsSchedulerOptions): Scheduler_2;
 
 // @public
