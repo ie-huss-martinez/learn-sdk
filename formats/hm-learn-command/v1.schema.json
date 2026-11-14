@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/ie-huss-martinez/learn-sdk/blob/main/formats/hm-learn-commands/v1.schema.json",
-  "title": "hm-learn-commands, version 1",
-  "description": "One edit to an hm-learn-content draft (docs/formats/hm-learn-commands.md, learn-sdk ADR 0007, sdk-core ADR 0045). Every command's inverse is a command of this format. Texts, including every string and key inside a payload, are at most 2,000 Unicode code points, learn-sdk's default maxTextLength. Beyond this schema, the reducer checks each command against the draft it applies to: an exercise with the id exists, or doesn't when one is added; an added exercise's type is registered; a position is within the list; an addition stays within maxExercises; and a payload is nested at most 64 levels deep.",
+  "$id": "https://github.com/ie-huss-martinez/learn-sdk/blob/main/formats/hm-learn-command/v1.schema.json",
+  "title": "hm-learn-command, version 1",
+  "description": "One edit to an hm-learn-content draft (docs/formats/hm-learn-command.md, learn-sdk ADR 0007, sdk-core ADR 0045). Every command's inverse is a command of this format. Texts, including every string and key inside a payload, are at most 2,000 Unicode code points, learn-sdk's default maxTextLength. Beyond this schema, the reducer checks each command against the draft it applies to: an exercise with the id exists, or doesn't when one is added; an added exercise's type is registered; a position is within the list; an addition stays within maxExercises; and a payload is nested at most 64 levels deep.",
   "oneOf": [
     {
       "description": "Adds an exercise at a position, from 0 to the number of exercises.",

@@ -1,6 +1,6 @@
-# `hm-learn-commands`, version 1
+# `hm-learn-command`, version 1
 
-learn-sdk's edit commands: every change a teacher's editor makes to a draft of [`hm-learn-content`](hm-learn-content.md) ([ADR 0007](../adr/0007-player-and-editor-sessions.md), [sdk-core ADR 0045](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0045-portable-formats-and-conformance-vectors.md)). Commands are plain JSON, so a host can store them, sync them between devices, or replay them on a server. Each command's inverse is a command too, which is how undo works. Its schema is [`formats/hm-learn-commands/v1.schema.json`](../../formats/hm-learn-commands/v1.schema.json), and it describes one command.
+learn-sdk's edit commands: every change a teacher's editor makes to a draft of [`hm-learn-content`](hm-learn-content.md) ([ADR 0007](../adr/0007-player-and-editor-sessions.md), [sdk-core ADR 0045](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0045-portable-formats-and-conformance-vectors.md)). Commands are plain JSON, so a host can store them, sync them between devices, or replay them on a server. Each command's inverse is a command too, which is how undo works. Its schema is [`formats/hm-learn-command/v1.schema.json`](../../formats/hm-learn-command/v1.schema.json), and it describes one command.
 
 | Command | Fields | Its inverse |
 |---|---|---|

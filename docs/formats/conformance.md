@@ -12,7 +12,7 @@ Each file is an `hm-conformance` document, which `@hussmartinez/sdk-config`'s sc
 | [`hm-learn-access.json`](../../conformance/hm-learn-access.json) | Which courses a learner may open | `{ learner, courses }` | The course codes, in course order |
 | [`hm-learn-progress-changes.json`](../../conformance/hm-learn-progress-changes.json) | Applying changes to progress | `{ progress, changes }` | The `hm-learn-progress` document after them |
 | [`hm-learn-scheduling.json`](../../conformance/hm-learn-scheduling.json) | Spaced repetition | `{ scheduler, options?, start or state, reviews }` | Every scheduling state in turn, with its due time |
-| [`hm-learn-commands.json`](../../conformance/hm-learn-commands.json) | Applying [`hm-learn-commands`](hm-learn-commands.md) | `{ document, commands, limits? }` | The draft after every command; their inverses, in reverse order, must restore the content |
+| [`hm-learn-commands.json`](../../conformance/hm-learn-commands.json) | Applying [`hm-learn-command`](hm-learn-command.md) | `{ document, commands, limits? }` | The draft after every command; their inverses, in reverse order, must restore the content |
 
 Any case may instead expect a rejection, `{ "error": { "code", "reason"? } }`.
 

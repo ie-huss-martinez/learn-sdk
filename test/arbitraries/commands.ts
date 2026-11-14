@@ -2,7 +2,7 @@ import fc from "fast-check";
 import { exercise, json, optional, text } from "./documents.js";
 
 /**
- * Generators of hm-learn-commands commands, mostly valid and often not,
+ * Generators of hm-learn-command commands, mostly valid and often not,
  * against a draft whose exercises are "mc", "gf" and "wo", as the
  * conformance generator's base content has them.
  */

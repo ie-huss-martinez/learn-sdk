@@ -40,7 +40,7 @@ export type {
   SetExerciseTextCommand,
   SetPayloadCommand,
 } from "./core/model/commands.js";
-export { COMMANDS_FORMAT } from "./core/model/commands.js";
+export { COMMAND_FORMAT } from "./core/model/commands.js";
 export type { Content, Exercise, Grade } from "./core/model/content.js";
 export { CONTENT_FORMAT, CONTENT_VERSION } from "./core/model/content.js";
 export type {

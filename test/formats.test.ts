@@ -21,7 +21,7 @@ const progressErrors = schemaValidator(
 );
 
 const commandErrors = schemaValidator(
-  new URL("../formats/hm-learn-commands/v1.schema.json", import.meta.url),
+  new URL("../formats/hm-learn-command/v1.schema.json", import.meta.url),
 );
 
 /** A draft with the exercise ids the command generator uses. */
@@ -32,7 +32,7 @@ const DRAFT: ContentDraft = {
 };
 
 describe("the format schemas agree with the readers", () => {
-  it("never let applyLearnCommand apply a command hm-learn-commands's schema refuses", () => {
+  it("never let applyLearnCommand apply a command hm-learn-command's schema refuses", () => {
     fc.assert(
       fc.property(fc.oneof(command, mutated(command)), (value) => {
         if (accepts(() => applyLearnCommand(DRAFT, value, { types }))) {

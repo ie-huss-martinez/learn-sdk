@@ -73,7 +73,7 @@ describe("the format schemas accept every document the vectors read", () => {
 
   it("hm-learn-commands, every command applied", () => {
     const errors = schemaValidator(
-      new URL("../../formats/hm-learn-commands/v1.schema.json", import.meta.url),
+      new URL("../../formats/hm-learn-command/v1.schema.json", import.meta.url),
     );
     for (const testCase of readConformance(at("hm-learn-commands.json")).cases.filter(isRead)) {
       for (const command of (testCase.input as { commands: unknown[] }).commands) {

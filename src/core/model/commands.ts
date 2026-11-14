@@ -69,7 +69,7 @@ export interface SetPayloadCommand {
 }
 
 /**
- * An edit to a {@link ContentDraft}: the `hm-learn-commands` format, version
+ * An edit to a {@link ContentDraft}: the `hm-learn-command` format, version
  * 1 (ADR 0007). Every command is plain JSON, and its inverse is a command
  * too, so commands can be stored, synced and undone.
  *
@@ -87,4 +87,4 @@ export type LearnCommand =
  *
  * @public
  */
-export const COMMANDS_FORMAT = "hm-learn-commands";
+export const COMMAND_FORMAT = "hm-learn-command";

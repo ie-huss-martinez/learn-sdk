@@ -1349,7 +1349,7 @@ export function commandCases(): ConformanceFile {
   ];
   return file(
     "hm-learn-commands",
-    'Applying hm-learn-commands commands (docs/formats/hm-learn-commands.md). input.document is hm-learn-content, read with parseContent; input.commands are applied to it in order; input.limits, when given, overrides learn-sdk\'s default limits. expected is the draft after every command, which may be invalid content, or the rejection of the first command refused. The inverses of the commands applied, in reverse order, must restore the content exactly. The host registers the built-in types and "free-form", whose payload is any object.',
+    'Applying hm-learn-command commands (docs/formats/hm-learn-command.md). input.document is hm-learn-content, read with parseContent; input.commands are applied to it in order; input.limits, when given, overrides learn-sdk\'s default limits. expected is the draft after every command, which may be invalid content, or the rejection of the first command refused. The inverses of the commands applied, in reverse order, must restore the content exactly. The host registers the built-in types and "free-form", whose payload is any object.',
     run(editCommands, cases),
   );
 }

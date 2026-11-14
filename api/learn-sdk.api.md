@@ -80,7 +80,7 @@ export interface CardRecord {
 export const checkTool: LearnPlayerTool;
 
 // @public
-export const COMMANDS_FORMAT = "hm-learn-commands";
+export const COMMAND_FORMAT = "hm-learn-command";
 
 // @public
 export interface Content {

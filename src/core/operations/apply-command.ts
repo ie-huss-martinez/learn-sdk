@@ -228,7 +228,7 @@ function readCommand(input: unknown, maxText: number): LearnCommand {
 }
 
 /**
- * Applies an `hm-learn-commands` command to a draft (ADR 0007), and returns
+ * Applies an `hm-learn-command` command to a draft (ADR 0007), and returns
  * the new draft with the command that undoes it. It's the editor's reducer,
  * and a server applying commands it has stored or synced uses it the same
  * way.

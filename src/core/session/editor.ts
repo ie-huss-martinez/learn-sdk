@@ -61,7 +61,7 @@ export interface LearnEditorOptions {
 
 /**
  * A teacher's editor session (ADR 0007), headless: a draft changed only by
- * `hm-learn-commands` commands, with undo and redo.
+ * `hm-learn-command` commands, with undo and redo.
  *
  * @public
  */
@@ -103,7 +103,7 @@ function randomId(): string {
  * invalid, and the snapshot lists its issues, found after every edit by the
  * same validators. `getContent()` publishes it once it's valid.
  *
- * Every edit is an `hm-learn-commands` command through
+ * Every edit is an `hm-learn-command` command through
  * {@link applyLearnCommand}, kept with its inverse in sdk-core's history: at
  * most 500 steps, after which the earliest are dropped and `trimmed` is set.
  *
