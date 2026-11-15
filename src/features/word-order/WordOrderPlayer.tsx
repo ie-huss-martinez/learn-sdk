@@ -1,4 +1,3 @@
-import { CheckIcon, CloseIcon } from "@hussmartinez/ui/react";
 import {
   type KeyboardEvent,
   type ReactNode,
@@ -7,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { ItemResult } from "../player/ItemResult.js";
 import { definePlayerBlock, type PlayerBlockProps } from "../player/player-block.js";
 import { useRovingGroup } from "../player/roving.js";
 import type { WordOrderAnswer, WordOrderItem, WordOrderPayload } from "./word-order.js";
@@ -174,13 +174,11 @@ function Item({
         })}
       </fieldset>
       {right !== undefined && (
-        <p className="hm-learn-item-result" data-hm-result={right ? "right" : "wrong"}>
-          {right ? <CheckIcon aria-hidden="true" /> : <CloseIcon aria-hidden="true" />}
-          <span>{messages.t(right ? "player.correct" : "player.incorrect")}</span>
-          {!right && (
-            <span> {messages.t("wordOrder.rightAnswer", { answer: item.tiles.join(" ") })}</span>
-          )}
-        </p>
+        <ItemResult
+          right={right}
+          rightAnswer={messages.t("wordOrder.rightAnswer", { answer: item.tiles.join(" ") })}
+          messages={messages}
+        />
       )}
     </div>
   );

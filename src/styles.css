@@ -142,10 +142,13 @@
     color: var(--hm-color-danger-text);
   }
 
+  /* About a word wide, growing with what's typed where the browser can. */
   .hm-learn-gap {
     display: inline-block;
-    min-inline-size: var(--hm-surface-width-small);
+    inline-size: calc(var(--hm-target-size) * 3);
+    min-inline-size: calc(var(--hm-target-size) * 2);
     max-inline-size: 100%;
+    field-sizing: content;
     margin-inline: var(--hm-gap-tight);
     padding-inline: var(--hm-inset-tight);
     border: 0;
@@ -161,7 +164,7 @@
 
   /* Results carry an icon and text, never colour alone (ADR 0005). */
   .hm-learn-result,
-  .hm-learn-item-result {
+  .hm-learn-verdict {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -169,27 +172,42 @@
     margin: 0;
   }
 
+  /* An item's verdict, then the right answer and any explanation, each on its own line. */
+  .hm-learn-item-result {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hm-gap-tight);
+  }
+
+  .hm-learn-right-answer,
+  .hm-learn-explanation {
+    margin: 0;
+    color: var(--hm-color-text);
+  }
+
+  .hm-learn-explanation {
+    color: var(--hm-color-text-muted);
+  }
+
   .hm-learn-result {
     font-weight: var(--hm-font-weight-strong);
   }
 
   .hm-learn-result svg,
-  .hm-learn-item-result svg {
+  .hm-learn-verdict svg {
     flex: none;
     inline-size: var(--hm-icon-size);
     block-size: var(--hm-icon-size);
   }
 
-  [data-hm-result="right"]:is(.hm-learn-result, .hm-learn-item-result) {
+  .hm-learn-result[data-hm-result="right"],
+  [data-hm-result="right"] > .hm-learn-verdict {
     color: var(--hm-color-success-text);
   }
 
-  [data-hm-result="wrong"]:is(.hm-learn-result, .hm-learn-item-result) {
+  .hm-learn-result[data-hm-result="wrong"],
+  [data-hm-result="wrong"] > .hm-learn-verdict {
     color: var(--hm-color-danger-text);
-  }
-
-  .hm-learn-explanation {
-    color: var(--hm-color-text);
   }
 
   .hm-learn-save-failed,
@@ -210,7 +228,8 @@
   .hm-learn-summary {
     flex-direction: column;
     align-items: flex-start;
-    background: var(--hm-color-surface-sunken);
+    border: var(--hm-border-width) solid var(--hm-color-border);
+    background: var(--hm-color-surface-raised);
   }
 
   .hm-learn-save-failed p,
@@ -218,7 +237,12 @@
     margin: 0;
   }
 
+  /* Content that can't be opened: the reason, in a panel of its own. */
   .hm-learn-error {
+    padding: var(--hm-inset-normal);
+    border-inline-start: var(--hm-border-width-2) solid var(--hm-color-danger);
+    border-radius: var(--hm-radius-surface);
+    background: var(--hm-color-danger-subtle);
     color: var(--hm-color-danger-text);
   }
 

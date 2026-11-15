@@ -1,5 +1,5 @@
-import { CheckIcon, CloseIcon } from "@hussmartinez/ui/react";
 import type { ReactNode } from "react";
+import { ItemResult } from "../player/ItemResult.js";
 import { definePlayerBlock, type PlayerBlockProps } from "../player/player-block.js";
 import { useRovingGroup } from "../player/roving.js";
 import {
@@ -99,13 +99,11 @@ function Item({
         <Options item={item} number={number} value={value} onChoose={onFill} props={props} />
       )}
       {right !== undefined && (
-        <p className="hm-learn-item-result" data-hm-result={right ? "right" : "wrong"}>
-          {right ? <CheckIcon aria-hidden="true" /> : <CloseIcon aria-hidden="true" />}
-          <span>{messages.t(right ? "player.correct" : "player.incorrect")}</span>
-          {!right && (
-            <span> {messages.t("gapFill.rightAnswer", { answer: item.answers[0] ?? "" })}</span>
-          )}
-        </p>
+        <ItemResult
+          right={right}
+          rightAnswer={messages.t("gapFill.rightAnswer", { answer: item.answers[0] ?? "" })}
+          messages={messages}
+        />
       )}
     </div>
   );
