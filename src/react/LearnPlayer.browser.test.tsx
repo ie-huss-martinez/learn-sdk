@@ -218,10 +218,51 @@ describe("LearnPlayer", () => {
     expect(saved).toHaveLength(1);
   });
 
-  it("shows why content can't be opened, instead of the exercises", () => {
-    render({ content: { ...content, version: 2 } });
-    expect(container?.querySelector("[role=alert]")?.textContent).toMatch(/newer version/);
-    expect(container?.querySelector(".hm-learn-toolbar")).toBeNull();
+  it.each([
+    {
+      reason: "unknown-format-version",
+      invalidContent: { ...content, version: 2 },
+      guidance: "This content may be from a newer version. Update the app, then open it again.",
+    },
+    {
+      reason: "unknown-format",
+      invalidContent: { ...content, format: "other-content" },
+      guidance: "This isn't learning content this app can read.",
+    },
+    {
+      reason: "not-json",
+      invalidContent: "{broken",
+      guidance: "This content is damaged. Ask whoever provided it for another copy.",
+    },
+    {
+      reason: "malformed-document",
+      invalidContent: { ...content, exercises: "broken" },
+      guidance: "This content is damaged. Ask whoever provided it for another copy.",
+    },
+  ])(
+    "explains $reason to the learner instead of showing exercises",
+    ({ invalidContent, guidance }) => {
+      render({ content: invalidContent });
+      expect(container?.querySelector(".hm-learn-error[role=alert]")?.textContent).toBe(guidance);
+      expect(container?.querySelector(".hm-learn-toolbar")).toBeNull();
+    },
+  );
+
+  it("uses the host's translation for damaged content", () => {
+    render({
+      content: "{broken",
+      messages: { "content.invalidDocument": "Ask your teacher for a new copy." },
+    });
+    expect(container?.querySelector(".hm-learn-error")?.textContent).toBe(
+      "Ask your teacher for a new copy.",
+    );
+  });
+
+  it("keeps catalogue guidance for content that exceeds a limit", () => {
+    render({ limits: { maxExercises: 1 } });
+    expect(container?.querySelector(".hm-learn-error")?.textContent).toBe(
+      "A set can have 1 exercise. Split the content into smaller sets.",
+    );
   });
 
   it("checks, moves on and starts again through its ref", async () => {
