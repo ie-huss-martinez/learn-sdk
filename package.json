@@ -1,6 +1,6 @@
 {
   "name": "@hussmartinez/learn-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Learning SDK: exercise types with deterministic grading, spaced repetition, a learner player and a teacher editor. A headless core that also runs on servers, React components and a custom element.",
   "license": "Apache-2.0",
   "repository": {
