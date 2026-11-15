@@ -26,6 +26,7 @@ import type {
   LearnPlayer as LearnPlayerSession,
   LearnPlayerSnapshot,
 } from "../core/session/player.js";
+import type { LearnPlayerMessages } from "../features/player/player-messages.js";
 import { classes } from "../features/player/roving.js";
 import {
   type LearnPlayerProps,
@@ -262,6 +263,22 @@ function Session({
   );
 }
 
+/** Gives learners guidance for the content failure, without exposing developer text. */
+function contentError(error: unknown, messages: LearnPlayerMessages): string {
+  if (isLearnError(error, "UNSUPPORTED_FORMAT")) {
+    if (error.details?.["reason"] === "unknown-format-version") {
+      return messages.t("content.unknownFormatVersion");
+    }
+    if (error.details?.["reason"] === "unknown-format") {
+      return messages.t("content.unknownFormat");
+    }
+  }
+  if (isLearnError(error, "INVALID_DOCUMENT")) {
+    return messages.t("content.invalidDocument");
+  }
+  return messages.error(error);
+}
+
 const Shell = forwardRef<LearnPlayerHandle, { readonly className?: string | undefined }>(
   function Shell({ className }, ref): ReactNode {
     const { player, error, messages, reset } = usePlayerContext();
@@ -286,7 +303,7 @@ const Shell = forwardRef<LearnPlayerHandle, { readonly className?: string | unde
               aria-label={messages.t("player.label")}
             >
               <p role="alert" className="hm-learn-error">
-                {messages.error(error)}
+                {contentError(error, messages)}
               </p>
             </section>
           )}

@@ -439,7 +439,10 @@ export type LearnMessageCatalogue = typeof learnMessages;
 
 // @public
 export const learnMessages: {
-    readonly "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.";
+    readonly "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read.";
+    readonly "content.unknownFormat": "This isn't learning content this app can read.";
+    readonly "content.unknownFormatVersion": "This content may be from a newer version. Update the app, then open it again.";
+    readonly "content.invalidDocument": "This content is damaged. Ask whoever provided it for another copy.";
     readonly "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.";
     readonly "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.";
     readonly "errors.INVALID_COMMAND": "This change couldn't be made. Please try again.";

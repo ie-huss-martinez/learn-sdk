@@ -27,8 +27,11 @@ import type { LearnLimitName } from "../core/errors/learn-limits.js";
  */
 export const learnMessages = /* @__PURE__ */ defineMessages({
   ...sdkCoreMessages,
-  "errors.UNSUPPORTED_FORMAT":
-    "This isn't learning content this app can read. It may be from a newer version: update the app, then open it again.",
+  "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read.",
+  "content.unknownFormat": "This isn't learning content this app can read.",
+  "content.unknownFormatVersion":
+    "This content may be from a newer version. Update the app, then open it again.",
+  "content.invalidDocument": "This content is damaged. Ask whoever provided it for another copy.",
   "errors.INVALID_DOCUMENT": "This content has problems. Fix them, then try again.",
   "errors.INVALID_ANSWER": "This answer couldn't be checked. Please try again.",
   "errors.INVALID_COMMAND": "This change couldn't be made. Please try again.",
