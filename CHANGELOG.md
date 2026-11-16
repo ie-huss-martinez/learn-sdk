@@ -1,5 +1,11 @@
 # @hussmartinez/learn-sdk
 
+## 0.2.1
+
+### Patch Changes
+
+- [#33](https://github.com/ie-huss-martinez/learn-sdk/pull/33) [`d4fed45`](https://github.com/ie-huss-martinez/learn-sdk/commit/d4fed45cc9fecca6d5dc787c56810cefbc0d3080) Thanks [@hussmartinez](https://github.com/hussmartinez)! - LearnPlayer now distinguishes unsupported content versions, unrelated formats and damaged content, so learners are only told to update the app for an unsupported version. Hosts can translate each message through the content.* catalogue keys.
+
 ## 0.2.0
 
 ### Minor Changes
