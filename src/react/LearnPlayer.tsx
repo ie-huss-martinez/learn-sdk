@@ -279,39 +279,40 @@ function contentError(error: unknown, messages: LearnPlayerMessages): string {
   return messages.error(error);
 }
 
-const Shell = forwardRef<LearnPlayerHandle, { readonly className?: string | undefined }>(
-  function Shell({ className }, ref): ReactNode {
-    const { player, error, messages, reset } = usePlayerContext();
-    useImperativeHandle(
-      ref,
-      () => ({
-        check: () => player?.check(),
-        next: () => player?.next(),
-        reset,
-      }),
-      [player, reset],
-    );
-    return (
-      // One Messages object for the SDK's text and ui's (sdk-core ADR 0046).
-      <UiMessagesProvider messages={messages}>
-        <AnnouncerProvider>
-          {player ? (
-            <Session player={player} className={className} />
-          ) : (
-            <section
-              className={classes("hm-learn-player", className)}
-              aria-label={messages.t("player.label")}
-            >
-              <p role="alert" className="hm-learn-error">
-                {contentError(error, messages)}
-              </p>
-            </section>
-          )}
-        </AnnouncerProvider>
-      </UiMessagesProvider>
-    );
-  },
-);
+const Shell = /* @__PURE__ */ forwardRef<
+  LearnPlayerHandle,
+  { readonly className?: string | undefined }
+>(function Shell({ className }, ref): ReactNode {
+  const { player, error, messages, reset } = usePlayerContext();
+  useImperativeHandle(
+    ref,
+    () => ({
+      check: () => player?.check(),
+      next: () => player?.next(),
+      reset,
+    }),
+    [player, reset],
+  );
+  return (
+    // One Messages object for the SDK's text and ui's (sdk-core ADR 0046).
+    <UiMessagesProvider messages={messages}>
+      <AnnouncerProvider>
+        {player ? (
+          <Session player={player} className={className} />
+        ) : (
+          <section
+            className={classes("hm-learn-player", className)}
+            aria-label={messages.t("player.label")}
+          >
+            <p role="alert" className="hm-learn-error">
+              {contentError(error, messages)}
+            </p>
+          </section>
+        )}
+      </AnnouncerProvider>
+    </UiMessagesProvider>
+  );
+});
 
 /**
  * The learner's player (ADR 0001, ADR 0005, ADR 0007): one exercise at a
