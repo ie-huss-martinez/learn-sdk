@@ -57,9 +57,10 @@ async function noViolations(page: Page): Promise<void> {
 const status = (page: Page) => page.locator(".hm-announcer [role=status]");
 // The announcer says messages sent in the same frame together, in order
 // (ui 0.14.2), so a test's quick actions can join theirs. `said` matches the
-// live region when its text ends with the message, whatever came before it.
+// live region when its text ends with the message, alone or after an
+// earlier message's closing punctuation, so "Not correct." isn't "Correct.".
 const said = (message: string) =>
-  new RegExp(`(^| )${message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
+  new RegExp(`(^|[.!?] )${message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
 const tool = (page: Page, name: string) =>
   page
     .getByRole("toolbar", { name: "Exercise actions" })

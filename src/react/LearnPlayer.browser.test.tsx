@@ -79,9 +79,10 @@ const tool = (label: string) =>
 const status = () => container?.querySelector(".hm-announcer [role=status]")?.textContent ?? "";
 // The announcer says messages sent in the same frame together, in order
 // (ui 0.14.2), so a test's quick actions can join theirs. `said` matches the
-// live region when its text ends with the message, whatever came before it.
+// live region when its text ends with the message, alone or after an
+// earlier message's closing punctuation, so "Not correct." isn't "Correct.".
 const said = (message: string) =>
-  new RegExp(`(^| )${message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
+  new RegExp(`(^|[.!?] )${message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
 const text = () => container?.querySelector(".hm-learn-player")?.textContent ?? "";
 
 async function noViolations() {
