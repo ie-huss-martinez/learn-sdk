@@ -100,12 +100,14 @@ export interface PlayerBlockProps<Payload = unknown, Answer = unknown> {
 
 // @public
 export const playerCatalogue: {
+    "colorField.swatches": "swatches";
     "dialog.close": "Close";
     "fileDropZone.choose": "Choose a file";
     "fileDropZone.chooseMultiple": "Choose files";
     "fileDropZone.hint": "or drop it here";
     "fileDropZone.hintMultiple": "or drop them here";
     "progress.label": "Progress";
+    "reorderableList.moved": "{label} moved to position {position} of {count}";
     "spinner.label": "Loading";
     "errors.INVALID_THEME_TOKEN": "The theme setting {token} has a value that can't be used.";
     "errors.INVALID_THEME_SELECTOR": "The theme can't be applied to the selector {selector}.";
@@ -117,6 +119,8 @@ export const playerCatalogue: {
     "player.incorrect": "Not quite";
     "player.skipped": "Skipped";
     "player.result": "{score, number} of {max, number} right";
+    "player.announceCorrect": "Correct.";
+    "player.announceResult": "{score, number} of {max, number} right.";
     "player.summary": "Finished: {score, number} of {max, number} right.";
     "player.summarySkipped": {
         readonly $plural: "count";
@@ -135,9 +139,9 @@ export const playerCatalogue: {
     "wordOrder.answer": "Your sentence {number, number}";
     "wordOrder.bank": "Words for sentence {number, number}";
     "wordOrder.hint": "Choose the words in order. To move a chosen word, press Alt with an arrow key.";
-    "wordOrder.placed": "{tile} placed, {position, number} of {count, number}";
-    "wordOrder.returned": "{tile} returned to the words";
-    "wordOrder.moved": "{tile} moved to {position, number} of {count, number}";
+    "wordOrder.placed": "{tile} placed, {position, number} of {count, number}.";
+    "wordOrder.returned": "{tile} returned to the words.";
+    "wordOrder.moved": "{tile} moved to {position, number} of {count, number}.";
     "wordOrder.rightAnswer": "Right answer: {answer}";
     "errors.UNSUPPORTED_FORMAT": "This isn't learning content this app can read.";
     "content.unknownFormat": "This isn't learning content this app can read.";

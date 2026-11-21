@@ -224,7 +224,9 @@ function Session({
     announced.current = current.grade;
     const { score, max } = current.grade;
     announce(
-      score === max ? messages.t("player.correct") : messages.t("player.result", { score, max }),
+      score === max
+        ? messages.t("player.announceCorrect")
+        : messages.t("player.announceResult", { score, max }),
     );
   }, [current, announce, messages]);
   const summary = snapshot.summary;

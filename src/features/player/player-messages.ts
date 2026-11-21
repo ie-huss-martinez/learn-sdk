@@ -20,6 +20,10 @@ const playerText = /* @__PURE__ */ defineMessages({
   "player.incorrect": "Not quite",
   "player.skipped": "Skipped",
   "player.result": "{score, number} of {max, number} right",
+  // Announced, so each ends with a full stop: the announcer joins messages
+  // sent in the same frame, such as the last result and the summary.
+  "player.announceCorrect": "Correct.",
+  "player.announceResult": "{score, number} of {max, number} right.",
   "player.summary": "Finished: {score, number} of {max, number} right.",
   "player.summarySkipped": /* @__PURE__ */ plural("count", {
     one: "You skipped {count} exercise.",
@@ -37,9 +41,9 @@ const playerText = /* @__PURE__ */ defineMessages({
   "wordOrder.bank": "Words for sentence {number, number}",
   "wordOrder.hint":
     "Choose the words in order. To move a chosen word, press Alt with an arrow key.",
-  "wordOrder.placed": "{tile} placed, {position, number} of {count, number}",
-  "wordOrder.returned": "{tile} returned to the words",
-  "wordOrder.moved": "{tile} moved to {position, number} of {count, number}",
+  "wordOrder.placed": "{tile} placed, {position, number} of {count, number}.",
+  "wordOrder.returned": "{tile} returned to the words.",
+  "wordOrder.moved": "{tile} moved to {position, number} of {count, number}.",
   "wordOrder.rightAnswer": "Right answer: {answer}",
 });
 
