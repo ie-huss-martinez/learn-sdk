@@ -1,3 +1,4 @@
+import { nestedHeadingLevel, toHeadingLevel } from "@hussmartinez/ui";
 import {
   AnnouncerProvider,
   Button,
@@ -5,11 +6,14 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
+  Heading,
+  HeadingLevelProvider,
   RotateLeftIcon,
   SkipForwardIcon,
   Toolbar,
   UiMessagesProvider,
   useAnnounce,
+  useHeadingLevel,
   usePlatform,
 } from "@hussmartinez/ui/react";
 import {
@@ -136,6 +140,7 @@ function Exercise({
   const state = snapshot.exercises[snapshot.position];
   const heading = useRef<HTMLHeadingElement>(null);
   const headingId = useId();
+  const level = useHeadingLevel();
   const shown = useRef(snapshot.position);
 
   // After moving, focus goes to the new exercise's heading (ADR 0005).
@@ -155,21 +160,24 @@ function Exercise({
   return (
     <article className="hm-learn-exercise" aria-labelledby={headingId}>
       <p className="hm-learn-position">{position}</p>
-      <h2 ref={heading} id={headingId} className="hm-learn-title" tabIndex={-1}>
+      <Heading ref={heading} id={headingId} className="hm-learn-title" tabIndex={-1}>
         {exercise.title ?? position}
-      </h2>
+      </Heading>
       {exercise.instructions && <p className="hm-learn-instructions">{exercise.instructions}</p>}
       {Block ? (
-        <Block
-          key={exercise.id}
-          exercise={exercise}
-          answer={state.draft}
-          onAnswer={(answer) => player.answer(answer)}
-          grade={state.grade}
-          profile={profile}
-          messages={messages}
-          announce={announce}
-        />
+        // A host's block that renders a Heading nests under the title.
+        <HeadingLevelProvider level={nestedHeadingLevel(level)}>
+          <Block
+            key={exercise.id}
+            exercise={exercise}
+            answer={state.draft}
+            onAnswer={(answer) => player.answer(answer)}
+            grade={state.grade}
+            profile={profile}
+            messages={messages}
+            announce={announce}
+          />
+        </HeadingLevelProvider>
       ) : (
         <p className="hm-learn-unsupported">{messages.t("player.unsupported")}</p>
       )}
@@ -338,10 +346,12 @@ const Shell = /* @__PURE__ */ forwardRef<
  * @public
  */
 export const LearnPlayer = /* @__PURE__ */ forwardRef<LearnPlayerHandle, LearnPlayerProps>(
-  function LearnPlayer({ className, ...provider }, ref): ReactNode {
+  function LearnPlayer({ className, headingLevel, ...provider }, ref): ReactNode {
     return (
       <LearnPlayerProvider {...provider}>
-        <Shell ref={ref} className={className} />
+        <HeadingLevelProvider level={toHeadingLevel(headingLevel)}>
+          <Shell ref={ref} className={className} />
+        </HeadingLevelProvider>
       </LearnPlayerProvider>
     );
   },

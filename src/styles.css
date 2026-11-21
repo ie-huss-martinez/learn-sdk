@@ -41,13 +41,7 @@
     font-size: var(--hm-font-size-small);
   }
 
-  .hm-learn-title {
-    margin: 0;
-    font-size: var(--hm-font-size-title);
-    font-weight: var(--hm-font-weight-strong);
-    line-height: var(--hm-line-height-tight);
-  }
-
+  /* The title is ui's Heading, which sets its margin and typography. */
   .hm-learn-title:focus-visible {
     border-radius: var(--hm-radius-control);
     outline: var(--hm-focus-ring);

@@ -5,7 +5,7 @@ import {
   type ShortcutRegistry,
   type ToolRegistry,
 } from "@hussmartinez/sdk-core";
-import { usePlatform } from "@hussmartinez/ui/react";
+import { type HeadingLevel, usePlatform } from "@hussmartinez/ui/react";
 import {
   createContext,
   type ReactNode,
@@ -74,6 +74,14 @@ export interface LearnPlayerProps {
   readonly messages?: LearnPlayerMessageOverrides;
   readonly locale?: string;
   readonly className?: string;
+  /**
+   * The level of the exercise's title, `2` to `6`, so the player fits the
+   * page's outline (sdk-core ADR 0058). Defaults to `2`; a page's `<h1>` is
+   * the host's. The player renders this one level of headings, and a host's
+   * block that renders a `Heading` from `@hussmartinez/ui` gets the level
+   * below it. Another value is treated as `2`, with a development warning.
+   */
+  readonly headingLevel?: HeadingLevel | undefined;
 }
 
 interface PlayerContext {
@@ -99,7 +107,7 @@ const Context = /* @__PURE__ */ createContext<PlayerContext | null>(null);
  * @internal
  */
 export function LearnPlayerProvider(
-  props: Omit<LearnPlayerProps, "className"> & { readonly children?: ReactNode },
+  props: Omit<LearnPlayerProps, "className" | "headingLevel"> & { readonly children?: ReactNode },
 ): ReactNode {
   const { content, types, progressStore, scope, scheduler, limits, locale } = props;
   const callbacks = useRef(props);

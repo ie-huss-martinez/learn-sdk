@@ -8,6 +8,7 @@ import type { Announce } from '@hussmartinez/ui/react';
 import type { ComponentType } from 'react';
 import { FilePolicyOverrides } from '@hussmartinez/sdk-core';
 import { ForwardRefExoticComponent } from 'react';
+import { HeadingLevel } from '@hussmartinez/ui/react';
 import { MessageOverrides } from '@hussmartinez/sdk-core';
 import { Messages } from '@hussmartinez/sdk-core';
 import { RefAttributes } from 'react';
@@ -19,6 +20,8 @@ export function definePlayerBlock<Payload, Answer>(block: ComponentType<PlayerBl
 
 // @public
 export const GapFillPlayer: PlayerBlock;
+
+export { HeadingLevel }
 
 // @public
 export const LearnPlayer: ForwardRefExoticComponent<LearnPlayerProps & RefAttributes<LearnPlayerHandle>>;
@@ -42,6 +45,7 @@ export interface LearnPlayerProps {
     // (undocumented)
     readonly className?: string;
     readonly content: unknown;
+    readonly headingLevel?: HeadingLevel | undefined;
     // Warning: (ae-forgotten-export) The symbol "LearnLimitOverrides" needs to be exported by the entry point react.d.ts
     //
     // (undocumented)

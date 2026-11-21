@@ -10,8 +10,12 @@
  * dependencies. Import `@hussmartinez/ui/styles.css` and then
  * `@hussmartinez/learn-sdk/styles.css` once.
  *
+ * `HeadingLevel` is ui's, re-exported so a host can name the type of
+ * `headingLevel` without importing ui (sdk-core ADR 0058).
+ *
  * @packageDocumentation
  */
+export type { HeadingLevel } from "@hussmartinez/ui/react";
 export { GapFillPlayer } from "./features/gap-fill/GapFillPlayer.js";
 export { MultipleChoicePlayer } from "./features/multiple-choice/MultipleChoicePlayer.js";
 export type { PlayerBlock, PlayerBlockProps } from "./features/player/player-block.js";

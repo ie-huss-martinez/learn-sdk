@@ -1,6 +1,7 @@
 import "@hussmartinez/ui/styles.css";
 import "../styles.css";
 import { platformOf } from "@hussmartinez/sdk-core";
+import { Heading, type HeadingLevel } from "@hussmartinez/ui/react";
 import axe from "axe-core";
 import { act, createRef } from "react";
 import { createRoot, type Root } from "react-dom/client";
@@ -9,6 +10,7 @@ import { userEvent } from "vitest/browser";
 import { LearnError } from "../core/errors/learn-error.js";
 import type { ProgressChange } from "../core/model/progress.js";
 import type { ProgressStore } from "../core/ports/progress-store.js";
+import { definePlayerBlock } from "../features/player/player-block.js";
 import { bankOrder } from "../features/word-order/WordOrderPlayer.js";
 import { LearnPlayer, type LearnPlayerHandle } from "./LearnPlayer.js";
 import type { LearnPlayerProps } from "./player-context.js";
@@ -278,6 +280,36 @@ describe("LearnPlayer", () => {
     act(() => ref.current?.reset());
     expect(text()).toContain("Exercise 1 of 3");
     expect(button("drink").getAttribute("aria-pressed")).toBe("false");
+  });
+});
+
+describe("headingLevel (sdk-core ADR 0058)", () => {
+  const headings = () =>
+    [...(container?.querySelectorAll("h1, h2, h3, h4, h5, h6") ?? [])].map(
+      (heading) => `${heading.tagName.toLowerCase()} ${heading.textContent}`,
+    );
+
+  it("renders the exercise's title as an h2 by default", () => {
+    render();
+    expect(headings()).toEqual(["h2 อาหาร"]);
+  });
+
+  it("follows the host's level, and nests a host block's headings one below it", async () => {
+    const WithHeading = definePlayerBlock(() => <Heading>Part one</Heading>);
+    render({ headingLevel: 4, blocks: { "multiple-choice": WithHeading } });
+    expect(headings()).toEqual(["h4 อาหาร", "h5 Part one"]);
+    const title = container?.querySelector("h4");
+    expect(container?.querySelector("article")?.getAttribute("aria-labelledby")).toBe(title?.id);
+    await userEvent.click(tool("Next"));
+    expect(document.activeElement).toBe(container?.querySelector("h4"));
+  });
+
+  it("treats a value outside 2 to 6 as 2", () => {
+    // ui's toHeadingLevel warns in development; that's ui's to test.
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    render({ headingLevel: 7 as HeadingLevel });
+    expect(headings()).toEqual(["h2 อาหาร"]);
+    warn.mockRestore();
   });
 });
 
