@@ -150,11 +150,13 @@ describe("LearnPlayer", () => {
       (bank.find((tile) => tile.textContent === word) as HTMLElement).focus();
       await userEvent.keyboard("{Enter}");
     }
-    await vi.waitFor(() => expect(status()).toBe("กิน placed, 3 of 3."));
+    // Messages sent in the same frame are said together (ui 0.14.2), so the
+    // last one ends the live region's text rather than filling it.
+    await vi.waitFor(() => expect(status()).toMatch(/(^| )กิน placed, 3 of 3\.$/));
     expect(bank.every((tile) => tile.getAttribute("aria-disabled") === "true")).toBe(true);
     (document.querySelector(".hm-learn-tiles--placed button") as HTMLElement).focus();
     await userEvent.keyboard("{Alt>}{ArrowRight}{ArrowRight}{/Alt}");
-    await vi.waitFor(() => expect(status()).toBe("ข้าว moved to 3 of 3."));
+    await vi.waitFor(() => expect(status()).toMatch(/(^| )ข้าว moved to 3 of 3\.$/));
     expect(document.activeElement?.textContent).toBe("ข้าว");
     const placed = () =>
       [...(container?.querySelectorAll(".hm-learn-tiles--placed button") ?? [])].map(

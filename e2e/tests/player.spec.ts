@@ -131,14 +131,16 @@ for (const target of targets) {
         await tile(page, "Words for sentence 1", word).focus();
         await page.keyboard.press("Enter");
       }
-      await expect(status(page)).toHaveText("ข้าว placed, 3 of 3.");
+      // Messages in the same frame are said together (ui 0.14.2): the last ends the text.
+      await expect(status(page)).toHaveText(/(^| )ข้าว placed, 3 of 3\.$/);
       await tile(page, "Your sentence 1", "กิน").focus();
       await page.keyboard.press("Alt+ArrowRight");
       await expect(status(page)).toHaveText("กิน moved to 2 of 3.");
       await expect(tile(page, "Your sentence 1", "กิน")).toBeFocused();
       await noViolations(page);
       await page.keyboard.press("ControlOrMeta+Enter");
-      await expect(status(page)).toHaveText("Finished: 5 of 5 right.");
+      // The last result and the summary come in one commit, so both are said, in order.
+      await expect(status(page)).toHaveText("Correct. Finished: 5 of 5 right.");
       await expect(page.locator(".hm-learn-summary")).toContainText("Finished: 5 of 5 right.");
       await noViolations(page);
 
