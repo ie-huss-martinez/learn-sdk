@@ -40,6 +40,10 @@ export default defineConfig(({ mode }) => {
           },
           test: {
             name: "browser",
+            // Refuses to start outside the pinned browser test image or CI,
+            // where Docker's network changes fail tests at random (sdk-core
+            // ADR 0049). The unit project above still runs anywhere.
+            globalSetup: ["@hussmartinez/sdk-config/testing/require-image"],
             include: ["src/**/*.browser.test.{ts,tsx}", "test/**/*.browser.test.ts"],
             browser: {
               enabled: true,

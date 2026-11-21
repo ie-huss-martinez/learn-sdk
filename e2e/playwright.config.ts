@@ -10,6 +10,9 @@ const ci = Boolean(process.env["CI"]);
  * locally, all three engines in CI, as for the other browser tests.
  */
 export default defineConfig({
+  // Refuses to start outside the pinned browser test image or CI, where
+  // Docker's network changes fail tests at random (sdk-core ADR 0049).
+  globalSetup: "@hussmartinez/sdk-config/testing/require-image",
   testDir: "tests",
   forbidOnly: ci,
   retries: 0,
