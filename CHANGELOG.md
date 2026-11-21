@@ -1,5 +1,11 @@
 # @hussmartinez/learn-sdk
 
+## 0.2.3
+
+### Patch Changes
+
+- [#43](https://github.com/ie-huss-martinez/learn-sdk/pull/43) [`043d8a3`](https://github.com/ie-huss-martinez/learn-sdk/commit/043d8a3394c0bb83c6e98b27f12fd6740e42900e) Thanks [@hussmartinez](https://github.com/hussmartinez)! - Importing a single piece from `@hussmartinez/learn-sdk/react`, such as `playerCatalogue`, `definePlayerBlock` or one exercise block, no longer brings `LearnPlayer`'s internals into your bundle. With esbuild it saved about 1.5 kB per such import. Nothing changes in the API or in behaviour.
+
 ## 0.2.2
 
 ### Patch Changes
