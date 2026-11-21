@@ -24,7 +24,7 @@ Browser tests, the end-to-end tests and the screenshots run in the pinned browse
 
 | Step | Script | Tool |
 |---|---|---|
-| Format and lint | `lint` | Biome |
+| Format, lint and hidden characters | `lint` | Biome, with the family's abort-listener rule, and `hm-check-hidden-unicode` |
 | CSS rules | `lint:css` | stylelint, with the `hm-` namespace and token rules |
 | Types | `typecheck` | TypeScript |
 | Dependency rules | `lint:deps` | dependency-cruiser, through `hm-lint-deps` |
@@ -38,7 +38,7 @@ Browser tests, the end-to-end tests and the screenshots run in the pinned browse
 | API reports | `check:api` | api-extractor, one report per entry point in [`api`](api) |
 | Package checks | `check:package` | publint and Are the Types Wrong? |
 
-The configuration extends the shared presets in [`@hussmartinez/sdk-config`](https://www.npmjs.com/package/@hussmartinez/sdk-config). The git hooks ([ADR 0016](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0016-git-hooks-and-merge-guards.md)) run automatically: a secret scan and lint of staged files on commit, a Conventional Commits check of the message, and `pnpm verify:fast` on push. The hooks are the local bar, and CI, which runs the full `pnpm verify` on every push, is the merge gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)).
+The configuration extends the shared presets in [`@hussmartinez/sdk-config`](https://www.npmjs.com/package/@hussmartinez/sdk-config). The git hooks ([ADR 0016](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0016-git-hooks-and-merge-guards.md)) run automatically: a secret scan, a hidden-character check and lint of staged files on commit, a Conventional Commits check of the message, and `pnpm verify:fast` on push. The hooks are the local bar, and CI, which runs the full `pnpm verify` on every push, is the merge gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)).
 
 When a change alters the public API on purpose, update the reports with `pnpm api:update` and commit them.
 
