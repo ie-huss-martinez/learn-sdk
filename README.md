@@ -33,7 +33,7 @@ Browser tests, the end-to-end tests and the screenshots run in the pinned browse
 | Browser tests | `test:browser` | Vitest in Chromium, and in Firefox and WebKit too in CI |
 | Example builds | `build:examples` | Vite and Next.js, on the workspace's build of the package |
 | End-to-end tests | `test:e2e` | Playwright, against the built examples, in Chromium, and all three engines in CI |
-| Screenshots | `test:visual` | Playwright, the player's states in light and dark, compact and comfortable, in the pinned image ([ADR 0048](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0048-visual-regression-for-sdk-editors.md)); `pnpm test:visual:update` rewrites them |
+| Screenshots | `test:visual` | Playwright, the player's states in light and dark, compact and comfortable, in the pinned image ([ADR 0048](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0048-visual-regression-for-sdk-editors.md)), compared strictly: a pixel more than one colour level from its baseline fails ([ADR 0054](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0054-visual-comparison-tolerance.md)); `pnpm test:visual:update` rewrites only the baselines that changed |
 | Size budgets | `check:size` | size-limit, brotli size of each entry point |
 | API reports | `check:api` | api-extractor, one report per entry point in [`api`](api) |
 | Package checks | `check:package` | publint and Are the Types Wrong? |
