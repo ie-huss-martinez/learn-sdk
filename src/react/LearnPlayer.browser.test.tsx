@@ -77,6 +77,11 @@ const tool = (label: string) =>
     (b) => b.textContent?.trim() === label,
   ) as HTMLButtonElement;
 const status = () => container?.querySelector(".hm-announcer [role=status]")?.textContent ?? "";
+// The announcer says messages sent in the same frame together, in order
+// (ui 0.14.2), so a test's quick actions can join theirs. `said` matches the
+// live region when its text ends with the message, whatever came before it.
+const said = (message: string) =>
+  new RegExp(`(^| )${message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`);
 const text = () => container?.querySelector(".hm-learn-player")?.textContent ?? "";
 
 async function noViolations() {
@@ -110,7 +115,7 @@ describe("LearnPlayer", () => {
     expect(button("eat").getAttribute("aria-pressed")).toBe("true");
     await noViolations();
     await userEvent.keyboard(`{${mod}>}{Enter}{/${mod}}`);
-    await vi.waitFor(() => expect(status()).toBe("Correct."));
+    await vi.waitFor(() => expect(status()).toMatch(said("Correct.")));
     expect(document.activeElement?.textContent).toBe("eat");
     expect(button("drink").getAttribute("aria-disabled")).toBe("true");
     expect(container?.querySelector(".hm-learn-item-result")?.textContent).toContain("Correct");
@@ -133,7 +138,7 @@ describe("LearnPlayer", () => {
     expect(button("ดื่ม").getAttribute("aria-pressed")).toBe("true");
     await noViolations();
     await userEvent.click(tool("Check"));
-    await vi.waitFor(() => expect(status()).toBe("1 of 2 right."));
+    await vi.waitFor(() => expect(status()).toMatch(said("1 of 2 right.")));
     expect(text()).toContain("Right answer: กิน");
     expect(container?.querySelector("input")?.readOnly).toBe(true);
     await noViolations();
@@ -152,13 +157,11 @@ describe("LearnPlayer", () => {
       (bank.find((tile) => tile.textContent === word) as HTMLElement).focus();
       await userEvent.keyboard("{Enter}");
     }
-    // Messages sent in the same frame are said together (ui 0.14.2), so the
-    // last one ends the live region's text rather than filling it.
-    await vi.waitFor(() => expect(status()).toMatch(/(^| )กิน placed, 3 of 3\.$/));
+    await vi.waitFor(() => expect(status()).toMatch(said("กิน placed, 3 of 3.")));
     expect(bank.every((tile) => tile.getAttribute("aria-disabled") === "true")).toBe(true);
     (document.querySelector(".hm-learn-tiles--placed button") as HTMLElement).focus();
     await userEvent.keyboard("{Alt>}{ArrowRight}{ArrowRight}{/Alt}");
-    await vi.waitFor(() => expect(status()).toMatch(/(^| )ข้าว moved to 3 of 3\.$/));
+    await vi.waitFor(() => expect(status()).toMatch(said("ข้าว moved to 3 of 3.")));
     expect(document.activeElement?.textContent).toBe("ข้าว");
     const placed = () =>
       [...(container?.querySelectorAll(".hm-learn-tiles--placed button") ?? [])].map(
@@ -167,7 +170,7 @@ describe("LearnPlayer", () => {
     expect(placed()).toEqual(["ฉัน", "กิน", "ข้าว"]);
     await noViolations();
     await userEvent.click(tool("Check"));
-    await vi.waitFor(() => expect(status()).toBe("Correct."));
+    await vi.waitFor(() => expect(status()).toMatch(said("Correct.")));
     await noViolations();
   });
 
@@ -179,7 +182,7 @@ describe("LearnPlayer", () => {
     const placed = container?.querySelector(".hm-learn-tiles--placed button") as HTMLElement;
     placed.focus();
     await userEvent.keyboard("{Enter}");
-    await vi.waitFor(() => expect(status()).toBe("กิน returned to the words."));
+    await vi.waitFor(() => expect(status()).toMatch(said("กิน returned to the words.")));
     expect(container?.querySelector(".hm-learn-tiles--placed button")).toBeNull();
     expect(document.activeElement?.textContent).toBe("กิน");
     expect(document.activeElement?.getAttribute("aria-disabled")).toBeNull();
@@ -193,7 +196,7 @@ describe("LearnPlayer", () => {
     await userEvent.click(tool("Skip"));
     await userEvent.click(tool("Next"));
     await userEvent.click(tool("Skip"));
-    await vi.waitFor(() => expect(status()).toBe("Finished: 1 of 1 right."));
+    await vi.waitFor(() => expect(status()).toMatch(said("Finished: 1 of 1 right.")));
     expect(text()).toContain("You skipped 2 exercises.");
     await userEvent.click(tool("Try again"));
     expect(container?.querySelector(".hm-learn-summary")).toBeNull();
@@ -274,7 +277,7 @@ describe("LearnPlayer", () => {
     render({}, ref);
     await userEvent.click(button("drink"));
     act(() => ref.current?.check());
-    await vi.waitFor(() => expect(status()).toBe("0 of 1 right."));
+    await vi.waitFor(() => expect(status()).toMatch(said("0 of 1 right.")));
     act(() => ref.current?.next());
     expect(text()).toContain("Exercise 2 of 3");
     act(() => ref.current?.reset());
