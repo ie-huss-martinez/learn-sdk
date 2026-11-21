@@ -22,7 +22,30 @@ import {
  */
 
 const at = (name: string) => new URL(`../../conformance/${name}`, import.meta.url);
-const text = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
+/**
+ * Characters that an editor and a diff don't show, or that reorder the text
+ * around them: the set `hm-check-hidden-unicode` refuses (sdk-core ADR 0052).
+ * JSON.stringify writes them raw, so the vectors write them as `\u` escapes,
+ * which read back as the same strings.
+ */
+const HIDDEN =
+  /[\u00AD\u061C\u180E\u200B-\u200F\u2028-\u202E\u2060-\u2064\u2066-\u2069\uFEFF\u{E0000}-\u{E007F}]/gu;
+const escapeHidden = (character: string) =>
+  Array.from(
+    { length: character.length },
+    (_, index) => `\\u${character.charCodeAt(index).toString(16).toUpperCase().padStart(4, "0")}`,
+  ).join("");
+const text = (value: unknown) =>
+  `${JSON.stringify(value, null, 2).replace(HIDDEN, escapeHidden)}\n`;
+
+it("writes hidden characters as escapes that read back as the same text", () => {
+  const value = { text: "a\u2028b\uFEFFc\u202E\u{E0041}" };
+  const written = text(value);
+  expect(written).not.toMatch(new RegExp(HIDDEN.source, "u"));
+  expect(written).toContain("\\u2028");
+  expect(written).toContain("\\uDB40\\uDC41");
+  expect(JSON.parse(written)).toEqual(value);
+});
 
 it("keeps the checked-in cases up to date with their generator", async () => {
   // `pnpm conformance:update` rewrites them.

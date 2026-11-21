@@ -1599,15 +1599,15 @@
             {
               "itemId": "a　a　",
               "scheduling": {
-                "scheduler": "  _ 😀",
-                "model": " 😀  ",
+                "scheduler": "  _\u2028😀",
+                "model": " 😀\u2028\u2028",
                 "version": 0,
                 "card": "bhaau"
               },
               "due": 3
             },
             {
-              "itemId": "　 a",
+              "itemId": "　\u2028a",
               "scheduling": {
                 "scheduler": " a",
                 "model": "กa",
@@ -1627,15 +1627,15 @@
           {
             "itemId": "a　a　",
             "scheduling": {
-              "scheduler": "  _ 😀",
-              "model": " 😀  ",
+              "scheduler": "  _\u2028😀",
+              "model": " 😀\u2028\u2028",
               "version": 0,
               "card": "bhaau"
             },
             "due": 3
           },
           {
-            "itemId": "　 a",
+            "itemId": "　\u2028a",
             "scheduling": {
               "scheduler": " a",
               "model": "กa",
@@ -1833,10 +1833,10 @@
           "attempts": [],
           "cards": [
             {
-              "itemId": " 😀aก",
+              "itemId": "\u2028😀aก",
               "scheduling": {
-                "scheduler": "﻿﻿ ก",
-                "model": "_😀﻿ _",
+                "scheduler": "\uFEFF\uFEFF\u2028ก",
+                "model": "_😀\uFEFF\u2028_",
                 "version": 0,
                 "card": null
               },
@@ -1851,10 +1851,10 @@
         "attempts": [],
         "cards": [
           {
-            "itemId": " 😀aก",
+            "itemId": "\u2028😀aก",
             "scheduling": {
-              "scheduler": "﻿﻿ ก",
-              "model": "_😀﻿ _",
+              "scheduler": "\uFEFF\uFEFF\u2028ก",
+              "model": "_😀\uFEFF\u2028_",
               "version": 0,
               "card": null
             },
@@ -2143,14 +2143,14 @@
               "itemId": "",
               "scheduling": {
                 "scheduler": "ก　　_😀",
-                "model": "\n﻿﻿\n ",
+                "model": "\n\uFEFF\uFEFF\n ",
                 "version": 2,
                 "card": "if7Gb3j"
               },
               "due": 1
             },
             {
-              "itemId": "_ ",
+              "itemId": "_\u2028",
               "scheduling": {
                 "scheduler": "  😀 ก",
                 "model": "a　　😀",
@@ -2203,7 +2203,7 @@
               "at": 825966133890
             },
             {
-              "exerciseId": " 😀",
+              "exerciseId": "\u2028😀",
               "answer": {
                 "&[{": null,
                 "SK": "zOS",
@@ -2275,7 +2275,7 @@
             {
               "itemId": "_ 　",
               "scheduling": {
-                "scheduler": "﻿　 ",
+                "scheduler": "\uFEFF　\u2028",
                 "model": "  😀\n",
                 "version": 2,
                 "card": {}
@@ -2283,7 +2283,7 @@
               "due": 3
             },
             {
-              "itemId": "a \n 　",
+              "itemId": "a \n\u2028　",
               "scheduling": {
                 "scheduler": "a　 ",
                 "model": " 😀",
@@ -2400,10 +2400,10 @@
               "due": 37
             },
             {
-              "itemId": "_ 😀﻿",
+              "itemId": "_ 😀\uFEFF",
               "scheduling": {
-                "scheduler": "﻿﻿\na ",
-                "model": "  a",
+                "scheduler": "\uFEFF\uFEFF\na\u2028",
+                "model": " \u2028a",
                 "version": 1,
                 "card": {
                   "Z<d]B$b": 1.5902548040730756e-171,
@@ -2477,10 +2477,10 @@
           ],
           "cards": [
             {
-              "itemId": " \n",
+              "itemId": "\u2028\n",
               "scheduling": {
-                "scheduler": "﻿",
-                "model": "   ",
+                "scheduler": "\uFEFF",
+                "model": "\u2028  ",
                 "version": 2,
                 "card": {
                   "PU": "R(WT!=ee",
@@ -2493,10 +2493,10 @@
               "due": 0
             },
             {
-              "itemId": " ﻿ก\n",
+              "itemId": " \uFEFFก\n",
               "scheduling": {
                 "scheduler": " ",
-                "model": "   a😀",
+                "model": "\u2028  a😀",
                 "version": 1,
                 "card": "y>"
               },
@@ -2596,7 +2596,7 @@
             {
               "itemId": "",
               "scheduling": {
-                "scheduler": " 😀　",
+                "scheduler": "\u2028😀　",
                 "model": "ก_",
                 "version": 1,
                 "card": [
@@ -2661,8 +2661,8 @@
             {
               "itemId": " 😀a\n😀",
               "scheduling": {
-                "scheduler": "　 😀 ",
-                "model": "    ",
+                "scheduler": "　\u2028😀 ",
+                "model": " \u2028  ",
                 "version": 0,
                 "card": {
                   "4g": [
@@ -2724,7 +2724,7 @@
               "itemId": "",
               "scheduling": {
                 "scheduler": " ",
-                "model": "﻿😀😀　",
+                "model": "\uFEFF😀😀　",
                 "version": 1,
                 "card": [
                   [
@@ -2754,7 +2754,7 @@
           "version": 1,
           "attempts": [
             {
-              "exerciseId": "﻿😀 _",
+              "exerciseId": "\uFEFF😀 _",
               "answer": [
                 "r",
                 null,
@@ -2776,7 +2776,7 @@
               "at": 1
             },
             {
-              "exerciseId": "﻿_\n😀 ",
+              "exerciseId": "\uFEFF_\n😀 ",
               "answer": [
                 -1.153849784470396e-277,
                 [
@@ -2826,7 +2826,7 @@
           "attempts": [],
           "cards": [
             {
-              "itemId": "ก😀  ",
+              "itemId": "ก😀\u2028\u2028",
               "scheduling": {
                 "scheduler": "_\n　\n",
                 "model": "😀",
@@ -2849,7 +2849,7 @@
             {
               "itemId": "_  ก",
               "scheduling": {
-                "scheduler": "_ก 😀",
+                "scheduler": "_ก\u2028😀",
                 "model": "",
                 "version": 2,
                 "card": -3.5612692811047434e+261
@@ -2891,7 +2891,7 @@
               "at": 2
             },
             {
-              "exerciseId": "a\n \n",
+              "exerciseId": "a\n\u2028\n",
               "answer": {
                 "\"Ck2.0o": "%$",
                 "LVivQU": null,
@@ -2916,10 +2916,10 @@
           ],
           "cards": [
             {
-              "itemId": " ก \n　",
+              "itemId": "\u2028ก\u2028\n　",
               "scheduling": {
-                "scheduler": "_ ﻿a",
-                "model": "  a  ",
+                "scheduler": "_ \uFEFFa",
+                "model": "  a\u2028\u2028",
                 "version": 0,
                 "card": {
                   "g*#gH": -1.1810636279697383e-153,
@@ -2936,7 +2936,7 @@
               "due": 1
             },
             {
-              "itemId": "\n  　ก",
+              "itemId": "\n \u2028　ก",
               "scheduling": {
                 "scheduler": "　_a\n",
                 "model": " 　 _",

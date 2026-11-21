@@ -9,7 +9,7 @@ import fc from "fast-check";
 
 /** Short texts, often blank in one of the ways `trim` and the schema's pattern both know. */
 export const text = fc.string({
-  unit: fc.constantFrom("a", "ก", "😀", "_", " ", "\n", " ", "　", " ", "﻿"),
+  unit: fc.constantFrom("a", "ก", "😀", "_", " ", "\n", "\u00A0", "\u3000", "\u2028", "\uFEFF"),
   maxLength: 5,
 });
 export const texts = (minLength: number, maxLength: number) =>

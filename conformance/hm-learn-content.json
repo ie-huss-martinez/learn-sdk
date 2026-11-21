@@ -1259,7 +1259,7 @@
           "version": 1,
           "exercises": [
             {
-              "id": "﻿",
+              "id": "\uFEFF",
               "type": "free-form",
               "payload": {}
             }
@@ -2177,9 +2177,9 @@
                   {
                     "sentence": " 😀____ก😀_😀😀",
                     "answers": [
-                      "a　﻿"
+                      "a　\uFEFF"
                     ],
-                    "translation": "﻿"
+                    "translation": "\uFEFF"
                   }
                 ]
               }
@@ -2194,7 +2194,7 @@
             },
             {
               "id": "c",
-              "title": "  a",
+              "title": " \u2028a",
               "type": "gap-fill",
               "payload": {
                 "items": []
@@ -2219,7 +2219,7 @@
           "exercises": [
             {
               "id": "c",
-              "title": "﻿﻿",
+              "title": "\uFEFF\uFEFF",
               "type": "multiple-choice",
               "payload": {
                 "questions": [
@@ -2324,14 +2324,14 @@
           "exercises": [
             {
               "id": "b",
-              "title": "﻿a\n",
+              "title": "\uFEFFa\n",
               "type": "multiple-choice",
               "payload": {
                 "questions": [
                   {
-                    "prompt": "\nก  _",
+                    "prompt": "\nก\u2028 _",
                     "choices": [
-                      " \n﻿ a"
+                      " \n\uFEFF a"
                     ],
                     "correct": 1,
                     "explanation": ""
@@ -2341,7 +2341,7 @@
             },
             {
               "id": "a",
-              "title": "😀 ﻿  ",
+              "title": "😀 \uFEFF\u2028\u2028",
               "type": "free-form",
               "payload": [
                 -1.7875006651384587e+157,
@@ -2365,7 +2365,7 @@
               "payload": {
                 "questions": [
                   {
-                    "prompt": " 😀\n\n",
+                    "prompt": "\u2028😀\n\n",
                     "choices": [
                       ""
                     ],
@@ -2377,7 +2377,7 @@
                       "😀"
                     ],
                     "correct": "ref",
-                    "explanation": " _　ก"
+                    "explanation": "\u2028_　ก"
                   }
                 ]
               }
@@ -2418,17 +2418,17 @@
           "exercises": [
             {
               "id": "c",
-              "title": "a aกa",
+              "title": "a\u2028aกa",
               "type": "gap-fill",
               "payload": {
                 "items": [
                   {
-                    "sentence": "a ",
+                    "sentence": "a\u2028",
                     "answers": [
                       ""
                     ],
                     "options": [
-                      "　 ",
+                      "　\u2028",
                       "a"
                     ],
                     "translation": "　\n\n"
@@ -2447,7 +2447,7 @@
                       null
                     ],
                     "answers": [
-                      "😀﻿　"
+                      "😀\uFEFF　"
                     ],
                     "options": [
                       "\n\n_\n",
@@ -2460,7 +2460,7 @@
             },
             {
               "id": "c",
-              "title": "  a😀 ",
+              "title": "\u2028 a😀 ",
               "type": "word-order",
               "payload": {
                 "items": [
@@ -2492,15 +2492,15 @@
                     "options": [
                       " 😀"
                     ],
-                    "translation": " ก"
+                    "translation": "\u2028ก"
                   },
                   {
-                    "sentence": "😀﻿😀\n___　 😀",
+                    "sentence": "😀\uFEFF😀\n___　 😀",
                     "answers": [],
                     "options": [
-                      "　﻿ก 　"
+                      "　\uFEFFก\u2028　"
                     ],
-                    "translation": "aa \n"
+                    "translation": "aa\u2028\n"
                   }
                 ]
               }
@@ -2549,7 +2549,7 @@
             },
             {
               "id": "a",
-              "title": " \n_\n ",
+              "title": "\u2028\n_\n ",
               "type": "word-order",
               "payload": {
                 "items": [],
@@ -2627,7 +2627,7 @@
                     "alternatives": [
                       []
                     ],
-                    "translation": " a 　"
+                    "translation": "\u2028a 　"
                   }
                 ]
               }
@@ -2659,7 +2659,7 @@
             },
             {
               "id": "a",
-              "title": "  a ",
+              "title": " \u2028a ",
               "type": "word-order",
               "payload": {
                 "items": []
@@ -2667,7 +2667,7 @@
             },
             {
               "id": " ",
-              "title": " ﻿",
+              "title": " \uFEFF",
               "type": "gap-fill",
               "payload": {
                 "items": []
@@ -2703,7 +2703,7 @@
                     ],
                     "alternatives": [
                       [
-                        "  ",
+                        " \u2028",
                         "a"
                       ]
                     ],
@@ -2725,7 +2725,7 @@
                     "tiles": [
                       " "
                     ],
-                    "translation": "😀　 "
+                    "translation": "😀　\u2028"
                   }
                 ]
               }
@@ -2773,7 +2773,7 @@
           "exercises": [
             {
               "id": " ",
-              "title": "ก😀  ",
+              "title": "ก😀\u2028\u2028",
               "type": "word-order",
               "payload": {
                 "items": []
@@ -2781,14 +2781,14 @@
             },
             {
               "id": " ",
-              "title": "﻿a",
+              "title": "\uFEFFa",
               "type": "word-order",
               "payload": {
                 "items": [
                   {
                     "tiles": [
                       "ก ",
-                      "ก﻿aก"
+                      "ก\uFEFFaก"
                     ],
                     "alternatives": [
                       [
@@ -2797,7 +2797,7 @@
                         "\n"
                       ]
                     ],
-                    "translation": " ﻿ _"
+                    "translation": " \uFEFF _"
                   }
                 ]
               }

@@ -3378,7 +3378,7 @@
             "type": "learn.setExerciseText",
             "exerciseId": "gf",
             "field": "title",
-            "value": "ก\n  ﻿"
+            "value": "ก\n  \uFEFF"
           }
         ]
       },
@@ -3397,7 +3397,7 @@
           {
             "id": "gf",
             "type": "free-form",
-            "title": "ก\n  ﻿",
+            "title": "ก\n  \uFEFF",
             "payload": {
               "items": [
                 "ข้าว"
@@ -3453,7 +3453,7 @@
                   "sentence": "",
                   "answers": [
                     " ",
-                    " a"
+                    "\u2028a"
                   ],
                   "options": [
                     "　\na\n\n"
@@ -3485,7 +3485,7 @@
                   "sentence": "",
                   "answers": [
                     " ",
-                    " a"
+                    "\u2028a"
                   ],
                   "options": [
                     "　\na\n\n"
@@ -3541,20 +3541,20 @@
               "items": [
                 {
                   "tiles": [
-                    "﻿　﻿"
+                    "\uFEFF　\uFEFF"
                   ],
                   "alternatives": [
                     [
-                      "_\na 😀",
+                      "_\na\u2028😀",
                       "ก_　_"
                     ],
                     [
-                      "a  \n﻿",
+                      "a  \n\uFEFF",
                       "a _　 ",
-                      "﻿a"
+                      "\uFEFFa"
                     ]
                   ],
-                  "translation": "_\n﻿"
+                  "translation": "_\n\uFEFF"
                 },
                 {
                   "tiles": [
@@ -3586,20 +3586,20 @@
               "items": [
                 {
                   "tiles": [
-                    "﻿　﻿"
+                    "\uFEFF　\uFEFF"
                   ],
                   "alternatives": [
                     [
-                      "_\na 😀",
+                      "_\na\u2028😀",
                       "ก_　_"
                     ],
                     [
-                      "a  \n﻿",
+                      "a  \n\uFEFF",
                       "a _　 ",
-                      "﻿a"
+                      "\uFEFFa"
                     ]
                   ],
-                  "translation": "_\n﻿"
+                  "translation": "_\n\uFEFF"
                 },
                 {
                   "tiles": [
@@ -3821,7 +3821,7 @@
             "type": "learn.setExerciseText",
             "exerciseId": "gf",
             "field": "instructions",
-            "value": "\n  \na"
+            "value": "\n \u2028\na"
           }
         ]
       },
@@ -3840,7 +3840,7 @@
           {
             "id": "gf",
             "type": "free-form",
-            "instructions": "\n  \na",
+            "instructions": "\n \u2028\na",
             "payload": {
               "items": [
                 "ข้าว"
@@ -4385,8 +4385,8 @@
                   {
                     "sentence": "😀ก_",
                     "answers": [
-                      "\n　ก ﻿",
-                      " ﻿"
+                      "\n　ก \uFEFF",
+                      "\u2028\uFEFF"
                     ],
                     "options": [
                       "\n\n",
@@ -4455,7 +4455,7 @@
             "type": "learn.addExercise",
             "exercise": {
               "id": "__proto__",
-              "title": "﻿a　 ",
+              "title": "\uFEFFa　 ",
               "type": "gap-fill",
               "payload": {
                 "items": []
@@ -4548,13 +4548,13 @@
                     "$}#YZ3D": true
                   },
                   {
-                    "prompt": "  ﻿\n﻿",
+                    "prompt": " \u2028\uFEFF\n\uFEFF",
                     "choices": [
                       "ก😀",
                       " 　 "
                     ],
                     "correct": 3,
-                    "explanation": "﻿a 😀"
+                    "explanation": "\uFEFFa\u2028😀"
                   }
                 ]
               }
@@ -4888,16 +4888,16 @@
             "type": "learn.addExercise",
             "exercise": {
               "id": " ",
-              "title": "\n_\n ﻿",
+              "title": "\n_\n\u2028\uFEFF",
               "type": "multiple-choice",
               "payload": {
                 "questions": [
                   {
                     "prompt": "_กaa　",
                     "choices": [
-                      " กa",
+                      "\u2028กa",
                       "a",
-                      "   😀"
+                      "  \u2028😀"
                     ],
                     "correct": 3
                   }
@@ -5075,9 +5075,9 @@
               "payload": {
                 "items": [
                   {
-                    "sentence": "  ___",
+                    "sentence": "\u2028\u2028___",
                     "answers": [],
-                    "translation": " "
+                    "translation": "\u2028"
                   },
                   {
                     "sentence": "😀_😀　",
@@ -5085,7 +5085,7 @@
                       ""
                     ],
                     "options": [
-                      "😀  ",
+                      "😀 \u2028",
                       "a😀ก",
                       " 　 😀"
                     ],
@@ -5298,7 +5298,7 @@
             "payload": {
               "items": [
                 {
-                  "sentence": "　_　_﻿",
+                  "sentence": "　_　_\uFEFF",
                   "answers": [
                     "\n"
                   ]
@@ -5306,11 +5306,11 @@
                 {
                   "sentence": "   \n",
                   "answers": [
-                    " _ก﻿"
+                    " _ก\uFEFF"
                   ],
                   "options": [
                     "😀 ก",
-                    "﻿"
+                    "\uFEFF"
                   ],
                   "translation": ""
                 }
@@ -5395,7 +5395,7 @@
             "type": "learn.addExercise",
             "exercise": {
               "id": "gf",
-              "title": "﻿ ",
+              "title": "\uFEFF ",
               "type": "gap-fill",
               "payload": {
                 "items": {
