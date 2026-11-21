@@ -18,8 +18,8 @@ catalog:
   "@biomejs/biome": ^2.6.5
   "@commitlint/cli": ^21.2.4
   "@hussmartinez/sdk-config": ^0.11.2
-  "@hussmartinez/sdk-core": ^0.4.3
-  "@hussmartinez/ui": ^0.7.0
+  "@hussmartinez/sdk-core": ^0.4.7
+  "@hussmartinez/ui": ^0.15.0
   axe-core: ^4.11.0
   "@playwright/test": 1.65.1
   "@microsoft/api-extractor": ^7.60.1

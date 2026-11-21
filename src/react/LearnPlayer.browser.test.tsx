@@ -108,7 +108,7 @@ describe("LearnPlayer", () => {
     expect(button("eat").getAttribute("aria-pressed")).toBe("true");
     await noViolations();
     await userEvent.keyboard(`{${mod}>}{Enter}{/${mod}}`);
-    await vi.waitFor(() => expect(status()).toBe("Correct"));
+    await vi.waitFor(() => expect(status()).toBe("Correct."));
     expect(document.activeElement?.textContent).toBe("eat");
     expect(button("drink").getAttribute("aria-disabled")).toBe("true");
     expect(container?.querySelector(".hm-learn-item-result")?.textContent).toContain("Correct");
@@ -131,7 +131,7 @@ describe("LearnPlayer", () => {
     expect(button("ดื่ม").getAttribute("aria-pressed")).toBe("true");
     await noViolations();
     await userEvent.click(tool("Check"));
-    await vi.waitFor(() => expect(status()).toBe("1 of 2 right"));
+    await vi.waitFor(() => expect(status()).toBe("1 of 2 right."));
     expect(text()).toContain("Right answer: กิน");
     expect(container?.querySelector("input")?.readOnly).toBe(true);
     await noViolations();
@@ -150,11 +150,11 @@ describe("LearnPlayer", () => {
       (bank.find((tile) => tile.textContent === word) as HTMLElement).focus();
       await userEvent.keyboard("{Enter}");
     }
-    await vi.waitFor(() => expect(status()).toBe("กิน placed, 3 of 3"));
+    await vi.waitFor(() => expect(status()).toBe("กิน placed, 3 of 3."));
     expect(bank.every((tile) => tile.getAttribute("aria-disabled") === "true")).toBe(true);
     (document.querySelector(".hm-learn-tiles--placed button") as HTMLElement).focus();
     await userEvent.keyboard("{Alt>}{ArrowRight}{ArrowRight}{/Alt}");
-    await vi.waitFor(() => expect(status()).toBe("ข้าว moved to 3 of 3"));
+    await vi.waitFor(() => expect(status()).toBe("ข้าว moved to 3 of 3."));
     expect(document.activeElement?.textContent).toBe("ข้าว");
     const placed = () =>
       [...(container?.querySelectorAll(".hm-learn-tiles--placed button") ?? [])].map(
@@ -163,7 +163,7 @@ describe("LearnPlayer", () => {
     expect(placed()).toEqual(["ฉัน", "กิน", "ข้าว"]);
     await noViolations();
     await userEvent.click(tool("Check"));
-    await vi.waitFor(() => expect(status()).toBe("Correct"));
+    await vi.waitFor(() => expect(status()).toBe("Correct."));
     await noViolations();
   });
 
@@ -175,7 +175,7 @@ describe("LearnPlayer", () => {
     const placed = container?.querySelector(".hm-learn-tiles--placed button") as HTMLElement;
     placed.focus();
     await userEvent.keyboard("{Enter}");
-    await vi.waitFor(() => expect(status()).toBe("กิน returned to the words"));
+    await vi.waitFor(() => expect(status()).toBe("กิน returned to the words."));
     expect(container?.querySelector(".hm-learn-tiles--placed button")).toBeNull();
     expect(document.activeElement?.textContent).toBe("กิน");
     expect(document.activeElement?.getAttribute("aria-disabled")).toBeNull();
@@ -270,7 +270,7 @@ describe("LearnPlayer", () => {
     render({}, ref);
     await userEvent.click(button("drink"));
     act(() => ref.current?.check());
-    await vi.waitFor(() => expect(status()).toBe("0 of 1 right"));
+    await vi.waitFor(() => expect(status()).toBe("0 of 1 right."));
     act(() => ref.current?.next());
     expect(text()).toContain("Exercise 2 of 3");
     act(() => ref.current?.reset());

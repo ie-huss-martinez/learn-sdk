@@ -101,7 +101,7 @@ for (const target of targets) {
       );
       await noViolations(page);
       await page.keyboard.press("ControlOrMeta+Enter");
-      await expect(status(page)).toHaveText("Correct");
+      await expect(status(page)).toHaveText("Correct.");
       await expect(page.getByRole("button", { name: "water" })).toBeFocused();
       await noViolations(page);
 
@@ -119,7 +119,7 @@ for (const target of targets) {
       await page.keyboard.press("Enter");
       await expect(tile(page, "Choices for gap 2", "ดื่ม")).toHaveAttribute("aria-pressed", "true");
       await page.keyboard.press("ControlOrMeta+Enter");
-      await expect(status(page)).toHaveText("Correct");
+      await expect(status(page)).toHaveText("Correct.");
       await noViolations(page);
 
       await tool(page, "Next").focus();
@@ -131,10 +131,10 @@ for (const target of targets) {
         await tile(page, "Words for sentence 1", word).focus();
         await page.keyboard.press("Enter");
       }
-      await expect(status(page)).toHaveText("ข้าว placed, 3 of 3");
+      await expect(status(page)).toHaveText("ข้าว placed, 3 of 3.");
       await tile(page, "Your sentence 1", "กิน").focus();
       await page.keyboard.press("Alt+ArrowRight");
-      await expect(status(page)).toHaveText("กิน moved to 2 of 3");
+      await expect(status(page)).toHaveText("กิน moved to 2 of 3.");
       await expect(tile(page, "Your sentence 1", "กิน")).toBeFocused();
       await noViolations(page);
       await page.keyboard.press("ControlOrMeta+Enter");
