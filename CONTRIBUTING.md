@@ -16,15 +16,17 @@ You need Node 24 (see [`.node-version`](.node-version)) and pnpm. pnpm switches 
 
 ```sh
 pnpm install       # also installs the git hooks
-pnpm verify        # everything CI runs
 pnpm verify:fast   # the subset the pre-push hook runs
+pnpm verify        # everything CI runs; it needs Docker for the browser tests
 ```
 
-Browser tests need Playwright's browsers once: `pnpm exec playwright install chromium`. Add `firefox webkit` to run all three engines, as CI does, with `CI=1 pnpm verify` or `pnpm test:browser:all`.
+Browser tests, the end-to-end tests and the screenshots run in the pinned browser image of `ci/Dockerfile`, as CI's do, through `hm-in-image` ([sdk-core ADR 0049](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0049-local-browser-tests-in-the-pinned-image.md)), so they need Docker and no browsers on the machine. `CI=1 pnpm verify` or `pnpm test:browser:all` runs all three engines, as CI does.
 
 The repository root is the published package, laid out as in the family's [standard layout](https://github.com/ie-huss-martinez/sdk-core/blob/main/STANDARDS.md#repository-layout): the source is in `src/`, and the examples and end-to-end tests will join the workspace as `examples/` and `e2e/`.
 
 The git hooks run on their own: a secret scan and lint of staged files on commit, a Conventional Commits check of each message, and `pnpm verify:fast` on push. Don't bypass them with `--no-verify`. If a hook is wrong or too slow, fix it in its own pull request.
+
+**The hooks are the local bar, and CI is the merge gate** ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)). You don't need to run the full `pnpm verify` before opening a pull request: CI runs it on every push, on all three browser engines. Run it, or part of it, when you want to diagnose a failure, reproduce one from CI or capture screenshots.
 
 ## Make a change
 
@@ -52,21 +54,23 @@ The git hooks run on their own: a secret scan and lint of staged files on commit
 ## Open a pull request
 
 - **Title:** a Conventional Commit of at most 65 characters, because it becomes the commit title on `main`, followed by ` (#NNN)`, and that must fit in 72. Put explanations in the description. The `pr-title` check enforces both.
-- **Description:** fill in the template: what changed, why, and how you tested it, including the result of `pnpm verify`. Be as detailed as is useful; the description doesn't go into git history.
+- **Description:** fill in the template: what changed, why, and how you tested it, including what you ran locally and what you left to CI. Be as detailed as is useful; the description doesn't go into git history.
 - **Changeset:** add one if the pull request changes what the package publishes. See [Changesets](#changesets).
-- **Checks:** `verify`, `changeset` and `pr-title` must pass, and the branch must be up to date with `main`.
+- **Checks:** `verify`, `changeset` and `pr-title` must pass on the current head, and the branch must be up to date with `main`.
+- **Automated review:** CodeRabbit reviews every pull request, and reviews again after each push. Its check on the pull request shows when the review of the current head has finished. Fix or answer each thread it opens, then resolve it.
 
-Mark the pull request ready once `pnpm verify` passes locally. CI is the final gate, not a substitute for running it yourself.
+The pull request is ready once it's up to date with `main`, the checks are green, the automated review of the current head has finished, and no review thread is open. A check that fails only in CI is a real failure: find its cause, and don't loosen the test or rerun until it passes.
 
 ## How pull requests are reviewed
 
 **The author of a pull request never merges it.** A separate reviewer does, after reviewing it:
 
 - **The diff:** the reviewer reads the full diff and checks it against `STANDARDS.md` and the ADRs.
-- **The checks:** CI must be green. For any change to code, the reviewer also runs `pnpm verify` independently, rather than relying on the author's result.
+- **The checks:** CI must be green on the pull request's current head, and that's the gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)). The reviewer runs checks locally to investigate a failure or a doubt, not as a second gate.
+- **The review threads:** none is open. Each was fixed, or answered with a reason.
 - **Not "almost right":** if the scope, title or quality isn't right, the pull request is fixed before it's merged.
 
-**Coding agents** open one pull request at a time. After opening it, they stop and report the link, a short summary and their `pnpm verify` result. They start the next change only after the pull request is merged, from an up-to-date `main`. An agent never reviews or merges a pull request it wrote; author and reviewer are always different sessions.
+**Coding agents** open one pull request at a time. Once it's up to date with `main`, its checks are green, the automated review of its current head has finished and its review threads are resolved, they stop and report the link, the head commit, the CI run and a short summary. They start the next change only after the pull request is merged, from an up-to-date `main`. An agent never reviews or merges a pull request it wrote; author and reviewer are always different sessions. They keep the state of the task in hand in an uncommitted `.local/HANDOFF.md`; see [`AGENTS.md`](AGENTS.md#keeping-state).
 
 ## How pull requests are merged
 

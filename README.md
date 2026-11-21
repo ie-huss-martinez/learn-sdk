@@ -14,11 +14,11 @@ You need Node 24 (see [`.node-version`](.node-version)) and pnpm. The exact pnpm
 
 ```sh
 pnpm install       # also installs the git hooks
-pnpm verify        # everything CI runs
 pnpm verify:fast   # the subset the pre-push hook runs
+pnpm verify        # everything CI runs; it needs Docker for the browser tests
 ```
 
-Browser tests need Playwright's browsers once: `pnpm exec playwright install chromium`, plus `firefox webkit` to run all three engines with `CI=1` or `pnpm test:browser:all`.
+Browser tests, the end-to-end tests and the screenshots run in the pinned browser image of `ci/Dockerfile`, as CI's do, through `hm-in-image` ([sdk-core ADR 0049](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0049-local-browser-tests-in-the-pinned-image.md)), so they need Docker and no browsers on the machine. `CI=1 pnpm verify` or `pnpm test:browser:all` runs all three engines, as CI does.
 
 `pnpm verify` runs, in order:
 
@@ -38,7 +38,7 @@ Browser tests need Playwright's browsers once: `pnpm exec playwright install chr
 | API reports | `check:api` | api-extractor, one report per entry point in [`api`](api) |
 | Package checks | `check:package` | publint and Are the Types Wrong? |
 
-The configuration extends the shared presets in [`@hussmartinez/sdk-config`](https://www.npmjs.com/package/@hussmartinez/sdk-config). The git hooks ([ADR 0016](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0016-git-hooks-and-merge-guards.md)) run automatically: a secret scan and lint of staged files on commit, a Conventional Commits check of the message, and `pnpm verify:fast` on push.
+The configuration extends the shared presets in [`@hussmartinez/sdk-config`](https://www.npmjs.com/package/@hussmartinez/sdk-config). The git hooks ([ADR 0016](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0016-git-hooks-and-merge-guards.md)) run automatically: a secret scan and lint of staged files on commit, a Conventional Commits check of the message, and `pnpm verify:fast` on push. The hooks are the local bar, and CI, which runs the full `pnpm verify` on every push, is the merge gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)).
 
 When a change alters the public API on purpose, update the reports with `pnpm api:update` and commit them.
 
