@@ -66,7 +66,7 @@ The pull request is ready once it's up to date with `main`, the checks are green
 **The author of a pull request never merges it.** A separate reviewer does, after reviewing it:
 
 - **The diff:** the reviewer reads the full diff and checks it against `STANDARDS.md` and the ADRs.
-- **The checks:** CI must be green on the pull request's current head, and that's the gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)). The reviewer runs checks locally to investigate a failure or a doubt, not as a second gate.
+- **The checks:** CI must be green on the pull request's current head, and that's the gate ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)). The reviewer merges with the reviewed head commit pinned, so a later push can't be merged unread; if the head changes, the new diff is reviewed first. The reviewer runs checks locally to investigate a failure or a doubt, not as a second gate.
 - **The review threads:** none is open. Each was fixed, or answered with a reason.
 - **Not "almost right":** if the scope, title or quality isn't right, the pull request is fixed before it's merged.
 
