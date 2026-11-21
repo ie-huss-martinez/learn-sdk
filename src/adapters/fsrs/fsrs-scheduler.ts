@@ -10,12 +10,20 @@ const MODEL = "FSRS-7";
 const VERSION = 1;
 const STATES = new Set([0, 1, 2, 3]);
 const SCHEDULE_STATUSES = new Set(["new", "learning", "review"]);
-const RATINGS = {
-  again: FsrsRating.Again,
-  hard: FsrsRating.Hard,
-  good: FsrsRating.Good,
-  easy: FsrsRating.Easy,
-} as const satisfies Record<Rating, number>;
+
+/**
+ * The learner's ratings as ts-fsrs's grades. A function, not a top-level
+ * object: reading `FsrsRating`'s members at the top level is code a bundler
+ * can't drop, and it would bring ts-fsrs into every import of the root entry,
+ * even one that never schedules (sdk-core ADR 0056).
+ */
+const fsrsGrades = () =>
+  ({
+    again: FsrsRating.Again,
+    hard: FsrsRating.Hard,
+    good: FsrsRating.Good,
+    easy: FsrsRating.Easy,
+  }) as const satisfies Record<Rating, number>;
 
 /**
  * Options for {@link createFsrsScheduler}.
@@ -192,6 +200,7 @@ export function createFsrsScheduler(options: FsrsSchedulerOptions = {}): Schedul
     throw new TypeError(`FSRS-7 needs ${FSRS7_DEFAULT_WEIGHTS.length} finite weights.`);
   }
   const scheduler = createFsrs7(weights, desiredRetention);
+  const grades = fsrsGrades();
   return {
     id: SCHEDULER,
     initial(now) {
@@ -199,7 +208,7 @@ export function createFsrsScheduler(options: FsrsSchedulerOptions = {}): Schedul
     },
     review(given, rating, now) {
       const at = checkNow(now);
-      const grade = Object.hasOwn(RATINGS, rating) ? RATINGS[rating] : undefined;
+      const grade = Object.hasOwn(grades, rating) ? grades[rating] : undefined;
       if (grade === undefined) {
         throw new TypeError(`Unknown rating: ${String(rating).slice(0, 20)}.`);
       }
