@@ -24,7 +24,9 @@ Browser tests, the end-to-end tests and the screenshots run in the pinned browse
 
 The repository root is the published package, laid out as in the family's [standard layout](https://github.com/ie-huss-martinez/sdk-core/blob/main/STANDARDS.md#repository-layout): the source is in `src/`, and the examples and end-to-end tests will join the workspace as `examples/` and `e2e/`.
 
-The git hooks run on their own: a secret scan and lint of staged files on commit, a Conventional Commits check of each message, and `pnpm verify:fast` on push. Don't bypass them with `--no-verify`. If a hook is wrong or too slow, fix it in its own pull request.
+The git hooks run on their own: a secret scan, a hidden-character check and lint of staged files on commit, a Conventional Commits check of each message, and `pnpm verify:fast` on push. Don't bypass them with `--no-verify`. If a hook is wrong or too slow, fix it in its own pull request.
+
+**Hidden characters** ([ADR 0052](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0052-source-checks-for-hidden-characters-and-abort-listeners.md)): characters that an editor and a diff don't show, or that reorder the text around them, such as U+2028 or a byte order mark, are written as escapes like `\u2028`, in source, tests and generated files alike. `pnpm lint` and the commit hook refuse them raw. The conformance vectors' writer escapes them, so regenerating the vectors keeps them clean.
 
 **The hooks are the local bar, and CI is the merge gate** ([ADR 0053](https://github.com/ie-huss-martinez/sdk-core/blob/main/docs/adr/0053-ci-is-the-merge-gate.md)). You don't need to run the full `pnpm verify` before opening a pull request: CI runs it on every push, on all three browser engines. Run it, or part of it, when you want to diagnose a failure, reproduce one from CI or capture screenshots.
 

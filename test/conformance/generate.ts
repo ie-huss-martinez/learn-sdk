@@ -327,7 +327,7 @@ export function contentCases(): ConformanceFile {
       doc(contentDocument({ ...freeForm("h"), title: "　　" })),
       malformed,
     ],
-    ["refuses a text of a byte order mark", doc(contentDocument(freeForm("﻿"))), malformed],
+    ["refuses a text of a byte order mark", doc(contentDocument(freeForm("\uFEFF"))), malformed],
     [
       "refuses an empty text",
       doc(contentDocument({ ...freeForm("h"), instructions: "" })),

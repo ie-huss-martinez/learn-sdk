@@ -68,9 +68,14 @@ describe("loadClip", () => {
     const slow = new AbortController();
     const hanging: AudioSource = {
       load: (_ref, options) =>
-        new Promise((_resolve, reject) =>
-          options?.signal?.addEventListener("abort", () => reject(new Error("stopped"))),
-        ),
+        new Promise((_resolve, reject) => {
+          const signal = options?.signal;
+          if (signal?.aborted) {
+            reject(new Error("stopped"));
+            return;
+          }
+          signal?.addEventListener("abort", () => reject(new Error("stopped")), { once: true });
+        }),
     };
     const pending = failure(() => loadClip(hanging, "a", { signal: slow.signal }));
     slow.abort();
