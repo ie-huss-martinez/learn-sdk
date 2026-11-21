@@ -1,5 +1,17 @@
 # @hussmartinez/learn-sdk
 
+## 0.3.0
+
+### Minor Changes
+
+- [#46](https://github.com/ie-huss-martinez/learn-sdk/pull/46) [`ef6dad9`](https://github.com/ie-huss-martinez/learn-sdk/commit/ef6dad9f55c8e9d5bce7f6e6d610ef49ee2fd3c8) Thanks [@hussmartinez](https://github.com/hussmartinez)! - learn-sdk now depends on `@hussmartinez/ui` ^0.15.0 and `@hussmartinez/sdk-core` ^0.4.7. If your app also depends on ui or sdk-core, directly or through another `@hussmartinez` SDK, move it to those ranges too, so the app keeps a single copy of each.
+  
+  Screen readers now hear the player's announcements as sentences. ui 0.15 says messages sent in the same frame together, so the last exercise's result and the summary are no longer cut short. To make the joined text read well, the player announces a check with two new messages, `player.announceCorrect` ("Correct.") and `player.announceResult` ("{score} of {max} right."), and `wordOrder.placed`, `wordOrder.returned` and `wordOrder.moved` end with a full stop. The visible `player.correct` and `player.result` text is unchanged.
+  
+  **If you translate the player's text:** add `player.announceCorrect` and `player.announceResult` to your `messages`, beside your `player.correct` and `player.result`. Without them, checks are announced in English. End every announced message with your language's punctuation, including your `wordOrder.placed`, `wordOrder.returned` and `wordOrder.moved`, so that joined messages read as sentences.
+  
+  The player's Previous, Next and Skip icons now point the right way in right-to-left pages, because ui mirrors them there. Nothing else changes in how the player looks.
+
 ## 0.2.3
 
 ### Patch Changes
